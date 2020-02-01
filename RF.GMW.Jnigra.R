@@ -169,7 +169,7 @@ g2 <- ggplotGrob(plot2)
 # Put them togethers
 ggarrange(g1, g2, align='h', nrow=1, ncol=2, widths=c(4,2))
 
-pdf(paste("Figures/Caulosphere.RF", Sys.time()), 9,6)
+pdf(paste("Figures/Caulosphere.RF", Sys.time(), ".pdf"), 9,6)
 ggarrange(g1, g2, align='h', nrow=1, ncol=2, widths=c(4,2))
 dev.off()
 
@@ -275,6 +275,6 @@ g2 <- ggplotGrob(plot2)
 
 ggarrange(g1, g2, align='h', nrow=1, ncol=2, widths=c(4,2))
 
-pdf(paste("Figures/Soil.RF", Sys.time()), 9,6)
+pdf(paste("Figures/Soil.RF", Sys.time(), ".pdf"), 9,6)
 ggarrange(g1, g2, align='h', nrow=1, ncol=2, widths=c(4,2))
 dev.off()
