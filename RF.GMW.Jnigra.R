@@ -248,11 +248,6 @@ hm$sample <- gsub('_',' ',sample_data(soils.merge)[rownames(hm),'New.names']$New
 sums<-summaryBy(. ~ response.soils, data = rf.data.soils[, c('response.soils', as.character(otunames.s))], FUN = sum, keep.names = T)
 state.organize <- sapply(as.character(otunames.s), FUN = function(x) which.max(sums[,x]))
 
-sums
-imp.s.40$MeanDecreaseGini.mean
-imp.s.40$MeanDecreaseGini.mean+imp.s.40$MeanDecreaseGini.sd
-imp.s.40$MeanDecreaseGini.mean-imp.s.40$MeanDecreaseGini.sd
-
 hm.melt <- melt(hm[c(order(state.organize), 41)])
 names(hm.melt) <- c("Tree","Taxon","StandardizedAbundance")
 
@@ -279,3 +274,7 @@ plot2 <- ggplot(imp.s.40, aes(x = predictors, y = MeanDecreaseGini.mean)) +
 g2 <- ggplotGrob(plot2)
 
 ggarrange(g1, g2, align='h', nrow=1, ncol=2, widths=c(4,2))
+
+pdf(paste("Figures/Soil.RF", Sys.time()), 9,6)
+ggarrange(g1, g2, align='h', nrow=1, ncol=2, widths=c(4,2))
+dev.off()
