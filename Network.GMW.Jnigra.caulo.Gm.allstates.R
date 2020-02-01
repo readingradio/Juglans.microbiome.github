@@ -86,12 +86,12 @@ for (cur.s in c("WA","IN","TN")) {
   bd.tab$p0.005.r0.8 <- as.integer(bd.tab$name %in% data.bd[data.bd$p=='0.005' & data.bd$r=='0.8','name'])
   bd.tab$p0.001.r0.8 <- as.integer(bd.tab$name %in% data.bd[data.bd$p=='0.0001' & data.bd$r=='0.8','name'])
 
-  bd.tab %>% cbind( tax_table(shavings.merge)[as.character(bd.tab$name),], .) %>% write.csv(., paste("Results/Shavings.HubOTUS.", cur.s, ".csv", sep=""), quote=F, row.names=T)
+  bd.tab %>% cbind( tax_table(shavings.merge)[as.character(bd.tab$name),], .) %>% write.csv(., paste("../../Results/Shavings.HubOTUS.", cur.s, ".csv", sep=""), quote=F, row.names=T)
   
   # matches
 
-  otunames.rf <- read.csv("Results/RF.caulosphere.t.table.csv", row.names=1)
-  otunames.rf[bd.tab$name,] %>% write.csv(., paste("Results/Shavings.HubOTUS.RF.consensus.", cur.s, ".csv", sep=""), quote=F, row.names=T)
+  otunames.rf <- read.csv("../../Results/RF.shavings.t.table.csv", row.names=1)
+  otunames.rf[as.chacater(bd.tab$name),] %>% write.csv(., paste("../../Results/Shavings.HubOTUS.RF.consensus.", cur.s, ".csv", sep=""), quote=F, row.names=T)
 
   setwd("../..")
 
@@ -109,7 +109,7 @@ figure.network <- function (p, r, s, subs=F) {
   vertex_attr(gr, name='deg') <- degree(gr)
   vertex_attr(gr, name='fu.ba') <- (vertex_attr(gr, 'name') %>% grepl('Botu',.) ) %>% as.numeric()
   
-  bd.tab <- read.csv(paste("Net.analysis/CorrNetworks.", s,"/Shavings.HubOTUS.", s, ".csv", sep=""), row.names = 1)
+  bd.tab <- read.csv(paste("Results/Shavings.HubOTUS.", s, ".csv", sep=""), row.names = 1)
   vertex_attr(gr, name='hub') <- vertex_attr(gr, 'name') %in% rownames(bd.tab)[bd.tab[, paste("p",p,".r",r,sep="")] == 1] %>% as.numeric()
   
   if (s == "WA") {
