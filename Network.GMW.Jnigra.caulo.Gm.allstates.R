@@ -165,18 +165,3 @@ for (p in c("0.05","0.01","0.005", "0.001")) {
     dev.off()
 
   }}
-
-###
-
-#layout <- layout_with_kk(gr, weights=2-as.numeric(edge_attr(gr, 'r')))
-#quartz()
-#ggraph(gr, layout) + 
-#  geom_edge_link(aes(width=.1, alpha=r.abs, color=as.factor(r.sign))) + 
-#  scale_edge_color_manual(values=c('grey','blue')) + 
-#  scale_edge_width(range=c(0.2,1)) + 
-#  geom_node_point(aes(size=deg, shape=as.factor(hub), color=as.factor(fu.ba))) + 
-#  scale_size(range = c(.2,2.5)) + scale_color_manual(values=c('red','black','green')) +
-#  scale_shape_manual(values=c(1,19,8)) + 
-#  theme_graph() + 
-#  theme(legend.position='none')
-

@@ -1,6 +1,6 @@
 setwd("/Users/will1809/OneDrive - purdue.edu/TCD microbiome spring 2017/Aaron manuscript/Geoff_Final_RFiles/Juglans.microbiome.github")
 
-library(tidyr)
+library(tidyverse)
 library(Hmisc)
 library(MASS)
 library(igraph)
