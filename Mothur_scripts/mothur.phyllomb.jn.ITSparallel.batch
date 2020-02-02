@@ -1,0 +1,387 @@
+set.dir(input=/scratch/brown/will1809/TCD, output=/scratch/brown/will1809/Phyllo.mb.jn.parallel)
+#make.contigs(ffastq=IN_130_MCB_26_S66_L001_R1_001.fastq, rfastq=IN_130_MCB_26_S66_L001_R2_001.fastq, processors=24, oligos=ITS.primers.UT.2017.updated.barcode)
+#make.contigs(ffastq=IN_130_MCB_2_S50_L001_R1_001.fastq, rfastq=IN_130_MCB_2_S50_L001_R2_001.fastq, processors=24, oligos=ITS.primers.UT.2017.updated.barcode)
+#make.contigs(ffastq=IN_130_MCB_9_S58_L001_R1_001.fastq, rfastq=IN_130_MCB_9_S58_L001_R2_001.fastq, processors=24, oligos=ITS.primers.UT.2017.updated.barcode)
+#make.contigs(ffastq=IN_132_MCB_16_S74_L001_R1_001.fastq, rfastq=IN_132_MCB_16_S74_L001_R2_001.fastq, processors=24, oligos=ITS.primers.UT.2017.updated.barcode)
+#make.contigs(ffastq=IN_132_MCB_17_S82_L001_R1_001.fastq, rfastq=IN_132_MCB_17_S82_L001_R2_001.fastq, processors=24, oligos=ITS.primers.UT.2017.updated.barcode)
+#make.contigs(ffastq=IN_132_MCB_27_S90_L001_R1_001.fastq, rfastq=IN_132_MCB_27_S90_L001_R2_001.fastq, processors=24, oligos=ITS.primers.UT.2017.updated.barcode)
+#make.contigs(ffastq=IN_272_MCB_10_S3_L001_R1_001.fastq, rfastq=IN_272_MCB_10_S3_L001_R2_001.fastq, processors=24, oligos=ITS.primers.UT.2017.updated.barcode)
+#make.contigs(ffastq=IN_272_MCB_11_S11_L001_R1_001.fastq, rfastq=IN_272_MCB_11_S11_L001_R2_001.fastq, processors=24, oligos=ITS.primers.UT.2017.updated.barcode)
+#make.contigs(ffastq=IN_272_MCB_24_S42_L001_R1_001.fastq, rfastq=IN_272_MCB_24_S42_L001_R2_001.fastq, processors=24, oligos=ITS.primers.UT.2017.updated.barcode)
+#make.contigs(ffastq=IN_55_MCB_6_S18_L001_R1_001.fastq, rfastq=IN_55_MCB_6_S18_L001_R2_001.fastq, processors=24, oligos=ITS.primers.UT.2017.updated.barcode)
+#make.contigs(ffastq=IN_55_MCB_7_S26_L001_R1_001.fastq, rfastq=IN_55_MCB_7_S26_L001_R2_001.fastq, processors=24, oligos=ITS.primers.UT.2017.updated.barcode)
+#make.contigs(ffastq=IN_55_MCB_8_S34_L001_R1_001.fastq, rfastq=IN_55_MCB_8_S34_L001_R2_001.fastq, processors=24, oligos=ITS.primers.UT.2017.updated.barcode)
+#make.contigs(ffastq=IN_MCB10_272s_S46_L001_R1_001.fastq, rfastq=IN_MCB10_272s_S46_L001_R2_001.fastq, processors=24, oligos=ITS.primers.UT.2017.updated.barcode)
+#make.contigs(ffastq=IN_MCB11_272s_S7_L001_R1_001.fastq, rfastq=IN_MCB11_272s_S7_L001_R2_001.fastq, processors=24, oligos=ITS.primers.UT.2017.updated.barcode)
+#make.contigs(ffastq=IN_MCB16_132s_S70_L001_R1_001.fastq, rfastq=IN_MCB16_132s_S70_L001_R2_001.fastq, processors=24, oligos=ITS.primers.UT.2017.updated.barcode)
+#make.contigs(ffastq=IN_MCB17_132s_S78_L001_R1_001.fastq, rfastq=IN_MCB17_132s_S78_L001_R2_001.fastq, processors=24, oligos=ITS.primers.UT.2017.updated.barcode)
+#make.contigs(ffastq=IN_MCB24_272s_S94_L001_R1_001.fastq, rfastq=IN_MCB24_272s_S94_L001_R2_001.fastq, processors=24, oligos=ITS.primers.UT.2017.updated.barcode)
+#make.contigs(ffastq=IN_MCB26_130s_S62_L001_R1_001.fastq, rfastq=IN_MCB26_130s_S62_L001_R2_001.fastq, processors=24, oligos=ITS.primers.UT.2017.updated.barcode)
+#make.contigs(ffastq=IN_MCB27_132s_S86_L001_R1_001.fastq, rfastq=IN_MCB27_132s_S86_L001_R2_001.fastq, processors=24, oligos=ITS.primers.UT.2017.updated.barcode)
+#make.contigs(ffastq=IN_MCB28_WTs_S15_L001_R1_001.fastq, rfastq=IN_MCB28_WTs_S15_L001_R2_001.fastq, processors=24, oligos=ITS.primers.UT.2017.updated.barcode)
+#make.contigs(ffastq=IN_MCB2_130s_S38_L001_R1_001.fastq, rfastq=IN_MCB2_130s_S38_L001_R2_001.fastq, processors=24, oligos=ITS.primers.UT.2017.updated.barcode)
+#make.contigs(ffastq=IN_MCB6_55s_S14_L001_R1_001.fastq, rfastq=IN_MCB6_55s_S14_L001_R2_001.fastq, processors=24, oligos=ITS.primers.UT.2017.updated.barcode)
+#make.contigs(ffastq=IN_MCB7_55s_S22_L001_R1_001.fastq, rfastq=IN_MCB7_55s_S22_L001_R2_001.fastq, processors=24, oligos=ITS.primers.UT.2017.updated.barcode)
+#make.contigs(ffastq=IN_MCB8_55s_S30_L001_R1_001.fastq, rfastq=IN_MCB8_55s_S30_L001_R2_001.fastq, processors=24, oligos=ITS.primers.UT.2017.updated.barcode)
+#make.contigs(ffastq=IN_MCB9_130s_S54_L001_R1_001.fastq, rfastq=IN_MCB9_130s_S54_L001_R2_001.fastq, processors=24, oligos=ITS.primers.UT.2017.updated.barcode)
+#make.contigs(ffastq=IN_WT_MCB_28_S19_L001_R1_001.fastq, rfastq=IN_WT_MCB_28_S19_L001_R2_001.fastq, processors=24, oligos=ITS.primers.UT.2017.updated.barcode)
+#make.contigs(ffastq=IN_WT_MCB_29_S27_L001_R1_001.fastq, rfastq=IN_WT_MCB_29_S27_L001_R2_001.fastq, processors=24, oligos=ITS.primers.UT.2017.updated.barcode)
+#make.contigs(ffastq=IN_WT_MCB_29s_S23_L001_R1_001.fastq, rfastq=IN_WT_MCB_29s_S23_L001_R2_001.fastq, processors=24, oligos=ITS.primers.UT.2017.updated.barcode)
+#make.contigs(ffastq=IN_WT_MCB_33_S35_L001_R1_001.fastq, rfastq=IN_WT_MCB_33_S35_L001_R2_001.fastq, processors=24, oligos=ITS.primers.UT.2017.updated.barcode)
+#make.contigs(ffastq=IN_WT_MCB_33s_S31_L001_R1_001.fastq, rfastq=IN_WT_MCB_33s_S31_L001_R2_001.fastq, processors=24, oligos=ITS.primers.UT.2017.updated.barcode)
+#make.contigs(ffastq=TN_130_A_S75_L001_R1_001.fastq, rfastq=TN_130_A_S75_L001_R2_001.fastq, processors=24, oligos=ITS.primers.UT.2017.updated.barcode)
+#make.contigs(ffastq=TN_130_As_S71_L001_R1_001.fastq, rfastq=TN_130_As_S71_L001_R2_001.fastq, processors=24, oligos=ITS.primers.UT.2017.updated.barcode)
+#make.contigs(ffastq=TN_130_B_S83_L001_R1_001.fastq, rfastq=TN_130_B_S83_L001_R2_001.fastq, processors=24, oligos=ITS.primers.UT.2017.updated.barcode)
+#make.contigs(ffastq=TN_130_Bs_S79_L001_R1_001.fastq, rfastq=TN_130_Bs_S79_L001_R2_001.fastq, processors=24, oligos=ITS.primers.UT.2017.updated.barcode)
+#make.contigs(ffastq=TN_130_C_S91_L001_R1_001.fastq, rfastq=TN_130_C_S91_L001_R2_001.fastq, processors=24, oligos=ITS.primers.UT.2017.updated.barcode)
+#make.contigs(ffastq=TN_130_Cs_S87_L001_R1_001.fastq, rfastq=TN_130_Cs_S87_L001_R2_001.fastq, processors=24, oligos=ITS.primers.UT.2017.updated.barcode)
+#make.contigs(ffastq=TN_132_A_S43_L001_R1_001.fastq, rfastq=TN_132_A_S43_L001_R2_001.fastq, processors=24, oligos=ITS.primers.UT.2017.updated.barcode)
+#make.contigs(ffastq=TN_132_As_S95_L001_R1_001.fastq, rfastq=TN_132_As_S95_L001_R2_001.fastq, processors=24, oligos=ITS.primers.UT.2017.updated.barcode)
+#make.contigs(ffastq=TN_132_B_S4_L001_R1_001.fastq, rfastq=TN_132_B_S4_L001_R2_001.fastq, processors=24, oligos=ITS.primers.UT.2017.updated.barcode)
+#make.contigs(ffastq=TN_132_Bs_S47_L001_R1_001.fastq, rfastq=TN_132_Bs_S47_L001_R2_001.fastq, processors=24, oligos=ITS.primers.UT.2017.updated.barcode)
+#make.contigs(ffastq=TN_132_C_S12_L001_R1_001.fastq, rfastq=TN_132_C_S12_L001_R2_001.fastq, processors=24, oligos=ITS.primers.UT.2017.updated.barcode)
+#make.contigs(ffastq=TN_132_Cs_S8_L001_R1_001.fastq, rfastq=TN_132_Cs_S8_L001_R2_001.fastq, processors=24, oligos=ITS.primers.UT.2017.updated.barcode)
+#make.contigs(ffastq=TN_272_A_S20_L001_R1_001.fastq, rfastq=TN_272_A_S20_L001_R2_001.fastq, processors=24, oligos=ITS.primers.UT.2017.updated.barcode)
+#make.contigs(ffastq=TN_272_As_S16_L001_R1_001.fastq, rfastq=TN_272_As_S16_L001_R2_001.fastq, processors=24, oligos=ITS.primers.UT.2017.updated.barcode)
+#make.contigs(ffastq=TN_272_B_S28_L001_R1_001.fastq, rfastq=TN_272_B_S28_L001_R2_001.fastq, processors=24, oligos=ITS.primers.UT.2017.updated.barcode)
+#make.contigs(ffastq=TN_272_Bs_S24_L001_R1_001.fastq, rfastq=TN_272_Bs_S24_L001_R2_001.fastq, processors=24, oligos=ITS.primers.UT.2017.updated.barcode)
+#make.contigs(ffastq=TN_272_C_S36_L001_R1_001.fastq, rfastq=TN_272_C_S36_L001_R2_001.fastq, processors=24, oligos=ITS.primers.UT.2017.updated.barcode)
+#make.contigs(ffastq=TN_272_Cs_S32_L001_R1_001.fastq, rfastq=TN_272_Cs_S32_L001_R2_001.fastq, processors=24, oligos=ITS.primers.UT.2017.updated.barcode)
+#make.contigs(ffastq=TN_55_A_S51_L001_R1_001.fastq, rfastq=TN_55_A_S51_L001_R2_001.fastq, processors=24, oligos=ITS.primers.UT.2017.updated.barcode)
+#make.contigs(ffastq=TN_55_As_S39_L001_R1_001.fastq, rfastq=TN_55_As_S39_L001_R2_001.fastq, processors=24, oligos=ITS.primers.UT.2017.updated.barcode)
+#make.contigs(ffastq=TN_55_B_S59_L001_R1_001.fastq, rfastq=TN_55_B_S59_L001_R2_001.fastq, processors=24, oligos=ITS.primers.UT.2017.updated.barcode)
+#make.contigs(ffastq=TN_55_Bs_S55_L001_R1_001.fastq, rfastq=TN_55_Bs_S55_L001_R2_001.fastq, processors=24, oligos=ITS.primers.UT.2017.updated.barcode)
+#make.contigs(ffastq=TN_55_C_S67_L001_R1_001.fastq, rfastq=TN_55_C_S67_L001_R2_001.fastq, processors=24, oligos=ITS.primers.UT.2017.updated.barcode)
+#make.contigs(ffastq=TN_55_Cs_S63_L001_R1_001.fastq, rfastq=TN_55_Cs_S63_L001_R2_001.fastq, processors=24, oligos=ITS.primers.UT.2017.updated.barcode)
+#make.contigs(ffastq=TN_LS_1_S52_L001_R1_001.fastq, rfastq=TN_LS_1_S52_L001_R2_001.fastq, processors=24, oligos=ITS.primers.UT.2017.updated.barcode)
+#make.contigs(ffastq=TN_LS_1s_S40_L001_R1_001.fastq, rfastq=TN_LS_1s_S40_L001_R2_001.fastq, processors=24, oligos=ITS.primers.UT.2017.updated.barcode)
+#make.contigs(ffastq=TN_LS_2_S60_L001_R1_001.fastq, rfastq=TN_LS_2_S60_L001_R2_001.fastq, processors=24, oligos=ITS.primers.UT.2017.updated.barcode)
+#make.contigs(ffastq=TN_LS_2s_S56_L001_R1_001.fastq, rfastq=TN_LS_2s_S56_L001_R2_001.fastq, processors=24, oligos=ITS.primers.UT.2017.updated.barcode)
+#make.contigs(ffastq=TN_LS_3_S68_L001_R1_001.fastq, rfastq=TN_LS_3_S68_L001_R2_001.fastq, processors=24, oligos=ITS.primers.UT.2017.updated.barcode)
+#make.contigs(ffastq=TN_LS_3s_S64_L001_R1_001.fastq, rfastq=TN_LS_3s_S64_L001_R2_001.fastq, processors=24, oligos=ITS.primers.UT.2017.updated.barcode)
+#make.contigs(ffastq=TN_WT_MB_19_S76_L001_R1_001.fastq, rfastq=TN_WT_MB_19_S76_L001_R2_001.fastq, processors=24, oligos=ITS.primers.UT.2017.updated.barcode)
+#make.contigs(ffastq=TN_WT_MB_19s_S72_L001_R1_001.fastq, rfastq=TN_WT_MB_19s_S72_L001_R2_001.fastq, processors=24, oligos=ITS.primers.UT.2017.updated.barcode)
+#make.contigs(ffastq=TN_WT_MB_20_S84_L001_R1_001.fastq, rfastq=TN_WT_MB_20_S84_L001_R2_001.fastq, processors=24, oligos=ITS.primers.UT.2017.updated.barcode)
+#make.contigs(ffastq=TN_WT_MB_20s_S80_L001_R1_001.fastq, rfastq=TN_WT_MB_20s_S80_L001_R2_001.fastq, processors=24, oligos=ITS.primers.UT.2017.updated.barcode)
+#make.contigs(ffastq=TN_WT_MB_21_S92_L001_R1_001.fastq, rfastq=TN_WT_MB_21_S92_L001_R2_001.fastq, processors=24, oligos=ITS.primers.UT.2017.updated.barcode)
+#make.contigs(ffastq=TN_WT_MB_21s_S88_L001_R1_001.fastq, rfastq=TN_WT_MB_21s_S88_L001_R2_001.fastq, processors=24, oligos=ITS.primers.UT.2017.updated.barcode)
+#make.contigs(ffastq=WA130_BNL_20_S33_L001_R1_001.fastq, rfastq=WA130_BNL_20_S33_L001_R2_001.fastq, processors=24, oligos=ITS.primers.UT.2017.updated.barcode)
+#make.contigs(ffastq=WA132_RN_7_S49_L001_R1_001.fastq, rfastq=WA132_RN_7_S49_L001_R2_001.fastq, processors=24, oligos=ITS.primers.UT.2017.updated.barcode)
+#make.contigs(ffastq=WA132_RN_8_S57_L001_R1_001.fastq, rfastq=WA132_RN_8_S57_L001_R2_001.fastq, processors=24, oligos=ITS.primers.UT.2017.updated.barcode)
+#make.contigs(ffastq=WA132_RN_9_S65_L001_R1_001.fastq, rfastq=WA132_RN_9_S65_L001_R2_001.fastq, processors=24, oligos=ITS.primers.UT.2017.updated.barcode)
+#make.contigs(ffastq=WA272_BNL_17_S81_L001_R1_001.fastq, rfastq=WA272_BNL_17_S81_L001_R2_001.fastq, processors=24, oligos=ITS.primers.UT.2017.updated.barcode)
+#make.contigs(ffastq=WA272_BNL_18_S89_L001_R1_001.fastq, rfastq=WA272_BNL_18_S89_L001_R2_001.fastq, processors=24, oligos=ITS.primers.UT.2017.updated.barcode)
+#make.contigs(ffastq=WA272_RN_10_S73_L001_R1_001.fastq, rfastq=WA272_RN_10_S73_L001_R2_001.fastq, processors=24, oligos=ITS.primers.UT.2017.updated.barcode)
+#make.contigs(ffastq=WA_130_RN_4_S25_L001_R1_001.fastq, rfastq=WA_130_RN_4_S25_L001_R2_001.fastq, processors=24, oligos=ITS.primers.UT.2017.updated.barcode)
+#make.contigs(ffastq=WA_55_BNL_19_S17_L001_R1_001.fastq, rfastq=WA_55_BNL_19_S17_L001_R2_001.fastq, processors=24, oligos=ITS.primers.UT.2017.updated.barcode)
+#make.contigs(ffastq=WA_55_RN_1_S1_L001_R1_001.fastq, rfastq=WA_55_RN_1_S1_L001_R2_001.fastq, processors=24, oligos=ITS.primers.UT.2017.updated.barcode)
+#make.contigs(ffastq=WA_55_RN_2_S9_L001_R1_001.fastq, rfastq=WA_55_RN_2_S9_L001_R2_001.fastq, processors=24, oligos=ITS.primers.UT.2017.updated.barcode)
+#make.contigs(ffastq=WA_BNL17_272s_S77_L001_R1_001.fastq, rfastq=WA_BNL17_272s_S77_L001_R2_001.fastq, processors=24, oligos=ITS.primers.UT.2017.updated.barcode)
+#make.contigs(ffastq=WA_BNL18_272s_S85_L001_R1_001.fastq, rfastq=WA_BNL18_272s_S85_L001_R2_001.fastq, processors=24, oligos=ITS.primers.UT.2017.updated.barcode)
+#make.contigs(ffastq=WA_BNL19_55s_S13_L001_R1_001.fastq, rfastq=WA_BNL19_55s_S13_L001_R2_001.fastq, processors=24, oligos=ITS.primers.UT.2017.updated.barcode)
+#make.contigs(ffastq=WA_BNL20_130s_S29_L001_R1_001.fastq, rfastq=WA_BNL20_130s_S29_L001_R2_001.fastq, processors=24, oligos=ITS.primers.UT.2017.updated.barcode)
+#make.contigs(ffastq=WA_BNL21_WTs_S93_L001_R1_001.fastq, rfastq=WA_BNL21_WTs_S93_L001_R2_001.fastq, processors=24, oligos=ITS.primers.UT.2017.updated.barcode)
+#make.contigs(ffastq=WA_BNL22_WTs_S45_L001_R1_001.fastq, rfastq=WA_BNL22_WTs_S45_L001_R2_001.fastq, processors=24, oligos=ITS.primers.UT.2017.updated.barcode)
+#make.contigs(ffastq=WA_BNL23_WTs_S6_L001_R1_001.fastq, rfastq=WA_BNL23_WTs_S6_L001_R2_001.fastq, processors=24, oligos=ITS.primers.UT.2017.updated.barcode)
+#make.contigs(ffastq=WA_RN10_272s_S69_L001_R1_001.fastq, rfastq=WA_RN10_272s_S69_L001_R2_001.fastq, processors=24, oligos=ITS.primers.UT.2017.updated.barcode)
+#make.contigs(ffastq=WA_RN1_55s_S44_L001_R1_001.fastq, rfastq=WA_RN1_55s_S44_L001_R2_001.fastq, processors=24, oligos=ITS.primers.UT.2017.updated.barcode)
+#make.contigs(ffastq=WA_RN2_55s_S5_L001_R1_001.fastq, rfastq=WA_RN2_55s_S5_L001_R2_001.fastq, processors=24, oligos=ITS.primers.UT.2017.updated.barcode)
+#make.contigs(ffastq=WA_RN4_130s_S21_L001_R1_001.fastq, rfastq=WA_RN4_130s_S21_L001_R2_001.fastq, processors=24, oligos=ITS.primers.UT.2017.updated.barcode)
+#make.contigs(ffastq=WA_RN7_132s_S37_L001_R1_001.fastq, rfastq=WA_RN7_132s_S37_L001_R2_001.fastq, processors=24, oligos=ITS.primers.UT.2017.updated.barcode)
+#make.contigs(ffastq=WA_RN8_132s_S53_L001_R1_001.fastq, rfastq=WA_RN8_132s_S53_L001_R2_001.fastq, processors=24, oligos=ITS.primers.UT.2017.updated.barcode)
+#make.contigs(ffastq=WA_RN9_132s_S61_L001_R1_001.fastq, rfastq=WA_RN9_132s_S61_L001_R2_001.fastq, processors=24, oligos=ITS.primers.UT.2017.updated.barcode)
+#make.contigs(ffastq=WA_WT_BNL_21_S41_L001_R1_001.fastq, rfastq=WA_WT_BNL_21_S41_L001_R2_001.fastq, processors=24, oligos=ITS.primers.UT.2017.updated.barcode)
+#make.contigs(ffastq=WA_WT_BNL_22_S2_L001_R1_001.fastq, rfastq=WA_WT_BNL_22_S2_L001_R2_001.fastq, processors=24, oligos=ITS.primers.UT.2017.updated.barcode)
+#make.contigs(ffastq=WA_WT_BNL_23_S10_L001_R1_001.fastq, rfastq=WA_WT_BNL_23_S10_L001_R2_001.fastq, processors=24, oligos=ITS.primers.UT.2017.updated.barcode)
+#make.contigs(ffastq=blankH12_S96_L001_R1_001.fastq, rfastq=blankH12_S96_L001_R2_001.fastq, processors=24, oligos=ITS.primers.UT.2017.updated.barcode)
+#make.contigs(ffastq=blankH6_S48_L001_R1_001.fastq, rfastq=blankH6_S48_L001_R2_001.fastq, processors=24, oligos=ITS.primers.UT.2017.updated.barcode)
+#
+set.dir(input=/scratch/brown/will1809/Phyllo.mb.jn.parallel, output=/scratch/brown/will1809/Phyllo.mb.jn.parallel)
+#rename.file(fasta=IN_130_MCB_26_S66_L001_R1_001.trim.contigs.fasta, group=IN_130_MCB_26_S66_L001_R1_001.contigs.groups, prefix=IN_130_MCB_26_S66_L001_R1)
+#rename.file(fasta=IN_130_MCB_2_S50_L001_R1_001.trim.contigs.fasta, group=IN_130_MCB_2_S50_L001_R1_001.contigs.groups, prefix=IN_130_MCB_2_S50_L001_R1)
+#rename.file(fasta=IN_130_MCB_9_S58_L001_R1_001.trim.contigs.fasta, group=IN_130_MCB_9_S58_L001_R1_001.contigs.groups, prefix=IN_130_MCB_9_S58_L001_R1)
+#rename.file(fasta=IN_132_MCB_16_S74_L001_R1_001.trim.contigs.fasta, group=IN_132_MCB_16_S74_L001_R1_001.contigs.groups, prefix=IN_132_MCB_16_S74_L001_R1)
+#rename.file(fasta=IN_132_MCB_17_S82_L001_R1_001.trim.contigs.fasta, group=IN_132_MCB_17_S82_L001_R1_001.contigs.groups, prefix=IN_132_MCB_17_S82_L001_R1)
+#rename.file(fasta=IN_132_MCB_27_S90_L001_R1_001.trim.contigs.fasta, group=IN_132_MCB_27_S90_L001_R1_001.contigs.groups, prefix=IN_132_MCB_27_S90_L001_R1)
+#rename.file(fasta=IN_272_MCB_10_S3_L001_R1_001.trim.contigs.fasta, group=IN_272_MCB_10_S3_L001_R1_001.contigs.groups, prefix=IN_272_MCB_10_S3_L001_R1)
+#rename.file(fasta=IN_272_MCB_11_S11_L001_R1_001.trim.contigs.fasta, group=IN_272_MCB_11_S11_L001_R1_001.contigs.groups, prefix=IN_272_MCB_11_S11_L001_R1)
+#rename.file(fasta=IN_272_MCB_24_S42_L001_R1_001.trim.contigs.fasta, group=IN_272_MCB_24_S42_L001_R1_001.contigs.groups, prefix=IN_272_MCB_24_S42_L001_R1)
+#rename.file(fasta=IN_55_MCB_6_S18_L001_R1_001.trim.contigs.fasta, group=IN_55_MCB_6_S18_L001_R1_001.contigs.groups, prefix=IN_55_MCB_6_S18_L001_R1)
+#rename.file(fasta=IN_55_MCB_7_S26_L001_R1_001.trim.contigs.fasta, group=IN_55_MCB_7_S26_L001_R1_001.contigs.groups, prefix=IN_55_MCB_7_S26_L001_R1)
+#rename.file(fasta=IN_55_MCB_8_S34_L001_R1_001.trim.contigs.fasta, group=IN_55_MCB_8_S34_L001_R1_001.contigs.groups, prefix=IN_55_MCB_8_S34_L001_R1)
+#rename.file(fasta=IN_MCB10_272s_S46_L001_R1_001.trim.contigs.fasta, group=IN_MCB10_272s_S46_L001_R1_001.contigs.groups, prefix=IN_MCB10_272s_S46_L001_R1_001)
+#rename.file(fasta=IN_MCB11_272s_S7_L001_R1_001.trim.contigs.fasta, group=IN_MCB11_272s_S7_L001_R1_001.contigs.groups, prefix=IN_MCB11_272s_S7_L001_R1_001)
+#rename.file(fasta=IN_MCB16_132s_S70_L001_R1_001.trim.contigs.fasta, group=IN_MCB16_132s_S70_L001_R1_001.contigs.groups, prefix=IN_MCB16_132s_S70_L001_R1_001)
+#rename.file(fasta=IN_MCB17_132s_S78_L001_R1_001.trim.contigs.fasta, group=IN_MCB17_132s_S78_L001_R1_001.contigs.groups, prefix=IN_MCB17_132s_S78_L001_R1_001)
+#rename.file(fasta=IN_MCB24_272s_S94_L001_R1_001.trim.contigs.fasta, group=IN_MCB24_272s_S94_L001_R1_001.contigs.groups, prefix=IN_MCB24_272s_S94_L001_R1_001)
+#rename.file(fasta=IN_MCB26_130s_S62_L001_R1_001.trim.contigs.fasta, group=IN_MCB26_130s_S62_L001_R1_001.contigs.groups, prefix=IN_MCB26_130s_S62_L001_R1_001)
+#rename.file(fasta=IN_MCB27_132s_S86_L001_R1_001.trim.contigs.fasta, group=IN_MCB27_132s_S86_L001_R1_001.contigs.groups, prefix=IN_MCB27_132s_S86_L001_R1_001)
+#rename.file(fasta=IN_MCB28_WTs_S15_L001_R1_001.trim.contigs.fasta, group=IN_MCB28_WTs_S15_L001_R1_001.contigs.groups, prefix=IN_MCB28_WTs_S15_L001_R1_001)
+#rename.file(fasta=IN_MCB2_130s_S38_L001_R1_001.trim.contigs.fasta, group=IN_MCB2_130s_S38_L001_R1_001.contigs.groups, prefix=IN_MCB2_130s_S38_L001_R1_001)
+#rename.file(fasta=IN_MCB6_55s_S14_L001_R1_001.trim.contigs.fasta, group=IN_MCB6_55s_S14_L001_R1_001.contigs.groups, prefix=IN_MCB6_55s_S14_L001_R1_001)
+#rename.file(fasta=IN_MCB7_55s_S22_L001_R1_001.trim.contigs.fasta, group=IN_MCB7_55s_S22_L001_R1_001.contigs.groups, prefix=IN_MCB7_55s_S22_L001_R1_001)
+#rename.file(fasta=IN_MCB8_55s_S30_L001_R1_001.trim.contigs.fasta, group=IN_MCB8_55s_S30_L001_R1_001.contigs.groups, prefix=IN_MCB8_55s_S30_L001_R1_001)
+#rename.file(fasta=IN_MCB9_130s_S54_L001_R1_001.trim.contigs.fasta, group=IN_MCB9_130s_S54_L001_R1_001.contigs.groups, prefix=IN_MCB9_130s_S54_L001_R1_001)
+#rename.file(fasta=IN_WT_MCB_28_S19_L001_R1_001.trim.contigs.fasta, group=IN_WT_MCB_28_S19_L001_R1_001.contigs.groups, prefix=IN_WT_MCB_28_S19_L001_R1)
+#rename.file(fasta=IN_WT_MCB_29_S27_L001_R1_001.trim.contigs.fasta, group=IN_WT_MCB_29_S27_L001_R1_001.contigs.groups, prefix=IN_WT_MCB_29_S27_L001_R1)
+#rename.file(fasta=IN_WT_MCB_29s_S23_L001_R1_001.trim.contigs.fasta, group=IN_WT_MCB_29s_S23_L001_R1_001.contigs.groups, prefix=IN_WT_MCB_29s_S23_L001_R1)
+#rename.file(fasta=IN_WT_MCB_33_S35_L001_R1_001.trim.contigs.fasta, group=IN_WT_MCB_33_S35_L001_R1_001.contigs.groups, prefix=IN_WT_MCB_33_S35_L001_R1)
+#rename.file(fasta=IN_WT_MCB_33s_S31_L001_R1_001.trim.contigs.fasta, group=IN_WT_MCB_33s_S31_L001_R1_001.contigs.groups, prefix=IN_WT_MCB_33s_S31_L001_R1)
+#rename.file(fasta=TN_130_A_S75_L001#make.contigs_R1_001.trim.contigs.fasta, group=TN_130_A_S75_L001_R1_001.contigs.groups, prefix=TN_130_A_S75_L001_R1_001)
+#rename.file(fasta=TN_130_As_S71_L001_R1_001.trim.contigs.fasta, group=TN_130_As_S71_L001_R1_001.contigs.groups, prefix=TN_130_As_S71_L001_R1_001)
+#rename.file(fasta=TN_130_B_S83_L001_R1_001.trim.contigs.fasta, group=TN_130_B_S83_L001_R1_001.contigs.groups, prefix=TN_130_B_S83_L001_R1_001)
+#rename.file(fasta=TN_130_Bs_S79_L001_R1_001.trim.contigs.fasta, group=TN_130_Bs_S79_L001_R1_001.contigs.groups, prefix=TN_130_Bs_S79_L001_R1_001)
+#rename.file(fasta=TN_130_C_S91_L001_R1_001.trim.contigs.fasta, group=TN_130_C_S91_L001_R1_001.contigs.groups, prefix=TN_130_C_S91_L001_R1_001)
+#rename.file(fasta=TN_130_Cs_S87_L001_R1_001.trim.contigs.fasta, group=TN_130_Cs_S87_L001_R1_001.contigs.groups, prefix=TN_130_Cs_S87_L001_R1_001)
+#rename.file(fasta=TN_132_A_S43_L001_R1_001.trim.contigs.fasta, group=TN_132_A_S43_L001_R1_001.contigs.groups, prefix=TN_132_A_S43_L001_R1_001)
+#rename.file(fasta=TN_132_As_S95_L001_R1_001.trim.contigs.fasta, group=TN_132_As_S95_L001_R1_001.contigs.groups, prefix=TN_132_As_S95_L001_R1_001)
+#rename.file(fasta=TN_132_B_S4_L001_R1_001.trim.contigs.fasta, group=TN_132_B_S4_L001_R1_001.contigs.groups, prefix=TN_132_B_S4_L001_R1_001)
+#rename.file(fasta=TN_132_Bs_S47_L001_R1_001.trim.contigs.fasta, group=TN_132_Bs_S47_L001_R1_001.contigs.groups, prefix=TN_132_Bs_S47_L001_R1_001)
+#rename.file(fasta=TN_132_C_S12_L001_R1_001.trim.contigs.fasta, group=TN_132_C_S12_L001_R1_001.contigs.groups, prefix=TN_132_C_S12_L001_R1_001)
+#rename.file(fasta=TN_132_Cs_S8_L001_R1_001.trim.contigs.fasta, group=TN_132_Cs_S8_L001_R1_001.contigs.groups, prefix=TN_132_Cs_S8_L001_R1_001)
+#rename.file(fasta=TN_272_A_S20_L001_R1_001.trim.contigs.fasta, group=TN_272_A_S20_L001_R1_001.contigs.groups, prefix=TN_272_A_S20_L001_R1_001)
+#rename.file(fasta=TN_272_As_S16_L001_R1_001.trim.contigs.fasta, group=TN_272_As_S16_L001_R1_001.contigs.groups, prefix=TN_272_As_S16_L001_R1_001)
+#rename.file(fasta=TN_272_B_S28_L001_R1_001.trim.contigs.fasta, group=TN_272_B_S28_L001_R1_001.contigs.groups, prefix=TN_272_B_S28_L001_R1_001)
+#rename.file(fasta=TN_272_Bs_S24_L001_R1_001.trim.contigs.fasta, group=TN_272_Bs_S24_L001_R1_001.contigs.groups, prefix=TN_272_Bs_S24_L001_R1_001)
+#rename.file(fasta=TN_272_C_S36_L001_R1_001.trim.contigs.fasta, group=TN_272_C_S36_L001_R1_001.contigs.groups, prefix=TN_272_C_S36_L001_R1_001)
+#rename.file(fasta=TN_272_Cs_S32_L001_R1_001.trim.contigs.fasta, group=TN_272_Cs_S32_L001_R1_001.contigs.groups, prefix=TN_272_Cs_S32_L001_R1_001)
+#rename.file(fasta=TN_55_A_S51_L001_R1_001.trim.contigs.fasta, group=TN_55_A_S51_L001_R1_001.contigs.groups, prefix=TN_55_A_S51_L001_R1_001)
+#rename.file(fasta=TN_55_As_S39_L001_R1_001.trim.contigs.fasta, group=TN_55_As_S39_L001_R1_001.contigs.groups, prefix=TN_55_As_S39_L001_R1_001)
+#rename.file(fasta=TN_55_B_S59_L001_R1_001.trim.contigs.fasta, group=TN_55_B_S59_L001_R1_001.contigs.groups, prefix=TN_55_B_S59_L001_R1_001)
+#rename.file(fasta=TN_55_Bs_S55_L001_R1_001.trim.contigs.fasta, group=TN_55_Bs_S55_L001_R1_001.contigs.groups, prefix=TN_55_Bs_S55_L001_R1_001)
+#rename.file(fasta=TN_55_C_S67_L001_R1_001.trim.contigs.fasta, group=TN_55_C_S67_L001_R1_001.contigs.groups, prefix=TN_55_C_S67_L001_R1_001)
+#rename.file(fasta=TN_55_Cs_S63_L001_R1_001.trim.contigs.fasta, group=TN_55_Cs_S63_L001_R1_001.contigs.groups, prefix=TN_55_Cs_S63_L001_R1_001)
+#rename.file(fasta=TN_LS_1_S52_L001_R1_001.trim.contigs.fasta, group=TN_LS_1_S52_L001_R1_001.contigs.groups, prefix=TN_LS_1_S52_L001_R1_001)
+#rename.file(fasta=TN_LS_1s_S40_L001_R1_001.trim.contigs.fasta, group=TN_LS_1s_S40_L001_R1_001.contigs.groups, prefix=TN_LS_1s_S40_L001_R1_001)
+#rename.file(fasta=TN_LS_2_S60_L001_R1_001.trim.contigs.fasta, group=TN_LS_2_S60_L001_R1_001.contigs.groups, prefix=TN_LS_2_S60_L001_R1_001)
+#rename.file(fasta=TN_LS_2s_S56_L001_R1_001.trim.contigs.fasta, group=TN_LS_2s_S56_L001_R1_001.contigs.groups, prefix=TN_LS_2s_S56_L001_R1_001)
+#rename.file(fasta=TN_LS_3_S68_L001_R1_001.trim.contigs.fasta, group=TN_LS_3_S68_L001_R1_001.contigs.groups, prefix=TN_LS_3_S68_L001_R1_001)
+#rename.file(fasta=TN_LS_3s_S64_L001_R1_001.trim.contigs.fasta, group=TN_LS_3s_S64_L001_R1_001.contigs.groups, prefix=TN_LS_3s_S64_L001_R1_001)
+#rename.file(fasta=TN_WT_MB_19_S76_L001_R1_001.trim.contigs.fasta, group=TN_WT_MB_19_S76_L001_R1_001.contigs.groups, prefix=TN_WT_MB_19_S76_L001_R1)
+#rename.file(fasta=TN_WT_MB_19s_S72_L001_R1_001.trim.contigs.fasta, group=TN_WT_MB_19s_S72_L001_R1_001.contigs.groups, prefix=TN_WT_MB_19s_S72_L001_R1)
+#rename.file(fasta=TN_WT_MB_20_S84_L001_R1_001.trim.contigs.fasta, group=TN_WT_MB_20_S84_L001_R1_001.contigs.groups, prefix=TN_WT_MB_20_S84_L001_R1)
+#rename.file(fasta=TN_WT_MB_20s_S80_L001_R1_001.trim.contigs.fasta, group=TN_WT_MB_20s_S80_L001_R1_001.contigs.groups, prefix=TN_WT_MB_20s_S80_L001_R1)
+#rename.file(fasta=TN_WT_MB_21_S92_L001_R1_001.trim.contigs.fasta, group=TN_WT_MB_21_S92_L001_R1_001.contigs.groups, prefix=TN_WT_MB_21_S92_L001_R1)
+#rename.file(fasta=TN_WT_MB_21s_S88_L001_R1_001.trim.contigs.fasta, group=TN_WT_MB_21s_S88_L001_R1_001.contigs.groups, prefix=TN_WT_MB_21s_S88_L001_R1)
+#rename.file(fasta=WA130_BNL_20_S33_L001_R1_001.trim.contigs.fasta, group=WA130_BNL_20_S33_L001_R1_001.contigs.groups, prefix=WA130_BNL_20_S33_L001_R1_001)
+#rename.file(fasta=WA132_RN_7_S49_L001_R1_001.trim.contigs.fasta, group=WA132_RN_7_S49_L001_R1_001.contigs.groups, prefix=WA132_RN_7_S49_L001_R1_001)
+#rename.file(fasta=WA132_RN_8_S57_L001_R1_001.trim.contigs.fasta, group=WA132_RN_8_S57_L001_R1_001.contigs.groups, prefix=WA132_RN_8_S57_L001_R1_001)
+#rename.file(fasta=WA132_RN_9_S65_L001_R1_001.trim.contigs.fasta, group=WA132_RN_9_S65_L001_R1_001.contigs.groups, prefix=WA132_RN_9_S65_L001_R1_001)
+#rename.file(fasta=WA272_BNL_17_S81_L001_R1_001.trim.contigs.fasta, group=WA272_BNL_17_S81_L001_R1_001.contigs.groups, prefix=WA272_BNL_17_S81_L001_R1_001)
+#rename.file(fasta=WA272_BNL_18_S89_L001_R1_001.trim.contigs.fasta, group=WA272_BNL_18_S89_L001_R1_001.contigs.groups, prefix=WA272_BNL_18_S89_L001_R1_001)
+#rename.file(fasta=WA272_RN_10_S73_L001_R1_001.trim.contigs.fasta, group=WA272_RN_10_S73_L001_R1_001.contigs.groups, prefix=WA272_RN_10_S73_L001_R1_001)
+#rename.file(fasta=WA_130_RN_4_S25_L001_R1_001.trim.contigs.fasta, group=WA_130_RN_4_S25_L001_R1_001.contigs.groups, prefix=WA_130_RN_4_S25_L001_R1)
+#rename.file(fasta=WA_55_BNL_19_S17_L001_R1_001.trim.contigs.fasta, group=WA_55_BNL_19_S17_L001_R1_001.contigs.groups, prefix=WA_55_BNL_19_S17_L001_R1)
+#rename.file(fasta=WA_55_RN_1_S1_L001_R1_001.trim.contigs.fasta, group=WA_55_RN_1_S1_L001_R1_001.contigs.groups, prefix=WA_55_RN_1_S1_L001_R1)
+#rename.file(fasta=WA_55_RN_2_S9_L001_R1_001.trim.contigs.fasta, group=WA_55_RN_2_S9_L001_R1_001.contigs.groups, prefix=WA_55_RN_2_S9_L001_R1)
+#rename.file(fasta=WA_BNL17_272s_S77_L001_R1_001.trim.contigs.fasta, group=WA_BNL17_272s_S77_L001_R1_001.contigs.groups, prefix=WA_BNL17_272s_S77_L001_R1_001)
+#rename.file(fasta=WA_BNL18_272s_S85_L001_R1_001.trim.contigs.fasta, group=WA_BNL18_272s_S85_L001_R1_001.contigs.groups, prefix=WA_BNL18_272s_S85_L001_R1_001)
+#rename.file(fasta=WA_BNL19_55s_S13_L001_R1_001.trim.contigs.fasta, group=WA_BNL19_55s_S13_L001_R1_001.contigs.groups, prefix=WA_BNL19_55s_S13_L001_R1_001)
+#rename.file(fasta=WA_BNL20_130s_S29_L001_R1_001.trim.contigs.fasta, group=WA_BNL20_130s_S29_L001_R1_001.contigs.groups, prefix=WA_BNL20_130s_S29_L001_R1_001)
+#rename.file(fasta=WA_BNL21_WTs_S93_L001_R1_001.trim.contigs.fasta, group=WA_BNL21_WTs_S93_L001_R1_001.contigs.groups, prefix=WA_BNL21_WTs_S93_L001_R1_001)
+#rename.file(fasta=WA_BNL22_WTs_S45_L001_R1_001.trim.contigs.fasta, group=WA_BNL22_WTs_S45_L001_R1_001.contigs.groups, prefix=WA_BNL22_WTs_S45_L001_R1_001)
+#rename.file(fasta=WA_BNL23_WTs_S6_L001_R1_001.trim.contigs.fasta, group=WA_BNL23_WTs_S6_L001_R1_001.contigs.groups, prefix=WA_BNL23_WTs_S6_L001_R1_001)
+#rename.file(fasta=WA_RN10_272s_S69_L001_R1_001.trim.contigs.fasta, group=WA_RN10_272s_S69_L001_R1_001.contigs.groups, prefix=WA_RN10_272s_S69_L001_R1_001)
+#rename.file(fasta=WA_RN1_55s_S44_L001_R1_001.trim.contigs.fasta, group=WA_RN1_55s_S44_L001_R1_001.contigs.groups, prefix=WA_RN1_55s_S44_L001_R1_001)
+#rename.file(fasta=WA_RN2_55s_S5_L001_R1_001.trim.contigs.fasta, group=WA_RN2_55s_S5_L001_R1_001.contigs.groups, prefix=WA_RN2_55s_S5_L001_R1_001)
+#rename.file(fasta=WA_RN4_130s_S21_L001_R1_001.trim.contigs.fasta, group=WA_RN4_130s_S21_L001_R1_001.contigs.groups, prefix=WA_RN4_130s_S21_L001_R1_001)
+#rename.file(fasta=WA_RN7_132s_S37_L001_R1_001.trim.contigs.fasta, group=WA_RN7_132s_S37_L001_R1_001.contigs.groups, prefix=WA_RN7_132s_S37_L001_R1_001)
+#rename.file(fasta=WA_RN8_132s_S53_L001_R1_001.trim.contigs.fasta, group=WA_RN8_132s_S53_L001_R1_001.contigs.groups, prefix=WA_RN8_132s_S53_L001_R1_001)
+#rename.file(fasta=WA_RN9_132s_S61_L001_R1_001.trim.contigs.fasta, group=WA_RN9_132s_S61_L001_R1_001.contigs.groups, prefix=WA_RN9_132s_S61_L001_R1_001)
+#rename.file(fasta=WA_WT_BNL_21_S41_L001_R1_001.trim.contigs.fasta, group=WA_WT_BNL_21_S41_L001_R1_001.contigs.groups, prefix=WA_WT_BNL_21_S41_L001_R1)
+#rename.file(fasta=WA_WT_BNL_22_S2_L001_R1_001.trim.contigs.fasta, group=WA_WT_BNL_22_S2_L001_R1_001.contigs.groups, prefix=WA_WT_BNL_22_S2_L001_R1)
+#rename.file(fasta=WA_WT_BNL_23_S10_L001_R1_001.trim.contigs.fasta, group=WA_WT_BNL_23_S10_L001_R1_001.contigs.groups, prefix=WA_WT_BNL_23_S10_L001_R1)
+#rename.file(fasta=blankH12_S96_L001_R1_001.trim.contigs.fasta, group=blankH12_S96_L001_R1_001.contigs.groups, prefix=blankH12_S96_L001_R1_001)
+#rename.file(fasta=blankH6_S48_L001_R1_001.trim.contigs.fasta, group=blankH6_S48_L001_R1_001.contigs.groups, prefix=blankH6_S48_L001_R1_001)
+make.group(fasta=IN_130_MCB_26_S66_L001_R1.fasta-IN_130_MCB_2_S50_L001_R1.fasta-IN_130_MCB_9_S58_L001_R1.fasta-IN_132_MCB_16_S74_L001_R1.fasta-IN_132_MCB_17_S82_L001_R1.fasta-IN_132_MCB_27_S90_L001_R1.fasta-IN_272_MCB_10_S3_L001_R1.fasta-IN_272_MCB_11_S11_L001_R1.fasta-IN_272_MCB_24_S42_L001_R1.fasta-IN_55_MCB_6_S18_L001_R1.fasta-IN_55_MCB_7_S26_L001_R1.fasta-IN_55_MCB_8_S34_L001_R1.fasta-IN_MCB10_272s_S46_L001_R1_001.fasta-IN_MCB11_272s_S7_L001_R1_001.fasta-IN_MCB16_132s_S70_L001_R1_001.fasta-IN_MCB17_132s_S78_L001_R1_001.fasta-IN_MCB24_272s_S94_L001_R1_001.fasta-IN_MCB26_130s_S62_L001_R1_001.fasta-IN_MCB27_132s_S86_L001_R1_001.fasta-IN_MCB28_WTs_S15_L001_R1_001.fasta-IN_MCB2_130s_S38_L001_R1_001.fasta-IN_MCB6_55s_S14_L001_R1_001.fasta-IN_MCB7_55s_S22_L001_R1_001.fasta-IN_MCB8_55s_S30_L001_R1_001.fasta-IN_MCB9_130s_S54_L001_R1_001.fasta-IN_WT_MCB_28_S19_L001_R1.fasta-IN_WT_MCB_29_S27_L001_R1.fasta-IN_WT_MCB_29s_S23_L001_R1.fasta-IN_WT_MCB_33_S35_L001_R1.fasta-IN_WT_MCB_33s_S31_L001_R1.fasta-TN_130_A_S75_L001_R1_001.fasta-TN_130_As_S71_L001_R1_001.fasta-TN_130_B_S83_L001_R1_001.fasta-TN_130_Bs_S79_L001_R1_001.fasta-TN_130_C_S91_L001_R1_001.fasta-TN_130_Cs_S87_L001_R1_001.fasta-TN_132_A_S43_L001_R1_001.fasta-TN_132_As_S95_L001_R1_001.fasta-TN_132_B_S4_L001_R1_001.fasta-TN_132_Bs_S47_L001_R1_001.fasta-TN_132_C_S12_L001_R1_001.fasta-TN_132_Cs_S8_L001_R1_001.fasta-TN_272_A_S20_L001_R1_001.fasta-TN_272_As_S16_L001_R1_001.fasta-TN_272_B_S28_L001_R1_001.fasta-TN_272_Bs_S24_L001_R1_001.fasta-TN_272_C_S36_L001_R1_001.fasta-TN_272_Cs_S32_L001_R1_001.fasta-TN_55_A_S51_L001_R1_001.fasta-TN_55_As_S39_L001_R1_001.fasta-TN_55_B_S59_L001_R1_001.fasta-TN_55_Bs_S55_L001_R1_001.fasta-TN_55_C_S67_L001_R1_001.fasta-TN_55_Cs_S63_L001_R1_001.fasta-TN_LS_1_S52_L001_R1_001.fasta-TN_LS_1s_S40_L001_R1_001.fasta-TN_LS_2_S60_L001_R1_001.fasta-TN_LS_2s_S56_L001_R1_001.fasta-TN_LS_3_S68_L001_R1_001.fasta-TN_LS_3s_S64_L001_R1_001.fasta-TN_WT_MB_19_S76_L001_R1.fasta-TN_WT_MB_19s_S72_L001_R1.fasta-TN_WT_MB_20_S84_L001_R1.fasta-TN_WT_MB_20s_S80_L001_R1.fasta-TN_WT_MB_21_S92_L001_R1.fasta-TN_WT_MB_21s_S88_L001_R1.fasta-WA130_BNL_20_S33_L001_R1_001.fasta-WA132_RN_7_S49_L001_R1_001.fasta-WA132_RN_8_S57_L001_R1_001.fasta-WA132_RN_9_S65_L001_R1_001.fasta-WA272_BNL_17_S81_L001_R1_001.fasta-WA272_BNL_18_S89_L001_R1_001.fasta-WA272_RN_10_S73_L001_R1_001.fasta-WA_130_RN_4_S25_L001_R1.fasta-WA_55_BNL_19_S17_L001_R1.fasta-WA_55_RN_1_S1_L001_R1.fasta-WA_55_RN_2_S9_L001_R1.fasta-WA_BNL17_272s_S77_L001_R1_001.fasta-WA_BNL18_272s_S85_L001_R1_001.fasta-WA_BNL19_55s_S13_L001_R1_001.fasta-WA_BNL20_130s_S29_L001_R1_001.fasta-WA_BNL21_WTs_S93_L001_R1_001.fasta-WA_BNL22_WTs_S45_L001_R1_001.fasta-WA_BNL23_WTs_S6_L001_R1_001.fasta-WA_RN10_272s_S69_L001_R1_001.fasta-WA_RN1_55s_S44_L001_R1_001.fasta-WA_RN2_55s_S5_L001_R1_001.fasta-WA_RN4_130s_S21_L001_R1_001.fasta-WA_RN7_132s_S37_L001_R1_001.fasta-WA_RN8_132s_S53_L001_R1_001.fasta-WA_RN9_132s_S61_L001_R1_001.fasta-WA_WT_BNL_21_S41_L001_R1.fasta-WA_WT_BNL_22_S2_L001_R1.fasta-WA_WT_BNL_23_S10_L001_R1.fasta-blankH12_S96_L001_R1_001.fasta-blankH6_S48_L001_R1_001.fasta, groups=IN_130_MCB_26_S66_L001_R1-IN_130_MCB_2_S50_L001_R1-IN_130_MCB_9_S58_L001_R1-IN_132_MCB_16_S74_L001_R1-IN_132_MCB_17_S82_L001_R1-IN_132_MCB_27_S90_L001_R1-IN_272_MCB_10_S3_L001_R1-IN_272_MCB_11_S11_L001_R1-IN_272_MCB_24_S42_L001_R1-IN_55_MCB_6_S18_L001_R1-IN_55_MCB_7_S26_L001_R1-IN_55_MCB_8_S34_L001_R1-IN_MCB10_272s_S46_L001_R1_001-IN_MCB11_272s_S7_L001_R1_001-IN_MCB16_132s_S70_L001_R1_001-IN_MCB17_132s_S78_L001_R1_001-IN_MCB24_272s_S94_L001_R1_001-IN_MCB26_130s_S62_L001_R1_001-IN_MCB27_132s_S86_L001_R1_001-IN_MCB28_WTs_S15_L001_R1_001-IN_MCB2_130s_S38_L001_R1_001-IN_MCB6_55s_S14_L001_R1_001-IN_MCB7_55s_S22_L001_R1_001-IN_MCB8_55s_S30_L001_R1_001-IN_MCB9_130s_S54_L001_R1_001-IN_WT_MCB_28_S19_L001_R1-IN_WT_MCB_29_S27_L001_R1-IN_WT_MCB_29s_S23_L001_R1-IN_WT_MCB_33_S35_L001_R1-IN_WT_MCB_33s_S31_L001_R1-TN_130_A_S75_L001_R1_001-TN_130_As_S71_L001_R1_001-TN_130_B_S83_L001_R1_001-TN_130_Bs_S79_L001_R1_001-TN_130_C_S91_L001_R1_001-TN_130_Cs_S87_L001_R1_001-TN_132_A_S43_L001_R1_001-TN_132_As_S95_L001_R1_001-TN_132_B_S4_L001_R1_001-TN_132_Bs_S47_L001_R1_001-TN_132_C_S12_L001_R1_001-TN_132_Cs_S8_L001_R1_001-TN_272_A_S20_L001_R1_001-TN_272_As_S16_L001_R1_001-TN_272_B_S28_L001_R1_001-TN_272_Bs_S24_L001_R1_001-TN_272_C_S36_L001_R1_001-TN_272_Cs_S32_L001_R1_001-TN_55_A_S51_L001_R1_001-TN_55_As_S39_L001_R1_001-TN_55_B_S59_L001_R1_001-TN_55_Bs_S55_L001_R1_001-TN_55_C_S67_L001_R1_001-TN_55_Cs_S63_L001_R1_001-TN_LS_1_S52_L001_R1_001-TN_LS_1s_S40_L001_R1_001-TN_LS_2_S60_L001_R1_001-TN_LS_2s_S56_L001_R1_001-TN_LS_3_S68_L001_R1_001-TN_LS_3s_S64_L001_R1_001-TN_WT_MB_19_S76_L001_R1-TN_WT_MB_19s_S72_L001_R1-TN_WT_MB_20_S84_L001_R1-TN_WT_MB_20s_S80_L001_R1-TN_WT_MB_21_S92_L001_R1-TN_WT_MB_21s_S88_L001_R1-WA130_BNL_20_S33_L001_R1_001-WA132_RN_7_S49_L001_R1_001-WA132_RN_8_S57_L001_R1_001-WA132_RN_9_S65_L001_R1_001-WA272_BNL_17_S81_L001_R1_001-WA272_BNL_18_S89_L001_R1_001-WA272_RN_10_S73_L001_R1_001-WA_130_RN_4_S25_L001_R1-WA_55_BNL_19_S17_L001_R1-WA_55_RN_1_S1_L001_R1-WA_55_RN_2_S9_L001_R1-WA_BNL17_272s_S77_L001_R1_001-WA_BNL18_272s_S85_L001_R1_001-WA_BNL19_55s_S13_L001_R1_001-WA_BNL20_130s_S29_L001_R1_001-WA_BNL21_WTs_S93_L001_R1_001-WA_BNL22_WTs_S45_L001_R1_001-WA_BNL23_WTs_S6_L001_R1_001-WA_RN10_272s_S69_L001_R1_001-WA_RN1_55s_S44_L001_R1_001-WA_RN2_55s_S5_L001_R1_001-WA_RN4_130s_S21_L001_R1_001-WA_RN7_132s_S37_L001_R1_001-WA_RN8_132s_S53_L001_R1_001-WA_RN9_132s_S61_L001_R1_001-WA_WT_BNL_21_S41_L001_R1-WA_WT_BNL_22_S2_L001_R1-WA_WT_BNL_23_S10_L001_R1-blankH12_S96_L001_R1_001-blankH6_S48_L001_R1_001)
+merge.files(input=IN_130_MCB_26_S66_L001_R1.fasta-IN_130_MCB_2_S50_L001_R1.fasta-IN_130_MCB_9_S58_L001_R1.fasta-IN_132_MCB_16_S74_L001_R1.fasta-IN_132_MCB_17_S82_L001_R1.fasta-IN_132_MCB_27_S90_L001_R1.fasta-IN_272_MCB_10_S3_L001_R1.fasta-IN_272_MCB_11_S11_L001_R1.fasta-IN_272_MCB_24_S42_L001_R1.fasta-IN_55_MCB_6_S18_L001_R1.fasta-IN_55_MCB_7_S26_L001_R1.fasta-IN_55_MCB_8_S34_L001_R1.fasta-IN_MCB10_272s_S46_L001_R1_001.fasta-IN_MCB11_272s_S7_L001_R1_001.fasta-IN_MCB16_132s_S70_L001_R1_001.fasta-IN_MCB17_132s_S78_L001_R1_001.fasta-IN_MCB24_272s_S94_L001_R1_001.fasta-IN_MCB26_130s_S62_L001_R1_001.fasta-IN_MCB27_132s_S86_L001_R1_001.fasta-IN_MCB28_WTs_S15_L001_R1_001.fasta-IN_MCB2_130s_S38_L001_R1_001.fasta-IN_MCB6_55s_S14_L001_R1_001.fasta-IN_MCB7_55s_S22_L001_R1_001.fasta-IN_MCB8_55s_S30_L001_R1_001.fasta-IN_MCB9_130s_S54_L001_R1_001.fasta-IN_WT_MCB_28_S19_L001_R1.fasta-IN_WT_MCB_29_S27_L001_R1.fasta-IN_WT_MCB_29s_S23_L001_R1.fasta-IN_WT_MCB_33_S35_L001_R1.fasta-IN_WT_MCB_33s_S31_L001_R1.fasta-TN_130_A_S75_L001_R1_001.fasta-TN_130_As_S71_L001_R1_001.fasta-TN_130_B_S83_L001_R1_001.fasta-TN_130_Bs_S79_L001_R1_001.fasta-TN_130_C_S91_L001_R1_001.fasta-TN_130_Cs_S87_L001_R1_001.fasta-TN_132_A_S43_L001_R1_001.fasta-TN_132_As_S95_L001_R1_001.fasta-TN_132_B_S4_L001_R1_001.fasta-TN_132_Bs_S47_L001_R1_001.fasta-TN_132_C_S12_L001_R1_001.fasta-TN_132_Cs_S8_L001_R1_001.fasta-TN_272_A_S20_L001_R1_001.fasta-TN_272_As_S16_L001_R1_001.fasta-TN_272_B_S28_L001_R1_001.fasta-TN_272_Bs_S24_L001_R1_001.fasta-TN_272_C_S36_L001_R1_001.fasta-TN_272_Cs_S32_L001_R1_001.fasta-TN_55_A_S51_L001_R1_001.fasta-TN_55_As_S39_L001_R1_001.fasta-TN_55_B_S59_L001_R1_001.fasta-TN_55_Bs_S55_L001_R1_001.fasta-TN_55_C_S67_L001_R1_001.fasta-TN_55_Cs_S63_L001_R1_001.fasta-TN_LS_1_S52_L001_R1_001.fasta-TN_LS_1s_S40_L001_R1_001.fasta-TN_LS_2_S60_L001_R1_001.fasta-TN_LS_2s_S56_L001_R1_001.fasta-TN_LS_3_S68_L001_R1_001.fasta-TN_LS_3s_S64_L001_R1_001.fasta-TN_WT_MB_19_S76_L001_R1.fasta-TN_WT_MB_19s_S72_L001_R1.fasta-TN_WT_MB_20_S84_L001_R1.fasta-TN_WT_MB_20s_S80_L001_R1.fasta-TN_WT_MB_21_S92_L001_R1.fasta-TN_WT_MB_21s_S88_L001_R1.fasta-WA130_BNL_20_S33_L001_R1_001.fasta-WA132_RN_7_S49_L001_R1_001.fasta-WA132_RN_8_S57_L001_R1_001.fasta-WA132_RN_9_S65_L001_R1_001.fasta-WA272_BNL_17_S81_L001_R1_001.fasta-WA272_BNL_18_S89_L001_R1_001.fasta-WA272_RN_10_S73_L001_R1_001.fasta-WA_130_RN_4_S25_L001_R1.fasta-WA_55_BNL_19_S17_L001_R1.fasta-WA_55_RN_1_S1_L001_R1.fasta-WA_55_RN_2_S9_L001_R1.fasta-WA_BNL17_272s_S77_L001_R1_001.fasta-WA_BNL18_272s_S85_L001_R1_001.fasta-WA_BNL19_55s_S13_L001_R1_001.fasta-WA_BNL20_130s_S29_L001_R1_001.fasta-WA_BNL21_WTs_S93_L001_R1_001.fasta-WA_BNL22_WTs_S45_L001_R1_001.fasta-WA_BNL23_WTs_S6_L001_R1_001.fasta-WA_RN10_272s_S69_L001_R1_001.fasta-WA_RN1_55s_S44_L001_R1_001.fasta-WA_RN2_55s_S5_L001_R1_001.fasta-WA_RN4_130s_S21_L001_R1_001.fasta-WA_RN7_132s_S37_L001_R1_001.fasta-WA_RN8_132s_S53_L001_R1_001.fasta-WA_RN9_132s_S61_L001_R1_001.fasta-WA_WT_BNL_21_S41_L001_R1.fasta-WA_WT_BNL_22_S2_L001_R1.fasta-WA_WT_BNL_23_S10_L001_R1.fasta-blankH12_S96_L001_R1_001.fasta-blankH6_S48_L001_R1_001.fasta, output=phyllo.mb.demulti.fasta)
+merge.files(input=IN_130_MCB_26_S66_L001_R1.groups-IN_130_MCB_2_S50_L001_R1.groups-IN_130_MCB_9_S58_L001_R1.groups-IN_132_MCB_16_S74_L001_R1.groups-IN_132_MCB_17_S82_L001_R1.groups-IN_132_MCB_27_S90_L001_R1.groups-IN_272_MCB_10_S3_L001_R1.groups-IN_272_MCB_11_S11_L001_R1.groups-IN_272_MCB_24_S42_L001_R1.groups-IN_55_MCB_6_S18_L001_R1.groups-IN_55_MCB_7_S26_L001_R1.groups-IN_55_MCB_8_S34_L001_R1.groups-IN_MCB10_272s_S46_L001_R1_001.groups-IN_MCB11_272s_S7_L001_R1_001.groups-IN_MCB16_132s_S70_L001_R1_001.groups-IN_MCB17_132s_S78_L001_R1_001.groups-IN_MCB24_272s_S94_L001_R1_001.groups-IN_MCB26_130s_S62_L001_R1_001.groups-IN_MCB27_132s_S86_L001_R1_001.groups-IN_MCB28_WTs_S15_L001_R1_001.groups-IN_MCB2_130s_S38_L001_R1_001.groups-IN_MCB6_55s_S14_L001_R1_001.groups-IN_MCB7_55s_S22_L001_R1_001.groups-IN_MCB8_55s_S30_L001_R1_001.groups-IN_MCB9_130s_S54_L001_R1_001.groups-IN_WT_MCB_28_S19_L001_R1.groups-IN_WT_MCB_29_S27_L001_R1.groups-IN_WT_MCB_29s_S23_L001_R1.groups-IN_WT_MCB_33_S35_L001_R1.groups-IN_WT_MCB_33s_S31_L001_R1.groups-TN_130_A_S75_L001_R1_001.groups-TN_130_As_S71_L001_R1_001.groups-TN_130_B_S83_L001_R1_001.groups-TN_130_Bs_S79_L001_R1_001.groups-TN_130_C_S91_L001_R1_001.groups-TN_130_Cs_S87_L001_R1_001.groups-TN_132_A_S43_L001_R1_001.groups-TN_132_As_S95_L001_R1_001.groups-TN_132_B_S4_L001_R1_001.groups-TN_132_Bs_S47_L001_R1_001.groups-TN_132_C_S12_L001_R1_001.groups-TN_132_Cs_S8_L001_R1_001.groups-TN_272_A_S20_L001_R1_001.groups-TN_272_As_S16_L001_R1_001.groups-TN_272_B_S28_L001_R1_001.groups-TN_272_Bs_S24_L001_R1_001.groups-TN_272_C_S36_L001_R1_001.groups-TN_272_Cs_S32_L001_R1_001.groups-TN_55_A_S51_L001_R1_001.groups-TN_55_As_S39_L001_R1_001.groups-TN_55_B_S59_L001_R1_001.groups-TN_55_Bs_S55_L001_R1_001.groups-TN_55_C_S67_L001_R1_001.groups-TN_55_Cs_S63_L001_R1_001.groups-TN_LS_1_S52_L001_R1_001.groups-TN_LS_1s_S40_L001_R1_001.groups-TN_LS_2_S60_L001_R1_001.groups-TN_LS_2s_S56_L001_R1_001.groups-TN_LS_3_S68_L001_R1_001.groups-TN_LS_3s_S64_L001_R1_001.groups-TN_WT_MB_19_S76_L001_R1.groups-TN_WT_MB_19s_S72_L001_R1.groups-TN_WT_MB_20_S84_L001_R1.groups-TN_WT_MB_20s_S80_L001_R1.groups-TN_WT_MB_21_S92_L001_R1.groups-TN_WT_MB_21s_S88_L001_R1.groups-WA130_BNL_20_S33_L001_R1_001.groups-WA132_RN_7_S49_L001_R1_001.groups-WA132_RN_8_S57_L001_R1_001.groups-WA132_RN_9_S65_L001_R1_001.groups-WA272_BNL_17_S81_L001_R1_001.groups-WA272_BNL_18_S89_L001_R1_001.groups-WA272_RN_10_S73_L001_R1_001.groups-WA_130_RN_4_S25_L001_R1.groups-WA_55_BNL_19_S17_L001_R1.groups-WA_55_RN_1_S1_L001_R1.groups-WA_55_RN_2_S9_L001_R1.groups-WA_BNL17_272s_S77_L001_R1_001.groups-WA_BNL18_272s_S85_L001_R1_001.groups-WA_BNL19_55s_S13_L001_R1_001.groups-WA_BNL20_130s_S29_L001_R1_001.groups-WA_BNL21_WTs_S93_L001_R1_001.groups-WA_BNL22_WTs_S45_L001_R1_001.groups-WA_BNL23_WTs_S6_L001_R1_001.groups-WA_RN10_272s_S69_L001_R1_001.groups-WA_RN1_55s_S44_L001_R1_001.groups-WA_RN2_55s_S5_L001_R1_001.groups-WA_RN4_130s_S21_L001_R1_001.groups-WA_RN7_132s_S37_L001_R1_001.groups-WA_RN8_132s_S53_L001_R1_001.groups-WA_RN9_132s_S61_L001_R1_001.groups-WA_WT_BNL_21_S41_L001_R1.groups-WA_WT_BNL_22_S2_L001_R1.groups-WA_WT_BNL_23_S10_L001_R1.groups-blankH12_S96_L001_R1_001.groups-blankH6_S48_L001_R1_001.groups, output=phyllo.mb.demulti.groups)
+remove.groups(group=phyllo.mb.demulti.groups, groups=ITS1, fasta=phyllo.mb.demulti.fasta)
+rename.file(fasta=phyllo.mb.demulti.pick.fasta, group=phyllo.mb.demulti.pick.groups, prefix=phyllo.mb.its2)
+remove.groups(group=phyllo.mb.demulti.groups, groups=ITS2.1-ITS2.2-ITS2.3-ITS2.4-ITS2.5-ITS2.10-ITS2.1.arch-ITS2.2.arch-ITS2.3.arch-ITS2.4.arch-ITS2.5.arch-ITS2.10.arch, fasta=phyllo.mb.demulti.fasta)
+rename.file(fasta=phyllo.mb.demulti.pick.fasta, group=phyllo.mb.demulti.pick.groups, prefix=phyllo.mb.its1)
+#
+#
+### ITS2 ANALYSIS
+#
+screen.seqs(fasta=phyllo.mb.its2.fasta, maxambig=0, minlength=50, maxlength=450, maxhomop=10)
+remove.seqs(group=merge.groups, accnos=phyllo.mb.its2.bad.accnos)
+rename.file(group=merge.pick.groups, prefix=its2.phyllo.good)
+#
+summary.seqs(fasta=phyllo.mb.its2.good.fasta, processors=24)
+#
+#
+# work with unique seqs
+#
+unique.seqs(fasta=current)
+#
+# column one = how many its looked at
+# column two = how many are unique to that point
+#
+# names file
+# group file
+#
+# count number of times each seq is seen in each sample
+#
+count.seqs(name=current, group=its2.phyllo.good.groups)
+#
+summary.seqs(count=current)
+#
+# merge rare with abundant seqs that contain 2 or fewer base differences
+#
+pre.cluster(count=current, fasta=current, diffs=2, processors=24)
+#
+summary.seqs(fasta=current, count=current)
+#
+########
+# remove chimeras
+# treat each sample as a separate entity
+# chimeras only exist within samples (not across samples)
+# hence, dereplicate = T
+##########################
+#
+chimera.vsearch(fasta=current, count=current, dereplicate=T)
+#
+#
+# updated count table that removed chimeras
+# accnos for seqs flagged as chimeras
+#
+# remove seqs from fasta file
+# accnos = accession numbers generated from chimera.vsearch
+#
+remove.seqs(fasta=current, accnos=phyllo.mb.its2.good.unique.precluster.denovo.vsearch.accnos)
+#
+summary.seqs(fasta=current, count=current, processors=24)
+#
+#### CLASSIFICATION
+#### Naive Bayesian classifier
+#
+classify.seqs(fasta=current, count=current, reference=UNITEv8_sh_99Jn.fasta, taxonomy=UNITEv8_sh_99Jn.tax, processors=24)
+#
+### REMOVE CONTAMINANTS (E.G. PLANTS, ETC.)
+### concat taxa with hyphens
+#
+remove.lineage(fasta=current, count=current, taxonomy=current, taxon=Juglans-unknown-unclassified_Fungi-Fungi_unclassified)
+#
+count.groups(count=current)
+#
+# generate distance matrix for use in the opticlust algorithm
+# for ITS, without alignment, could use pairwise.seqs
+#
+pairwise.seqs(fasta=current, cutoff=0.02, processors=24)
+#
+# feed distance matrix into cluster command
+#
+cluster(column=current, count=current, cutoff=0.02)
+#
+# merge count data with cluster data
+#
+make.shared(list=current, count=current, label=0.02)
+#
+# output ends in .shared
+# current count goes back to output from remove.groups()
+#
+classify.otu(list=current, count=current, taxonomy=current)
+#
+rename.file(fasta=current, count=current, shared=current, taxonomy=current, prefix=Phyllo.ITS2.jn.Oct2019)
+#
+count.groups(shared=Phyllo.ITS2.jn.Oct2019.opti_mcc.shared)
+#
+#
+# separate into leaves and bark
+#
+get.groups(shared=Phyllo.ITS2.jn.Oct2019.opti_mcc.shared, groups=IN_130_MCB_26_S66_L001_R1-IN_130_MCB_2_S50_L001_R1-IN_130_MCB_9_S58_L001_R1-IN_132_MCB_16_S74_L001_R1-IN_132_MCB_17_S82_L001_R1-IN_132_MCB_27_S90_L001_R1-IN_272_MCB_10_S3_L001_R1-IN_272_MCB_11_S11_L001_R1-IN_272_MCB_24_S42_L001_R1-IN_55_MCB_6_S18_L001_R1-IN_55_MCB_7_S26_L001_R1-IN_55_MCB_8_S34_L001_R1-IN_WT_MCB_28_S19_L001_R1-IN_WT_MCB_29_S27_L001_R1-IN_WT_MCB_33_S35_L001_R1-TN_130_A_S75_L001_R1_001-TN_130_B_S83_L001_R1_001-TN_130_C_S91_L001_R1_001-TN_132_A_S43_L001_R1_001-TN_132_B_S4_L001_R1_001-TN_132_C_S12_L001_R1_001-TN_272_A_S20_L001_R1_001-TN_272_B_S28_L001_R1_001-TN_272_C_S36_L001_R1_001-TN_55_A_S51_L001_R1_001-TN_55_B_S59_L001_R1_001-TN_55_C_S67_L001_R1_001-TN_LS_1_S52_L001_R1_001-TN_LS_2_S60_L001_R1_001-TN_LS_3_S68_L001_R1_001-TN_WT_MB_19_S76_L001_R1-TN_WT_MB_20_S84_L001_R1-TN_WT_MB_21_S92_L001_R1-WA130_BNL_20_S33_L001_R1_001-WA132_RN_7_S49_L001_R1_001-WA132_RN_8_S57_L001_R1_001-WA132_RN_9_S65_L001_R1_001-WA272_BNL_17_S81_L001_R1_001-WA272_BNL_18_S89_L001_R1_001-WA272_RN_10_S73_L001_R1_001-WA_130_RN_4_S25_L001_R1-WA_55_BNL_19_S17_L001_R1-WA_55_RN_1_S1_L001_R1-WA_55_RN_2_S9_L001_R1-WA_WT_BNL_21_S41_L001_R1-WA_WT_BNL_22_S2_L001_R1-WA_WT_BNL_23_S10_L001_R1)
+rename.file(input=Phyllo.ITS2.jn.Oct2019.opti_mcc.0.02.pick.shared, new=Phyllo.ITS2.jn.Oct2019.opti_mcc.leaves.shared)
+#
+get.groups(shared=Phyllo.ITS2.jn.Oct2019.opti_mcc.shared, groups=IN_MCB10_272s_S46_L001_R1_001-IN_MCB11_272s_S7_L001_R1_001-IN_MCB16_132s_S70_L001_R1_001-IN_MCB17_132s_S78_L001_R1_001-IN_MCB24_272s_S94_L001_R1_001-IN_MCB26_130s_S62_L001_R1_001-IN_MCB27_132s_S86_L001_R1_001-IN_MCB28_WTs_S15_L001_R1_001-IN_MCB2_130s_S38_L001_R1_001-IN_MCB6_55s_S14_L001_R1_001-IN_MCB7_55s_S22_L001_R1_001-IN_MCB8_55s_S30_L001_R1_001-IN_MCB9_130s_S54_L001_R1_001-IN_WT_MCB_29s_S23_L001_R1-IN_WT_MCB_33s_S31_L001_R1-TN_130_As_S71_L001_R1_001-TN_130_Bs_S79_L001_R1_001-TN_130_Cs_S87_L001_R1_001-TN_132_As_S95_L001_R1_001-TN_132_Bs_S47_L001_R1_001-TN_132_Cs_S8_L001_R1_001-TN_272_As_S16_L001_R1_001-TN_272_Bs_S24_L001_R1_001-TN_272_Cs_S32_L001_R1_001-TN_55_As_S39_L001_R1_001-TN_55_Bs_S55_L001_R1_001-TN_55_Cs_S63_L001_R1_001-TN_LS_1s_S40_L001_R1_001-TN_LS_2s_S56_L001_R1_001-TN_LS_3s_S64_L001_R1_001-TN_WT_MB_19s_S72_L001_R1-TN_WT_MB_20s_S80_L001_R1-TN_WT_MB_21s_S88_L001_R1-WA_BNL17_272s_S77_L001_R1_001-WA_BNL18_272s_S85_L001_R1_001-WA_BNL19_55s_S13_L001_R1_001-WA_BNL20_130s_S29_L001_R1_001-WA_BNL21_WTs_S93_L001_R1_001-WA_BNL22_WTs_S45_L001_R1_001-WA_BNL23_WTs_S6_L001_R1_001-WA_RN10_272s_S69_L001_R1_001-WA_RN1_55s_S44_L001_R1_001-WA_RN2_55s_S5_L001_R1_001-WA_RN4_130s_S21_L001_R1_001-WA_RN7_132s_S37_L001_R1_001-WA_RN8_132s_S53_L001_R1_001-WA_RN9_132s_S61_L001_R1_001)
+rename.file(input=Phyllo.ITS2.jn.Oct2019.opti_mcc.0.02.pick.shared, new=Phyllo.ITS2.jn.Oct2019.opti_mcc.branch.shared)
+#
+## rarefaction curve
+## will skip every 100 curves
+#
+# ITS 2 Branches
+#
+rarefaction.shared(shared=Phyllo.ITS2.jn.Oct2019.opti_mcc.branch.shared)
+#
+rarefaction.single(shared=Phyllo.ITS2.jn.Oct2019.opti_mcc.branch.shared, calc=sobs, freq=100, processors=24)
+#
+# does all possible rarefactions
+# many NAs because different depths of coverage
+#
+summary.single(shared=Phyllo.ITS2.jn.Oct2019.opti_mcc.branch.shared, calc=sobs-chao-coverage-invsimpson-shannon-nseqs, subsample=T)
+#
+#sub.sample(shared=Phyllo.ITS2.jn.Oct2019.opti_mcc.branch.shared, size=)
+#
+# ITS2 Leaves
+#
+rarefaction.shared(shared=Phyllo.ITS2.jn.Oct2019.opti_mcc.leaves.shared)
+#
+rarefaction.single(shared=Phyllo.ITS2.jn.Oct2019.opti_mcc.leaves.shared, calc=sobs, freq=100, processors=24)
+#
+# does all possible rarefactions
+# many NAs because different depths of coverage
+#
+summary.single(shared=Phyllo.ITS2.jn.Oct2019.opti_mcc.leaves.shared, calc=sobs-chao-coverage-invsimpson-shannon-nseqs, subsample=T)
+#
+#sub.sample(shared=Phyllo.ITS2.jn.Oct2019.opti_mcc.leaves.shared, size=)
+####
+####
+## ITS1 Analysis
+#
+screen.seqs(fasta=phyllo.mb.its1.fasta, maxambig=0, minlength=50, maxlength=450, maxhomop=10)
+remove.seqs(group=merge.groups, accnos=phyllo.mb.its1.bad.accnos)
+rename.file(group=merge.pick.groups, prefix=its1.phyllo.good)
+summary.seqs(fasta=phyllo.mb.its1.good.fasta, processors=24)
+unique.seqs(fasta=current)
+count.seqs(name=current, group=its1.phyllo.good.groups)
+summary.seqs(count=current)
+pre.cluster(count=current, fasta=current, diffs=2, processors=24)
+summary.seqs(fasta=current, count=current)
+chimera.vsearch(fasta=current, count=current, dereplicate=T)
+remove.seqs(fasta=current, accnos=phyllo.mb.its1.good.unique.precluster.denovo.vsearch.accnos)
+classify.seqs(fasta=current, count=current, reference=UNITEv8_sh_99Jn.fasta, taxonomy=UNITEv8_sh_99Jn.tax, processors=24)
+remove.lineage(fasta=current, count=current, taxonomy=current, taxon=Juglans-unknown-unclassified_Fungi-Fungi_unclassified)
+count.groups(count=current)
+pairwise.seqs(fasta=current, cutoff=0.02, processors=24)
+cluster(column=current, count=current, cutoff=0.02)
+make.shared(list=current, count=current, label=0.02)
+classify.otu(list=current, count=current, taxonomy=current)
+rename.file(fasta=current, count=current, shared=current, taxonomy=current, prefix=Phyllo.ITS1.jn.Oct2019)
+count.groups(shared=Phyllo.ITS1.jn.Oct2019.opti_mcc.shared)
+# separate into leaves and bark
+#
+get.groups(shared=Phyllo.ITS1.jn.Oct2019.opti_mcc.shared, groups=IN_130_MCB_26_S66_L001_R1-IN_130_MCB_2_S50_L001_R1-IN_130_MCB_9_S58_L001_R1-IN_132_MCB_16_S74_L001_R1-IN_132_MCB_17_S82_L001_R1-IN_132_MCB_27_S90_L001_R1-IN_272_MCB_10_S3_L001_R1-IN_272_MCB_11_S11_L001_R1-IN_272_MCB_24_S42_L001_R1-IN_55_MCB_6_S18_L001_R1-IN_55_MCB_7_S26_L001_R1-IN_55_MCB_8_S34_L001_R1-IN_WT_MCB_28_S19_L001_R1-IN_WT_MCB_29_S27_L001_R1-IN_WT_MCB_33_S35_L001_R1-TN_130_A_S75_L001_R1_001-TN_130_B_S83_L001_R1_001-TN_130_C_S91_L001_R1_001-TN_132_A_S43_L001_R1_001-TN_132_B_S4_L001_R1_001-TN_132_C_S12_L001_R1_001-TN_272_A_S20_L001_R1_001-TN_272_B_S28_L001_R1_001-TN_272_C_S36_L001_R1_001-TN_55_A_S51_L001_R1_001-TN_55_B_S59_L001_R1_001-TN_55_C_S67_L001_R1_001-TN_LS_1_S52_L001_R1_001-TN_LS_2_S60_L001_R1_001-TN_LS_3_S68_L001_R1_001-TN_WT_MB_19_S76_L001_R1-TN_WT_MB_20_S84_L001_R1-TN_WT_MB_21_S92_L001_R1-WA130_BNL_20_S33_L001_R1_001-WA132_RN_7_S49_L001_R1_001-WA132_RN_8_S57_L001_R1_001-WA132_RN_9_S65_L001_R1_001-WA272_BNL_17_S81_L001_R1_001-WA272_BNL_18_S89_L001_R1_001-WA272_RN_10_S73_L001_R1_001-WA_130_RN_4_S25_L001_R1-WA_55_BNL_19_S17_L001_R1-WA_55_RN_1_S1_L001_R1-WA_55_RN_2_S9_L001_R1-WA_WT_BNL_21_S41_L001_R1-WA_WT_BNL_22_S2_L001_R1-WA_WT_BNL_23_S10_L001_R1)
+rename.file(input=Phyllo.ITS1.jn.Oct2019.opti_mcc.0.02.pick.shared, new=Phyllo.ITS1.jn.Oct2019.opti_mcc.leaves.shared)
+#
+get.groups(shared=Phyllo.ITS1.jn.Oct2019.opti_mcc.shared, groups=IN_MCB10_272s_S46_L001_R1_001-IN_MCB11_272s_S7_L001_R1_001-IN_MCB16_132s_S70_L001_R1_001-IN_MCB17_132s_S78_L001_R1_001-IN_MCB24_272s_S94_L001_R1_001-IN_MCB26_130s_S62_L001_R1_001-IN_MCB27_132s_S86_L001_R1_001-IN_MCB28_WTs_S15_L001_R1_001-IN_MCB2_130s_S38_L001_R1_001-IN_MCB6_55s_S14_L001_R1_001-IN_MCB7_55s_S22_L001_R1_001-IN_MCB8_55s_S30_L001_R1_001-IN_MCB9_130s_S54_L001_R1_001-IN_WT_MCB_29s_S23_L001_R1-IN_WT_MCB_33s_S31_L001_R1-TN_130_As_S71_L001_R1_001-TN_130_Bs_S79_L001_R1_001-TN_130_Cs_S87_L001_R1_001-TN_132_As_S95_L001_R1_001-TN_132_Bs_S47_L001_R1_001-TN_132_Cs_S8_L001_R1_001-TN_272_As_S16_L001_R1_001-TN_272_Bs_S24_L001_R1_001-TN_272_Cs_S32_L001_R1_001-TN_55_As_S39_L001_R1_001-TN_55_Bs_S55_L001_R1_001-TN_55_Cs_S63_L001_R1_001-TN_LS_1s_S40_L001_R1_001-TN_LS_2s_S56_L001_R1_001-TN_LS_3s_S64_L001_R1_001-TN_WT_MB_19s_S72_L001_R1-TN_WT_MB_20s_S80_L001_R1-TN_WT_MB_21s_S88_L001_R1-WA_BNL17_272s_S77_L001_R1_001-WA_BNL18_272s_S85_L001_R1_001-WA_BNL19_55s_S13_L001_R1_001-WA_BNL20_130s_S29_L001_R1_001-WA_BNL21_WTs_S93_L001_R1_001-WA_BNL22_WTs_S45_L001_R1_001-WA_BNL23_WTs_S6_L001_R1_001-WA_RN10_272s_S69_L001_R1_001-WA_RN1_55s_S44_L001_R1_001-WA_RN2_55s_S5_L001_R1_001-WA_RN4_130s_S21_L001_R1_001-WA_RN7_132s_S37_L001_R1_001-WA_RN8_132s_S53_L001_R1_001-WA_RN9_132s_S61_L001_R1_001)
+rename.file(input=Phyllo.ITS1.jn.Oct2019.opti_mcc.0.02.pick.shared, new=Phyllo.ITS1.jn.Oct2019.opti_mcc.branch.shared)
+#
+## rarefaction curve
+## will skip every 100 curves
+#
+# ITS1 Branches
+#
+rarefaction.shared(shared=Phyllo.ITS1.jn.Oct2019.opti_mcc.branch.shared)
+#
+rarefaction.single(shared=Phyllo.ITS1.jn.Oct2019.opti_mcc.branch.shared, calc=sobs, freq=100, processors=24)
+#
+# does all possible rarefactions
+# many NAs because different depths of coverage
+#
+summary.single(shared=Phyllo.ITS1.jn.Oct2019.opti_mcc.branch.shared, calc=sobs-chao-coverage-invsimpson-shannon-nseqs, subsample=T)
+#
+#sub.sample(shared=Phyllo.ITS1.jn.Oct2019.opti_mcc.branch.shared, size=)
+#
+# ITS1 Leaves
+#
+rarefaction.shared(shared=Phyllo.ITS1.jn.Oct2019.opti_mcc.leaves.shared)
+#
+rarefaction.single(shared=Phyllo.ITS1.jn.Oct2019.opti_mcc.leaves.shared, calc=sobs, freq=100, processors=24)
+#
+# does all possible rarefactions
+# many NAs because different depths of coverage
+#
+summary.single(shared=Phyllo.ITS1.jn.Oct2019.opti_mcc.leaves.shared, calc=sobs-chao-coverage-invsimpson-shannon-nseqs, subsample=T)
+#
+#sub.sample(shared=Phyllo.ITS1.jn.Oct2019.opti_mcc.leaves.shared, size=)
+quit()

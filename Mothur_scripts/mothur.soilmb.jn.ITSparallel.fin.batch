@@ -1,0 +1,235 @@
+set.dir(input=/scratch/brown/will1809/Soil.mb.jn, output=/scratch/brown/will1809/Soil.mb.jn.parallel)
+make.contigs(ffastq=IN-130-MCB-26-S-ITS_S70_L001_R1_001.fastq, rfastq=IN-130-MCB-26-S-ITS_S70_L001_R2_001.fastq, processors=24, oligos=ITS.primers.UT.2017.updated.barcode)
+make.contigs(ffastq=IN-130-MCB-2-S-ITS_S69_L001_R1_001.fastq, rfastq=IN-130-MCB-2-S-ITS_S69_L001_R2_001.fastq, processors=24, oligos=ITS.primers.UT.2017.updated.barcode)
+make.contigs(ffastq=IN-130-MCB-9-S-ITS_S22_L001_R1_001.fastq, rfastq=IN-130-MCB-9-S-ITS_S22_L001_R2_001.fastq, processors=24, oligos=ITS.primers.UT.2017.updated.barcode)
+make.contigs(ffastq=IN-132-MCB-16-S-ITS_S23_L001_R1_001.fastq, rfastq=IN-132-MCB-16-S-ITS_S23_L001_R2_001.fastq, processors=24, oligos=ITS.primers.UT.2017.updated.barcode)
+make.contigs(ffastq=IN-132-MCB-17-S-ITS_S71_L001_R1_001.fastq, rfastq=IN-132-MCB-17-S-ITS_S71_L001_R2_001.fastq, processors=24, oligos=ITS.primers.UT.2017.updated.barcode)
+make.contigs(ffastq=IN-132-MCB-27-S-ITS_S24_L001_R1_001.fastq, rfastq=IN-132-MCB-27-S-ITS_S24_L001_R2_001.fastq, processors=24, oligos=ITS.primers.UT.2017.updated.barcode)
+make.contigs(ffastq=IN-272-MCB-10-S-ITS_S31_L001_R1_001.fastq, rfastq=IN-272-MCB-10-S-ITS_S31_L001_R2_001.fastq, processors=24, oligos=ITS.primers.UT.2017.updated.barcode)
+make.contigs(ffastq=IN-272-MCB-11-S-ITS_S79_L001_R1_001.fastq, rfastq=IN-272-MCB-11-S-ITS_S79_L001_R2_001.fastq, processors=24, oligos=ITS.primers.UT.2017.updated.barcode)
+make.contigs(ffastq=IN-272-MCB-24-S-ITS_S72_L001_R1_001.fastq, rfastq=IN-272-MCB-24-S-ITS_S72_L001_R2_001.fastq, processors=24, oligos=ITS.primers.UT.2017.updated.barcode)
+make.contigs(ffastq=IN-55-MCB-6-S-ITS_S20_L001_R1_001.fastq, rfastq=IN-55-MCB-6-S-ITS_S20_L001_R2_001.fastq, processors=24, oligos=ITS.primers.UT.2017.updated.barcode)
+make.contigs(ffastq=IN-55-MCB-7-S-ITS_S68_L001_R1_001.fastq, rfastq=IN-55-MCB-7-S-ITS_S68_L001_R2_001.fastq, processors=24, oligos=ITS.primers.UT.2017.updated.barcode)
+make.contigs(ffastq=IN-55-MCB-8-S-ITS_S21_L001_R1_001.fastq, rfastq=IN-55-MCB-8-S-ITS_S21_L001_R2_001.fastq, processors=24, oligos=ITS.primers.UT.2017.updated.barcode)
+make.contigs(ffastq=IN-WT-MCB-28-S-ITS_S32_L001_R1_001.fastq, rfastq=IN-WT-MCB-28-S-ITS_S32_L001_R2_001.fastq, processors=24, oligos=ITS.primers.UT.2017.updated.barcode)
+make.contigs(ffastq=IN-WT-MCB-29-S-ITS_S80_L001_R1_001.fastq, rfastq=IN-WT-MCB-29-S-ITS_S80_L001_R2_001.fastq, processors=24, oligos=ITS.primers.UT.2017.updated.barcode)
+make.contigs(ffastq=IN-WT-MCB-33-S-ITS_S33_L001_R1_001.fastq, rfastq=IN-WT-MCB-33-S-ITS_S33_L001_R2_001.fastq, processors=24, oligos=ITS.primers.UT.2017.updated.barcode)
+make.contigs(ffastq=NTC-ITS_S96_L001_R1_001.fastq, rfastq=NTC-ITS_S96_L001_R2_001.fastq, processors=24, oligos=ITS.primers.UT.2017.updated.barcode)
+make.contigs(ffastq=TN-130-A-S-ITS_S35_L001_R1_001.fastq, rfastq=TN-130-A-S-ITS_S35_L001_R2_001.fastq, processors=24, oligos=ITS.primers.UT.2017.updated.barcode)
+make.contigs(ffastq=TN-130-B-S-ITS_S83_L001_R1_001.fastq, rfastq=TN-130-B-S-ITS_S83_L001_R2_001.fastq, processors=24, oligos=ITS.primers.UT.2017.updated.barcode)
+make.contigs(ffastq=TN-130-C-S-ITS_S36_L001_R1_001.fastq, rfastq=TN-130-C-S-ITS_S36_L001_R2_001.fastq, processors=24, oligos=ITS.primers.UT.2017.updated.barcode)
+make.contigs(ffastq=TN-132-A-S-ITS_S84_L001_R1_001.fastq, rfastq=TN-132-A-S-ITS_S84_L001_R2_001.fastq, processors=24, oligos=ITS.primers.UT.2017.updated.barcode)
+make.contigs(ffastq=TN-132-B-S-ITS_S43_L001_R1_001.fastq, rfastq=TN-132-B-S-ITS_S43_L001_R2_001.fastq, processors=24, oligos=ITS.primers.UT.2017.updated.barcode)
+make.contigs(ffastq=TN-132-C-S-ITS_S91_L001_R1_001.fastq, rfastq=TN-132-C-S-ITS_S91_L001_R2_001.fastq, processors=24, oligos=ITS.primers.UT.2017.updated.barcode)
+make.contigs(ffastq=TN-272-A-S-ITS_S44_L001_R1_001.fastq, rfastq=TN-272-A-S-ITS_S44_L001_R2_001.fastq, processors=24, oligos=ITS.primers.UT.2017.updated.barcode)
+make.contigs(ffastq=TN-272-B-S-ITS_S92_L001_R1_001.fastq, rfastq=TN-272-B-S-ITS_S92_L001_R2_001.fastq, processors=24, oligos=ITS.primers.UT.2017.updated.barcode)
+make.contigs(ffastq=TN-272-C-S-ITS_S45_L001_R1_001.fastq, rfastq=TN-272-C-S-ITS_S45_L001_R2_001.fastq, processors=24, oligos=ITS.primers.UT.2017.updated.barcode)
+make.contigs(ffastq=TN-55-A-S-ITS_S81_L001_R1_001.fastq, rfastq=TN-55-A-S-ITS_S81_L001_R2_001.fastq, processors=24, oligos=ITS.primers.UT.2017.updated.barcode)
+make.contigs(ffastq=TN-55-B-S-ITS_S34_L001_R1_001.fastq, rfastq=TN-55-B-S-ITS_S34_L001_R2_001.fastq, processors=24, oligos=ITS.primers.UT.2017.updated.barcode)
+make.contigs(ffastq=TN-55-C-S-ITS_S82_L001_R1_001.fastq, rfastq=TN-55-C-S-ITS_S82_L001_R2_001.fastq, processors=24, oligos=ITS.primers.UT.2017.updated.barcode)
+make.contigs(ffastq=TN-LS-1-S-ITS_S93_L001_R1_001.fastq, rfastq=TN-LS-1-S-ITS_S93_L001_R2_001.fastq, processors=24, oligos=ITS.primers.UT.2017.updated.barcode)
+make.contigs(ffastq=TN-LS-2-S-ITS_S46_L001_R1_001.fastq, rfastq=TN-LS-2-S-ITS_S46_L001_R2_001.fastq, processors=24, oligos=ITS.primers.UT.2017.updated.barcode)
+make.contigs(ffastq=TN-LS-3-S-ITS_S94_L001_R1_001.fastq, rfastq=TN-LS-3-S-ITS_S94_L001_R2_001.fastq, processors=24, oligos=ITS.primers.UT.2017.updated.barcode)
+make.contigs(ffastq=TN-WT-MB-19-S-ITS_S47_L001_R1_001.fastq, rfastq=TN-WT-MB-19-S-ITS_S47_L001_R2_001.fastq, processors=24, oligos=ITS.primers.UT.2017.updated.barcode)
+make.contigs(ffastq=TN-WT-MB-20-S-ITS_S95_L001_R1_001.fastq, rfastq=TN-WT-MB-20-S-ITS_S95_L001_R2_001.fastq, processors=24, oligos=ITS.primers.UT.2017.updated.barcode)
+make.contigs(ffastq=TN-WT-MB-21-S-ITS_S48_L001_R1_001.fastq, rfastq=TN-WT-MB-21-S-ITS_S48_L001_R2_001.fastq, processors=24, oligos=ITS.primers.UT.2017.updated.barcode)
+make.contigs(ffastq=WA130-BNL-20-S-ITS_S9_L001_R1_001.fastq, rfastq=WA130-BNL-20-S-ITS_S9_L001_R2_001.fastq, processors=24, oligos=ITS.primers.UT.2017.updated.barcode)
+make.contigs(ffastq=WA-130-RN-4-S-ITS_S56_L001_R1_001.fastq, rfastq=WA-130-RN-4-S-ITS_S56_L001_R2_001.fastq, processors=24, oligos=ITS.primers.UT.2017.updated.barcode)
+make.contigs(ffastq=WA132-RN-7-S-ITS_S57_L001_R1_001.fastq, rfastq=WA132-RN-7-S-ITS_S57_L001_R2_001.fastq, processors=24, oligos=ITS.primers.UT.2017.updated.barcode)
+make.contigs(ffastq=WA132-RN-8-S-ITS_S10_L001_R1_001.fastq, rfastq=WA132-RN-8-S-ITS_S10_L001_R2_001.fastq, processors=24, oligos=ITS.primers.UT.2017.updated.barcode)
+make.contigs(ffastq=WA272-BNL-17-S-ITS_S59_L001_R1_001.fastq, rfastq=WA272-BNL-17-S-ITS_S59_L001_R2_001.fastq, processors=24, oligos=ITS.primers.UT.2017.updated.barcode)
+make.contigs(ffastq=WA272-BNL-18-S-ITS_S12_L001_R1_001.fastq, rfastq=WA272-BNL-18-S-ITS_S12_L001_R2_001.fastq, processors=24, oligos=ITS.primers.UT.2017.updated.barcode)
+make.contigs(ffastq=WA272-RN-10-S-ITS_S11_L001_R1_001.fastq, rfastq=WA272-RN-10-S-ITS_S11_L001_R2_001.fastq, processors=24, oligos=ITS.primers.UT.2017.updated.barcode)
+make.contigs(ffastq=WA-55-BNL-19-S-ITS_S8_L001_R1_001.fastq, rfastq=WA-55-BNL-19-S-ITS_S8_L001_R2_001.fastq, processors=24, oligos=ITS.primers.UT.2017.updated.barcode)
+make.contigs(ffastq=WA-55-RN-1-S-ITS_S7_L001_R1_001.fastq, rfastq=WA-55-RN-1-S-ITS_S7_L001_R2_001.fastq, processors=24, oligos=ITS.primers.UT.2017.updated.barcode)
+make.contigs(ffastq=WA-55-RN-2-S-ITS_S55_L001_R1_001.fastq, rfastq=WA-55-RN-2-S-ITS_S55_L001_R2_001.fastq, processors=24, oligos=ITS.primers.UT.2017.updated.barcode)
+make.contigs(ffastq=WA-WT-BNL-21-S-ITS_S60_L001_R1_001.fastq, rfastq=WA-WT-BNL-21-S-ITS_S60_L001_R2_001.fastq, processors=24, oligos=ITS.primers.UT.2017.updated.barcode)
+make.contigs(ffastq=WA-WT-BNL-22-S-ITS_S19_L001_R1_001.fastq, rfastq=WA-WT-BNL-22-S-ITS_S19_L001_R2_001.fastq, processors=24, oligos=ITS.primers.UT.2017.updated.barcode)
+make.contigs(ffastq=WA-WT-BNL-23-S-ITS_S67_L001_R1_001.fastq, rfastq=WA-WT-BNL-23-S-ITS_S67_L001_R2_001.fastq, processors=24, oligos=ITS.primers.UT.2017.updated.barcode)
+make.contigs(ffastq=WA132-RN-9-S-ITS_S58_L001_R1_001.fastq, rfastq=WA132-RN-9-S-ITS_S58_L001_R2_001.fastq, processors=24, oligos=ITS.primers.UT.2017.updated.barcode)
+#
+set.dir(input=/scratch/brown/will1809/Soil.mb.jn.parallel, output=/scratch/brown/will1809/Soil.mb.jn.parallel)
+rename.file(fasta=IN-130-MCB-26-S-ITS_S70_L001_R1_001.trim.contigs.fasta, group=IN-130-MCB-26-S-ITS_S70_L001_R1_001.contigs.groups, prefix=IN_130_MCB_26_S_ITS_S70_L001_R1_001)
+rename.file(fasta=IN-130-MCB-2-S-ITS_S69_L001_R1_001.trim.contigs.fasta, group=IN-130-MCB-2-S-ITS_S69_L001_R1_001.contigs.groups, prefix=IN_130_MCB_2_S_ITS_S69_L001_R1_001)
+rename.file(fasta=IN-130-MCB-9-S-ITS_S22_L001_R1_001.trim.contigs.fasta, group=IN-130-MCB-9-S-ITS_S22_L001_R1_001.contigs.groups, prefix=IN_130_MCB_9_S_ITS_S22_L001_R1_001)
+rename.file(fasta=IN-132-MCB-16-S-ITS_S23_L001_R1_001.trim.contigs.fasta, group=IN-132-MCB-16-S-ITS_S23_L001_R1_001.contigs.groups, prefix=IN_132_MCB_16_S_ITS_S23_L001_R1_001)
+rename.file(fasta=IN-132-MCB-17-S-ITS_S71_L001_R1_001.trim.contigs.fasta, group=IN-132-MCB-17-S-ITS_S71_L001_R1_001.contigs.groups, prefix=IN_132_MCB_17_S_ITS_S71_L001_R1_001)
+rename.file(fasta=IN-132-MCB-27-S-ITS_S24_L001_R1_001.trim.contigs.fasta, group=IN-132-MCB-27-S-ITS_S24_L001_R1_001.contigs.groups, prefix=IN_132_MCB_27_S_ITS_S24_L001_R1_001)
+rename.file(fasta=IN-272-MCB-10-S-ITS_S31_L001_R1_001.trim.contigs.fasta, group=IN-272-MCB-10-S-ITS_S31_L001_R1_001.contigs.groups, prefix=IN_272_MCB_10_S_ITS_S31_L001_R1_001)
+rename.file(fasta=IN-272-MCB-11-S-ITS_S79_L001_R1_001.trim.contigs.fasta, group=IN-272-MCB-11-S-ITS_S79_L001_R1_001.contigs.groups, prefix=IN_272_MCB_11_S_ITS_S79_L001_R1_001)
+rename.file(fasta=IN-272-MCB-24-S-ITS_S72_L001_R1_001.trim.contigs.fasta, group=IN-272-MCB-24-S-ITS_S72_L001_R1_001.contigs.groups, prefix=IN_272_MCB_24_S_ITS_S72_L001_R1_001)
+rename.file(fasta=IN-55-MCB-6-S-ITS_S20_L001_R1_001.trim.contigs.fasta, group=IN-55-MCB-6-S-ITS_S20_L001_R1_001.contigs.groups, prefix=IN_55_MCB_6_S_ITS_S20_L001_R1_001)
+rename.file(fasta=IN-55-MCB-7-S-ITS_S68_L001_R1_001.trim.contigs.fasta, group=IN-55-MCB-7-S-ITS_S68_L001_R1_001.contigs.groups, prefix=IN_55_MCB_7_S_ITS_S68_L001_R1_001)
+rename.file(fasta=IN-55-MCB-8-S-ITS_S21_L001_R1_001.trim.contigs.fasta, group=IN-55-MCB-8-S-ITS_S21_L001_R1_001.contigs.groups, prefix=IN_55_MCB_8_S_ITS_S21_L001_R1_001)
+rename.file(fasta=IN-WT-MCB-28-S-ITS_S32_L001_R1_001.trim.contigs.fasta, group=IN-WT-MCB-28-S-ITS_S32_L001_R1_001.contigs.groups, prefix=IN_WT_MCB_28_S_ITS_S32_L001_R1_001)
+rename.file(fasta=IN-WT-MCB-29-S-ITS_S80_L001_R1_001.trim.contigs.fasta, group=IN-WT-MCB-29-S-ITS_S80_L001_R1_001.contigs.groups, prefix=IN_WT_MCB_29_S_ITS_S80_L001_R1_001)
+rename.file(fasta=IN-WT-MCB-33-S-ITS_S33_L001_R1_001.trim.contigs.fasta, group=IN-WT-MCB-33-S-ITS_S33_L001_R1_001.contigs.groups, prefix=IN_WT_MCB_33_S_ITS_S33_L001_R1_001)
+rename.file(fasta=NTC-ITS_S96_L001_R1_001.trim.contigs.fasta, group=NTC-ITS_S96_L001_R1_001.contigs.groups, prefix=NTC_ITS_S96_L001_R1_001)
+rename.file(fasta=TN-130-A-S-ITS_S35_L001_R1_001.trim.contigs.fasta, group=TN-130-A-S-ITS_S35_L001_R1_001.contigs.groups, prefix=TN_130_A_S_ITS_S35_L001_R1_001)
+rename.file(fasta=TN-130-B-S-ITS_S83_L001_R1_001.trim.contigs.fasta, group=TN-130-B-S-ITS_S83_L001_R1_001.contigs.groups, prefix=TN_130_B_S_ITS_S83_L001_R1_001)
+rename.file(fasta=TN-130-C-S-ITS_S36_L001_R1_001.trim.contigs.fasta, group=TN-130-C-S-ITS_S36_L001_R1_001.contigs.groups, prefix=TN_130_C_S_ITS_S36_L001_R1_001)
+rename.file(fasta=TN-132-A-S-ITS_S84_L001_R1_001.trim.contigs.fasta, group=TN-132-A-S-ITS_S84_L001_R1_001.contigs.groups, prefix=TN_132_A_S_ITS_S84_L001_R1_001)
+rename.file(fasta=TN-132-B-S-ITS_S43_L001_R1_001.trim.contigs.fasta, group=TN-132-B-S-ITS_S43_L001_R1_001.contigs.groups, prefix=TN_132_B_S_ITS_S43_L001_R1_001)
+rename.file(fasta=TN-132-C-S-ITS_S91_L001_R1_001.trim.contigs.fasta, group=TN-132-C-S-ITS_S91_L001_R1_001.contigs.groups, prefix=TN_132_C_S_ITS_S91_L001_R1_001)
+rename.file(fasta=TN-272-A-S-ITS_S44_L001_R1_001.trim.contigs.fasta, group=TN-272-A-S-ITS_S44_L001_R1_001.contigs.groups, prefix=TN_272_A_S_ITS_S44_L001_R1_001)
+rename.file(fasta=TN-272-B-S-ITS_S92_L001_R1_001.trim.contigs.fasta, group=TN-272-B-S-ITS_S92_L001_R1_001.contigs.groups, prefix=TN_272_B_S_ITS_S92_L001_R1_001)
+rename.file(fasta=TN-272-C-S-ITS_S45_L001_R1_001.trim.contigs.fasta, group=TN-272-C-S-ITS_S45_L001_R1_001.contigs.groups, prefix=TN_272_C_S_ITS_S45_L001_R1_001)
+rename.file(fasta=TN-55-A-S-ITS_S81_L001_R1_001.trim.contigs.fasta, group=TN-55-A-S-ITS_S81_L001_R1_001.contigs.groups, prefix=TN_55_A_S_ITS_S81_L001_R1_001)
+rename.file(fasta=TN-55-B-S-ITS_S34_L001_R1_001.trim.contigs.fasta, group=TN-55-B-S-ITS_S34_L001_R1_001.contigs.groups, prefix=TN_55_B_S_ITS_S34_L001_R1_001)
+rename.file(fasta=TN-55-C-S-ITS_S82_L001_R1_001.trim.contigs.fasta, group=TN-55-C-S-ITS_S82_L001_R1_001.contigs.groups, prefix=TN_55_C_S_ITS_S82_L001_R1_001)
+rename.file(fasta=TN-LS-1-S-ITS_S93_L001_R1_001.trim.contigs.fasta, group=TN-LS-1-S-ITS_S93_L001_R1_001.contigs.groups, prefix=TN_LS_1_S_ITS_S93_L001_R1_001)
+rename.file(fasta=TN-LS-2-S-ITS_S46_L001_R1_001.trim.contigs.fasta, group=TN-LS-2-S-ITS_S46_L001_R1_001.contigs.groups, prefix=TN_LS_2_S_ITS_S46_L001_R1_001)
+rename.file(fasta=TN-LS-3-S-ITS_S94_L001_R1_001.trim.contigs.fasta, group=TN-LS-3-S-ITS_S94_L001_R1_001.contigs.groups, prefix=TN_LS_3_S_ITS_S94_L001_R1_001)
+rename.file(fasta=TN-WT-MB-19-S-ITS_S47_L001_R1_001.trim.contigs.fasta, group=TN-WT-MB-19-S-ITS_S47_L001_R1_001.contigs.groups, prefix=TN_WT_MB_19_S_ITS_S47_L001_R1_001)
+rename.file(fasta=TN-WT-MB-20-S-ITS_S95_L001_R1_001.trim.contigs.fasta, group=TN-WT-MB-20-S-ITS_S95_L001_R1_001.contigs.groups, prefix=TN_WT_MB_20_S_ITS_S95_L001_R1_001)
+rename.file(fasta=TN-WT-MB-21-S-ITS_S48_L001_R1_001.trim.contigs.fasta, group=TN-WT-MB-21-S-ITS_S48_L001_R1_001.contigs.groups, prefix=TN_WT_MB_21_S_ITS_S48_L001_R1_001)
+rename.file(fasta=WA130-BNL-20-S-ITS_S9_L001_R1_001.trim.contigs.fasta, group=WA130-BNL-20-S-ITS_S9_L001_R1_001.contigs.groups, prefix=WA130_BNL_20_S_ITS_S9_L001_R1_001)
+rename.file(fasta=WA-130-RN-4-S-ITS_S56_L001_R1_001.trim.contigs.fasta, group=WA-130-RN-4-S-ITS_S56_L001_R1_001.contigs.groups, prefix=WA_130_RN_4_S_ITS_S56_L001_R1_001)
+rename.file(fasta=WA132-RN-7-S-ITS_S57_L001_R1_001.trim.contigs.fasta, group=WA132-RN-7-S-ITS_S57_L001_R1_001.contigs.groups, prefix=WA132_RN_7_S_ITS_S57_L001_R1_001)
+rename.file(fasta=WA132-RN-8-S-ITS_S10_L001_R1_001.trim.contigs.fasta, group=WA132-RN-8-S-ITS_S10_L001_R1_001.contigs.groups, prefix=WA132_RN_8_S_ITS_S10_L001_R1_001)
+rename.file(fasta=WA272-BNL-17-S-ITS_S59_L001_R1_001.trim.contigs.fasta, group=WA272-BNL-17-S-ITS_S59_L001_R1_001.contigs.groups, prefix=WA272_BNL_17_S_ITS_S59_L001_R1_001)
+rename.file(fasta=WA272-BNL-18-S-ITS_S12_L001_R1_001.trim.contigs.fasta, group=WA272-BNL-18-S-ITS_S12_L001_R1_001.contigs.groups, prefix=WA272_BNL_18_S_ITS_S12_L001_R1_001)
+rename.file(fasta=WA272-RN-10-S-ITS_S11_L001_R1_001.trim.contigs.fasta, group=WA272-RN-10-S-ITS_S11_L001_R1_001.contigs.groups, prefix=WA272_RN_10_S_ITS_S11_L001_R1_001)
+rename.file(fasta=WA-55-BNL-19-S-ITS_S8_L001_R1_001.trim.contigs.fasta, group=WA-55-BNL-19-S-ITS_S8_L001_R1_001.contigs.groups, prefix=WA_55_BNL_19_S_ITS_S8_L001_R1_001)
+rename.file(fasta=WA-55-RN-1-S-ITS_S7_L001_R1_001.trim.contigs.fasta, group=WA-55-RN-1-S-ITS_S7_L001_R1_001.contigs.groups, prefix=WA_55_RN_1_S_ITS_S7_L001_R1_001)
+rename.file(fasta=WA-55-RN-2-S-ITS_S55_L001_R1_001.trim.contigs.fasta, group=WA-55-RN-2-S-ITS_S55_L001_R1_001.contigs.groups, prefix=WA_55_RN_2_S_ITS_S55_L001_R1_001)
+rename.file(fasta=WA-WT-BNL-21-S-ITS_S60_L001_R1_001.trim.contigs.fasta, group=WA-WT-BNL-21-S-ITS_S60_L001_R1_001.contigs.groups, prefix=WA_WT_BNL_21_S_ITS_S60_L001_R1_001)
+rename.file(fasta=WA-WT-BNL-22-S-ITS_S19_L001_R1_001.trim.contigs.fasta, group=WA-WT-BNL-22-S-ITS_S19_L001_R1_001.contigs.groups, prefix=WA_WT_BNL_22_S_ITS_S19_L001_R1_001)
+rename.file(fasta=WA-WT-BNL-23-S-ITS_S67_L001_R1_001.trim.contigs.fasta, group=WA-WT-BNL-23-S-ITS_S67_L001_R1_001.contigs.groups, prefix=WA_WT_BNL_23_S_ITS_S67_L001_R1_001)
+rename.file(fasta=WA132-RN-9-S-ITS_S58_L001_R1_001.trim.contigs.fasta, group=WA132-RN-9-S-ITS_S58_L001_R1_001.contigs.groups, prefix=WA132_RN_9_S_ITS_S58_L001_R1_001)
+make.group(fasta=IN_130_MCB_26_S_ITS_S70_L001_R1_001.fasta-IN_130_MCB_2_S_ITS_S69_L001_R1_001.fasta-IN_130_MCB_9_S_ITS_S22_L001_R1_001.fasta-IN_132_MCB_16_S_ITS_S23_L001_R1_001.fasta-IN_132_MCB_17_S_ITS_S71_L001_R1_001.fasta-IN_132_MCB_27_S_ITS_S24_L001_R1_001.fasta-IN_272_MCB_10_S_ITS_S31_L001_R1_001.fasta-IN_272_MCB_11_S_ITS_S79_L001_R1_001.fasta-IN_272_MCB_24_S_ITS_S72_L001_R1_001.fasta-IN_55_MCB_6_S_ITS_S20_L001_R1_001.fasta-IN_55_MCB_7_S_ITS_S68_L001_R1_001.fasta-IN_55_MCB_8_S_ITS_S21_L001_R1_001.fasta-IN_WT_MCB_28_S_ITS_S32_L001_R1_001.fasta-IN_WT_MCB_29_S_ITS_S80_L001_R1_001.fasta-IN_WT_MCB_33_S_ITS_S33_L001_R1_001.fasta-NTC_ITS_S96_L001_R1_001.fasta-TN_130_A_S_ITS_S35_L001_R1_001.fasta-TN_130_B_S_ITS_S83_L001_R1_001.fasta-TN_130_C_S_ITS_S36_L001_R1_001.fasta-TN_132_A_S_ITS_S84_L001_R1_001.fasta-TN_132_B_S_ITS_S43_L001_R1_001.fasta-TN_132_C_S_ITS_S91_L001_R1_001.fasta-TN_272_A_S_ITS_S44_L001_R1_001.fasta-TN_272_B_S_ITS_S92_L001_R1_001.fasta-TN_272_C_S_ITS_S45_L001_R1_001.fasta-TN_55_A_S_ITS_S81_L001_R1_001.fasta-TN_55_B_S_ITS_S34_L001_R1_001.fasta-TN_55_C_S_ITS_S82_L001_R1_001.fasta-TN_LS_1_S_ITS_S93_L001_R1_001.fasta-TN_LS_2_S_ITS_S46_L001_R1_001.fasta-TN_LS_3_S_ITS_S94_L001_R1_001.fasta-TN_WT_MB_19_S_ITS_S47_L001_R1_001.fasta-TN_WT_MB_20_S_ITS_S95_L001_R1_001.fasta-TN_WT_MB_21_S_ITS_S48_L001_R1_001.fasta-WA130_BNL_20_S_ITS_S9_L001_R1_001.fasta-WA132_RN_7_S_ITS_S57_L001_R1_001.fasta-WA132_RN_8_S_ITS_S10_L001_R1_001.fasta-WA272_BNL_17_S_ITS_S59_L001_R1_001.fasta-WA272_BNL_18_S_ITS_S12_L001_R1_001.fasta-WA272_RN_10_S_ITS_S11_L001_R1_001.fasta-WA_55_BNL_19_S_ITS_S8_L001_R1_001.fasta-WA_55_RN_1_S_ITS_S7_L001_R1_001.fasta-WA_55_RN_2_S_ITS_S55_L001_R1_001.fasta-WA_WT_BNL_21_S_ITS_S60_L001_R1_001.fasta-WA_WT_BNL_22_S_ITS_S19_L001_R1_001.fasta-WA_WT_BNL_23_S_ITS_S67_L001_R1_001.fasta-WA132_RN_9_S_ITS_S58_L001_R1_001.fasta, groups=IN_130_MCB_26_S_ITS_S70-IN_130_MCB_2_S_ITS_S69-IN_130_MCB_9_S_ITS_S22-IN_132_MCB_16_S_ITS_S23-IN_132_MCB_17_S_ITS_S71-IN_132_MCB_27_S_ITS_S24-IN_272_MCB_10_S_ITS_S31-IN_272_MCB_11_S_ITS_S79-IN_272_MCB_24_S_ITS_S72-IN_55_MCB_6_S_ITS_S20-IN_55_MCB_7_S_ITS_S68-IN_55_MCB_8_S_ITS_S21-IN_WT_MCB_28_S_ITS_S32-IN_WT_MCB_29_S_ITS_S80-IN_WT_MCB_33_S_ITS_S33-NTC_ITS_S96-TN_130_A_S_ITS_S35-TN_130_B_S_ITS_S83-TN_130_C_S_ITS_S36-TN_132_A_S_ITS_S84-TN_132_B_S_ITS_S43-TN_132_C_S_ITS_S91-TN_272_A_S_ITS_S44-TN_272_B_S_ITS_S92-TN_272_C_S_ITS_S45-TN_55_A_S_ITS_S81-TN_55_B_S_ITS_S34-TN_55_C_S_ITS_S82-TN_LS_1_S_ITS_S93-TN_LS_2_S_ITS_S46-TN_LS_3_S_ITS_S94-TN_WT_MB_19_S_ITS_S47-TN_WT_MB_20_S_ITS_S95-TN_WT_MB_21_S_ITS_S48-WA130_BNL_20_S_ITS_S9-WA132_RN_7_S_ITS_S57-WA132_RN_8_S_ITS_S10-WA272_BNL_17_S_ITS_S59-WA272_BNL_18_S_ITS_S12-WA272_RN_10_S_ITS_S11-WA_55_BNL_19_S_ITS_S8-WA_55_RN_1_S_ITS_S7-WA_55_RN_2_S_ITS_S55-WA_WT_BNL_21_S_ITS_S60-WA_WT_BNL_22_S_ITS_S19-WA_WT_BNL_23_S_ITS_S67-WA132_RN_9_S_ITS_S58)
+merge.files(input=WA132_RN_9_S_ITS_S58_L001_R1_001.fasta-IN_130_MCB_26_S_ITS_S70_L001_R1_001.fasta-IN_130_MCB_2_S_ITS_S69_L001_R1_001.fasta-IN_130_MCB_9_S_ITS_S22_L001_R1_001.fasta-IN_132_MCB_16_S_ITS_S23_L001_R1_001.fasta-IN_132_MCB_17_S_ITS_S71_L001_R1_001.fasta-IN_132_MCB_27_S_ITS_S24_L001_R1_001.fasta-IN_272_MCB_10_S_ITS_S31_L001_R1_001.fasta-IN_272_MCB_11_S_ITS_S79_L001_R1_001.fasta-IN_272_MCB_24_S_ITS_S72_L001_R1_001.fasta-IN_55_MCB_6_S_ITS_S20_L001_R1_001.fasta-IN_55_MCB_7_S_ITS_S68_L001_R1_001.fasta-IN_55_MCB_8_S_ITS_S21_L001_R1_001.fasta-IN_WT_MCB_28_S_ITS_S32_L001_R1_001.fasta-IN_WT_MCB_29_S_ITS_S80_L001_R1_001.fasta-IN_WT_MCB_33_S_ITS_S33_L001_R1_001.fasta-NTC_ITS_S96_L001_R1_001.fasta-TN_130_A_S_ITS_S35_L001_R1_001.fasta-TN_130_B_S_ITS_S83_L001_R1_001.fasta-TN_130_C_S_ITS_S36_L001_R1_001.fasta-TN_132_A_S_ITS_S84_L001_R1_001.fasta-TN_132_B_S_ITS_S43_L001_R1_001.fasta-TN_132_C_S_ITS_S91_L001_R1_001.fasta-TN_272_A_S_ITS_S44_L001_R1_001.fasta-TN_272_B_S_ITS_S92_L001_R1_001.fasta-TN_272_C_S_ITS_S45_L001_R1_001.fasta-TN_55_A_S_ITS_S81_L001_R1_001.fasta-TN_55_B_S_ITS_S34_L001_R1_001.fasta-TN_55_C_S_ITS_S82_L001_R1_001.fasta-TN_LS_1_S_ITS_S93_L001_R1_001.fasta-TN_LS_2_S_ITS_S46_L001_R1_001.fasta-TN_LS_3_S_ITS_S94_L001_R1_001.fasta-TN_WT_MB_19_S_ITS_S47_L001_R1_001.fasta-TN_WT_MB_20_S_ITS_S95_L001_R1_001.fasta-TN_WT_MB_21_S_ITS_S48_L001_R1_001.fasta-WA130_BNL_20_S_ITS_S9_L001_R1_001.fasta-WA132_RN_7_S_ITS_S57_L001_R1_001.fasta-WA132_RN_8_S_ITS_S10_L001_R1_001.fasta-WA272_BNL_17_S_ITS_S59_L001_R1_001.fasta-WA272_BNL_18_S_ITS_S12_L001_R1_001.fasta-WA272_RN_10_S_ITS_S11_L001_R1_001.fasta-WA_55_BNL_19_S_ITS_S8_L001_R1_001.fasta-WA_55_RN_1_S_ITS_S7_L001_R1_001.fasta-WA_55_RN_2_S_ITS_S55_L001_R1_001.fasta-WA_WT_BNL_21_S_ITS_S60_L001_R1_001.fasta-WA_WT_BNL_22_S_ITS_S19_L001_R1_001.fasta-WA_WT_BNL_23_S_ITS_S67_L001_R1_001.fasta, output=soil.mb.demulti.fasta)
+merge.files(input=WA132_RN_9_S_ITS_S58_L001_R1_001.groups-IN_130_MCB_26_S_ITS_S70_L001_R1_001.groups-IN_130_MCB_2_S_ITS_S69_L001_R1_001.groups-IN_130_MCB_9_S_ITS_S22_L001_R1_001.groups-IN_132_MCB_16_S_ITS_S23_L001_R1_001.groups-IN_132_MCB_17_S_ITS_S71_L001_R1_001.groups-IN_132_MCB_27_S_ITS_S24_L001_R1_001.groups-IN_272_MCB_10_S_ITS_S31_L001_R1_001.groups-IN_272_MCB_11_S_ITS_S79_L001_R1_001.groups-IN_272_MCB_24_S_ITS_S72_L001_R1_001.groups-IN_55_MCB_6_S_ITS_S20_L001_R1_001.groups-IN_55_MCB_7_S_ITS_S68_L001_R1_001.groups-IN_55_MCB_8_S_ITS_S21_L001_R1_001.groups-IN_WT_MCB_28_S_ITS_S32_L001_R1_001.groups-IN_WT_MCB_29_S_ITS_S80_L001_R1_001.groups-IN_WT_MCB_33_S_ITS_S33_L001_R1_001.groups-NTC_ITS_S96_L001_R1_001.groups-TN_130_A_S_ITS_S35_L001_R1_001.groups-TN_130_B_S_ITS_S83_L001_R1_001.groups-TN_130_C_S_ITS_S36_L001_R1_001.groups-TN_132_A_S_ITS_S84_L001_R1_001.groups-TN_132_B_S_ITS_S43_L001_R1_001.groups-TN_132_C_S_ITS_S91_L001_R1_001.groups-TN_272_A_S_ITS_S44_L001_R1_001.groups-TN_272_B_S_ITS_S92_L001_R1_001.groups-TN_272_C_S_ITS_S45_L001_R1_001.groups-TN_55_A_S_ITS_S81_L001_R1_001.groups-TN_55_B_S_ITS_S34_L001_R1_001.groups-TN_55_C_S_ITS_S82_L001_R1_001.groups-TN_LS_1_S_ITS_S93_L001_R1_001.groups-TN_LS_2_S_ITS_S46_L001_R1_001.groups-TN_LS_3_S_ITS_S94_L001_R1_001.groups-TN_WT_MB_19_S_ITS_S47_L001_R1_001.groups-TN_WT_MB_20_S_ITS_S95_L001_R1_001.groups-TN_WT_MB_21_S_ITS_S48_L001_R1_001.groups-WA130_BNL_20_S_ITS_S9_L001_R1_001.groups-WA132_RN_7_S_ITS_S57_L001_R1_001.groups-WA132_RN_8_S_ITS_S10_L001_R1_001.groups-WA272_BNL_17_S_ITS_S59_L001_R1_001.groups-WA272_BNL_18_S_ITS_S12_L001_R1_001.groups-WA272_RN_10_S_ITS_S11_L001_R1_001.groups-WA_55_BNL_19_S_ITS_S8_L001_R1_001.groups-WA_55_RN_1_S_ITS_S7_L001_R1_001.groups-WA_55_RN_2_S_ITS_S55_L001_R1_001.groups-WA_WT_BNL_21_S_ITS_S60_L001_R1_001.groups-WA_WT_BNL_22_S_ITS_S19_L001_R1_001.groups-WA_WT_BNL_23_S_ITS_S67_L001_R1_001.groups, output=soil.mb.demulti.groups)
+remove.groups(group=soil.mb.demulti.groups, groups=ITS1, fasta=soil.mb.demulti.fasta)
+rename.file(fasta=soil.mb.demulti.pick.fasta, group=soil.mb.demulti.pick.groups, prefix=soil.mb.its2)
+remove.groups(group=soil.mb.demulti.groups, groups=ITS2.1-ITS2.2-ITS2.3-ITS2.4-ITS2.5-ITS2.10-ITS2.1.arch-ITS2.2.arch-ITS2.3.arch-ITS2.4.arch-ITS2.5.arch-ITS2.10.arch, fasta=soil.mb.demulti.fasta)
+rename.file(fasta=soil.mb.demulti.pick.fasta, group=soil.mb.demulti.pick.groups, prefix=soil.mb.its1)
+#
+#
+### ITS2 ANALYSIS
+#
+screen.seqs(fasta=soil.mb.its2.fasta, maxambig=0, minlength=50, maxlength=450, maxhomop=10)
+remove.seqs(accnos=soil.mb.its2.bad.accnos, group=merge.groups)
+rename.file(group=merge.pick.groups, prefix=soil.its2.good)
+#
+summary.seqs(fasta=soil.mb.its2.good.fasta, processors=24)
+#
+#
+# work with unique seqs
+#
+unique.seqs(fasta=current)
+#
+# column one = how many its looked at
+# column two = how many are unique to that point
+#
+# names file
+# group file
+#
+# count number of times each seq is seen in each sample
+#
+count.seqs(name=current, group=soil.its2.good.groups)
+#
+summary.seqs(count=current)
+#
+# merge rare with abundant seqs that contain 2 or fewer base differences
+#
+pre.cluster(count=current, fasta=current, diffs=2, processors=24)
+#
+summary.seqs(fasta=current, count=current)
+#
+########
+# remove chimeras
+# treat each sample as a separate entity
+# chimeras only exist within samples (not across samples)
+# hence, dereplicate = T
+##########################
+#
+chimera.vsearch(fasta=current, count=current, dereplicate=T)
+#
+#
+# updated count table that removed chimeras
+# accnos for seqs flagged as chimeras
+#
+# remove seqs from fasta file
+# accnos = accession numbers generated from chimera.vsearch
+#
+remove.seqs(fasta=current, accnos=soil.mb.its2.good.unique.precluster.denovo.vsearch.accnos)
+#
+summary.seqs(fasta=current, count=current, processors=24)
+#
+#### CLASSIFICATION
+#### Naive Bayesian classifier
+#
+classify.seqs(fasta=current, count=current, reference=UNITEv8_sh_99Jn.fasta, taxonomy=UNITEv8_sh_99Jn.tax, processors=24)
+#
+### REMOVE CONTAMINANTS (E.G. PLANTS, ETC.)
+### concat taxa with hyphens
+#
+remove.lineage(fasta=current, count=current, taxonomy=current, taxon=Juglans-unknown-unclassified_Fungi-Fungi_unclassified)
+#
+count.groups(count=current)
+#
+# generate distance matrix for use in the opticlust algorithm
+# for ITS, without alignment, could use pairwise.seqs
+#
+pairwise.seqs(fasta=current, cutoff=0.02, processors=24)
+#
+# feed distance matrix into cluster command
+#
+cluster(column=current, count=current, cutoff=0.02)
+#
+# merge count data with cluster data
+#
+make.shared(list=current, count=current, label=0.02)
+#
+# output ends in .shared
+# current count goes back to output from remove.groups()
+#
+classify.otu(list=current, count=current, taxonomy=current)
+#
+rename.file(fasta=current, count=current, shared=current, taxonomy=current, prefix=Soil.ITS2.jn.Oct2019)
+#
+count.groups(shared=Soil.ITS2.jn.Oct2019.opti_mcc.shared)
+#
+## rarefaction curve
+## will skip every 100 curves
+#
+rarefaction.shared(shared=Soil.ITS2.jn.Oct2019.opti_mcc.shared)
+#
+rarefaction.single(shared=Soil.ITS2.jn.Oct2019.opti_mcc.shared, calc=sobs, freq=100, processors=24)
+#
+# does all possible rarefactions
+# many NAs because different depths of coverage
+#
+summary.single(shared=Soil.ITS2.jn.Oct2019.opti_mcc.shared, calc=sobs-chao-coverage-invsimpson-shannon-nseqs, subsample=T)
+#
+#sub.sample(shared=Soil.ITS2.jn.Oct2019.opti_mcc.shared, size=28000)
+####
+####
+## ITS1 Analysis
+#
+screen.seqs(fasta=soil.mb.its1.fasta, maxambig=0, minlength=50, maxlength=450, maxhomop=10)
+remove.seqs(accnos=soil.mb.its1.bad.accnos, group=merge.groups)
+rename.file(group=merge.pick.groups, prefix=its1.soil.good)
+summary.seqs(fasta=soil.mb.its1.good.fasta, processors=24)
+unique.seqs(fasta=current)
+count.seqs(name=current, group=its1.soil.good.groups)
+summary.seqs(count=current)
+pre.cluster(count=current, fasta=current, diffs=2, processors=24)
+summary.seqs(fasta=current, count=current)
+chimera.vsearch(fasta=current, count=current, dereplicate=T)
+remove.seqs(fasta=current, accnos=soil.mb.its1.good.unique.precluster.denovo.vsearch.accnos)
+classify.seqs(fasta=current, count=current, reference=UNITEv8_sh_99Jn.fasta, taxonomy=UNITEv8_sh_99Jn.tax, processors=24)
+remove.lineage(fasta=current, count=current, taxonomy=current, taxon=Juglans-unknown-unclassified_Fungi-Fungi_unclassified)
+count.groups(count=current)
+pairwise.seqs(fasta=current, cutoff=0.02, processors=24)
+cluster(column=current, count=current, cutoff=0.02)
+make.shared(list=current, count=current, label=0.02)
+classify.otu(list=current, count=current, taxonomy=current)
+rename.file(fasta=current, count=current, shared=current, taxonomy=current, prefix=Soil.ITS1.jn.Oct2019)
+count.groups(shared=Soil.ITS1.jn.Oct2019.opti_mcc.shared)
+rarefaction.shared(shared=Soil.ITS1.jn.Oct2019.opti_mcc.shared)
+rarefaction.single(shared=Soil.ITS1.jn.Oct2019.opti_mcc.shared, calc=sobs, freq=100, processors=24)
+summary.single(shared=Soil.ITS1.jn.Oct2019.opti_mcc.shared, calc=sobs-chao-coverage-invsimpson-shannon-nseqs, subsample=T)
+#sub.sample(shared=Soil.ITS1.jn.Oct2019.opti_mcc.shared, size=28000)
+quit()

@@ -1,0 +1,37 @@
+#
+set.dir(input=/scratch/brown/will1809/Phyllo.mb.jn.parallel, output=/scratch/brown/will1809/Phyllo.mb.jn.parallel)
+get.groups(shared=Phyllo.ITS1.jn.Oct2019.opti_mcc.shared, groups=IN_130_MCB_2_S50_L001_R1-IN_130_MCB_9_S58_L001_R1-IN_132_MCB_16_S74_L001_R1-IN_132_MCB_17_S82_L001_R1-IN_132_MCB_27_S90_L001_R1-IN_272_MCB_10_S3_L001_R1-IN_272_MCB_24_S42_L001_R1-IN_55_MCB_6_S18_L001_R1-IN_55_MCB_8_S34_L001_R1-IN_WT_MCB_29_S27_L001_R1-TN_130_B_S83_L001_R1_001-TN_130_C_S91_L001_R1_001-TN_132_A_S43_L001_R1_001-TN_132_B_S4_L001_R1_001-TN_132_C_S12_L001_R1_001-TN_272_A_S20_L001_R1_001-TN_272_C_S36_L001_R1_001-TN_55_A_S51_L001_R1_001-TN_55_B_S59_L001_R1_001-TN_LS_1_S52_L001_R1_001-TN_LS_2_S60_L001_R1_001-TN_WT_MB_19_S76_L001_R1-TN_WT_MB_20_S84_L001_R1-TN_WT_MB_21_S92_L001_R1-WA130_BNL_20_S33_L001_R1_001-WA132_RN_7_S49_L001_R1_001-WA132_RN_9_S65_L001_R1_001-WA272_BNL_17_S81_L001_R1_001-WA272_BNL_18_S89_L001_R1_001-WA272_RN_10_S73_L001_R1_001-WA_130_RN_4_S25_L001_R1-WA_55_BNL_19_S17_L001_R1-WA_55_RN_1_S1_L001_R1-WA_55_RN_2_S9_L001_R1-WA_WT_BNL_22_S2_L001_R1)
+rename.file(input=Phyllo.ITS1.jn.Oct2019.opti_mcc.0.02.pick.shared, new=Phyllo.ITS1.jn.Oct2019.opti_mcc.leaves.shared)
+#
+get.groups(shared=Phyllo.ITS1.jn.Oct2019.opti_mcc.shared, groups=IN_MCB10_272s_S46_L001_R1_001-IN_MCB11_272s_S7_L001_R1_001-IN_MCB16_132s_S70_L001_R1_001-IN_MCB17_132s_S78_L001_R1_001-IN_MCB24_272s_S94_L001_R1_001-IN_MCB26_130s_S62_L001_R1_001-IN_MCB27_132s_S86_L001_R1_001-IN_MCB28_WTs_S15_L001_R1_001-IN_MCB2_130s_S38_L001_R1_001-IN_MCB6_55s_S14_L001_R1_001-IN_MCB7_55s_S22_L001_R1_001-IN_MCB8_55s_S30_L001_R1_001-IN_MCB9_130s_S54_L001_R1_001-IN_WT_MCB_29s_S23_L001_R1-IN_WT_MCB_33s_S31_L001_R1-TN_130_As_S71_L001_R1_001-TN_130_Bs_S79_L001_R1_001-TN_130_Cs_S87_L001_R1_001-TN_132_As_S95_L001_R1_001-TN_132_Bs_S47_L001_R1_001-TN_132_Cs_S8_L001_R1_001-TN_272_As_S16_L001_R1_001-TN_272_Bs_S24_L001_R1_001-TN_272_Cs_S32_L001_R1_001-TN_55_As_S39_L001_R1_001-TN_55_Bs_S55_L001_R1_001-TN_55_Cs_S63_L001_R1_001-TN_LS_1s_S40_L001_R1_001-TN_LS_2s_S56_L001_R1_001-TN_LS_3s_S64_L001_R1_001-TN_WT_MB_19s_S72_L001_R1-TN_WT_MB_20s_S80_L001_R1-TN_WT_MB_21s_S88_L001_R1-WA_BNL17_272s_S77_L001_R1_001-WA_BNL18_272s_S85_L001_R1_001-WA_BNL19_55s_S13_L001_R1_001-WA_BNL20_130s_S29_L001_R1_001-WA_BNL21_WTs_S93_L001_R1_001-WA_BNL22_WTs_S45_L001_R1_001-WA_BNL23_WTs_S6_L001_R1_001-WA_RN10_272s_S69_L001_R1_001-WA_RN1_55s_S44_L001_R1_001-WA_RN2_55s_S5_L001_R1_001-WA_RN4_130s_S21_L001_R1_001-WA_RN7_132s_S37_L001_R1_001-WA_RN8_132s_S53_L001_R1_001-WA_RN9_132s_S61_L001_R1_001)
+rename.file(input=Phyllo.ITS1.jn.Oct2019.opti_mcc.0.02.pick.shared, new=Phyllo.ITS1.jn.Oct2019.opti_mcc.branch.shared)
+#
+## rarefaction curve
+## will skip every 100 curves
+#
+# ITS1 Branches
+#
+rarefaction.shared(shared=Phyllo.ITS1.jn.Oct2019.opti_mcc.branch.shared)
+#
+rarefaction.single(shared=Phyllo.ITS1.jn.Oct2019.opti_mcc.branch.shared, calc=sobs, freq=100, processors=24)
+#
+# does all possible rarefactions
+# many NAs because different depths of coverage
+#
+summary.single(shared=Phyllo.ITS1.jn.Oct2019.opti_mcc.branch.shared, calc=sobs-chao-coverage-invsimpson-shannon-nseqs, subsample=T)
+#
+#sub.sample(shared=Phyllo.ITS1.jn.Oct2019.opti_mcc.branch.shared, size=)
+#
+# ITS1 Leaves
+#
+rarefaction.shared(shared=Phyllo.ITS1.jn.Oct2019.opti_mcc.leaves.shared)
+#
+rarefaction.single(shared=Phyllo.ITS1.jn.Oct2019.opti_mcc.leaves.shared, calc=sobs, freq=100, processors=24)
+#
+# does all possible rarefactions
+# many NAs because different depths of coverage
+#
+summary.single(shared=Phyllo.ITS1.jn.Oct2019.opti_mcc.leaves.shared, calc=sobs-chao-coverage-invsimpson-shannon-nseqs, subsample=T)
+#
+#sub.sample(shared=Phyllo.ITS1.jn.Oct2019.opti_mcc.leaves.shared, size=)
+quit()
