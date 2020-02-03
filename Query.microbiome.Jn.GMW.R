@@ -38,10 +38,10 @@ load("R_Environments/Jnigra.microbiome.merged.WilliamsOnufrak.RData")
 
 #Correlated OTUs to G. morbida in network analysis
 
-gm.correlations(shavings.merge, 0.005, 0.6)
-gm.correlations(shavings.merge, 0.05, 0.8)
-gm.correlations(shavings.merge, 0.01, 0.8)
-gm.correlations(shavings.merge, 0.005, 0.8)
+gm.correlations(shavings.merge, 0.005, 0.6) %>% write.table("Net.analysis/Gm.corrOTUs.shavings.p0.005.r0.6.tsv", quote=F, sep="	", row.names=T)
+gm.correlations(shavings.merge, 0.05, 0.8)  %>% write.table("Net.analysis/Gm.corrOTUs.shavings.p0.05.r0.8.tsv", quote=F, sep="	", row.names=T)
+gm.correlations(shavings.merge, 0.01, 0.8)  %>% write.table("Net.analysis/Gm.corrOTUs.shavings.p0.01.r0.8.tsv", quote=F, sep="	", row.names=T)
+gm.correlations(shavings.merge, 0.005, 0.8) %>% write.table("Net.analysis/Gm.corrOTUs.shavings.p0.005.r0.8.tsv", quote=F, sep="	", row.names=T)
 
 # Analysis of relationship between Gm sequence abundance and some other taxa of interest
 
