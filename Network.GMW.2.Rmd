@@ -1,0 +1,294 @@
+---
+title: "Network Analysis with Juglans nigra microbiome"
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r, include=FALSE, cache=T}
+setwd("/Users/will1809/OneDrive - purdue.edu/TCD microbiome spring 2017/Aaron Manuscript/Geoff_Final_RFiles/Juglans.microbiome.github")
+```
+
+## R Packages
+
+```{r Packages, eval=T, message=F}
+library(tidyverse)
+library(Hmisc)
+library(MASS)
+library(igraph)
+library(tidygraph)
+library(ggraph)
+library(gridExtra)
+library(phyloseq)
+```
+
+## Project Summary
+
+This script performs network analysis of plant microbiomes sensu (citation) for the caulosphere of samples of Thousand Canker Disease-symptomatic Juglans nigra from Walla Walla, Washington. The analysis is completed in several steps. In the final analysis, we would loop this through all three states (IN, TN, and WA) that we included in our analysis, but here, for the sake of brevity, we have shortened the script to just WA.
+
+First, we need to load in data and create an OTU table coded by state (IN, TN, and WA)
+
+```{r, eval=F}
+# Load in the data and create a dataframe called shavings.merge.df out of the OTU table
+load("R_Environments/Jnigra.microbiome.merged.WilliamsOnufrak.RData")
+shavings.merge.df <- otu_table(shavings.merge) %>% t() %>% as.data.frame()
+
+state.f <- regmatches(row.names(shavings.merge.df), regexpr("(IN|TN|WA)", row.names(shavings.merge.df), perl=T))
+
+cur.s <- "WA"
+```
+
+## Correlation networks
+
+Network analysis of the microbiome, or of many other types of associations, is based on a network of relationships or associations. In this case, we want to pull out all the significant correlations between individual pairs of bacterial and fungal OTUs. However, the significance and strength of the correlations may vary, so as we change our threshholds for which relationships we want to include in our network, we may obtain different results. To increase the robustness of our inferences from network analysis, we will use Spearman rank correlations to create networks of correlations at many different cutoffs for p-value and Spearman's coefficient (r). However, first we need to remove superfluous data, so we selected an arbitrary requirement that an OTU must occur in at least three samples to be included in the study.
+
+```{r, eval=F}
+## select only those OTUS that occur in WA/IN/TN at least 1 time in at least 3 samples
+## store in xx which columns (OTUs) we want to pull from shavings.merge.df for analysis.
+xx <- sapply(1:dim(shavings.merge.df)[2], FUN= function (x) sum( shavings.merge.df[state.f==cur.s, x] > 0 ) > 3)
+
+### Make a Spearman rank correlation table with merged shavings data for state = cur.s (WA)
+### and OTUs that occur at least 3 times (xx). This is analagous to a distance matrix.
+r_otu.all <- rcorr(as.matrix(shavings.merge.df[state.f==cur.s,xx]), type='spearman')
+
+### We only want part of this table (we don't need both directions)
+### so we use the upper.tri function to take just half the table.
+triangle <- upper.tri(r_otu.all$r,diag=T)
+  r_otu.all$r[triangle] <- NA
+  r_otu.all$P[triangle] <- NA
+
+### Use the `melt()` function to turns the ordered dataframe into a new data frame that represents the value in each column as a new row so that each row represents an individual observation. This transforms our upper triangle of our  matrix and outputs each pairwise correlation as a row. We use na.rm to ignore the NAs that we put in the lower triangle.
+r.otus <-reshape2::melt(r_otu.all$r, na.rm=T, value.name="r")
+p.otus <-reshape2::melt(r_otu.all$P, na.rm=T, value.name="p")
+
+## Now we make a new data frame that includes the names and r values, and p values for each OTU-OTU relationship.
+## Next, we make a new column specifying if the correlation was negative (0) or positive (1)
+cyto.unlisted.all <- cbind(r.otus, data.frame(p=p.otus$p))
+cyto.unlisted.all$r.sign <- as.numeric(cyto.unlisted.all$r > 0)
+
+```
+
+Now that we have our list of correlation statistics, we are going to create individual correlation networks for different p- and r-value cutoff combinations. Based on the size of the resulting OTU network, we chose 0.6 and 0.8 for our Spearman's r cutoffs and 0.05, 0.01, 0.005, and 0.001 for the p-value cutoffs. Each network is stored in a table for future use (e.g. plotting and downstream analysis).
+
+```{r, eval=F}
+setwd(paste("./Net.analysis/CorrNetworks.", cur.s, sep=""))
+library(tidyverse)
+# correlation networks
+cyto.unlisted.all[cyto.unlisted.all$p < 0.05 & abs(cyto.unlisted.all$r) > 0.6,] %>% write.table(., 'cyto.shavings.merged.p.0.05.r.0.6.txt', quote=F, sep="	", row.names=F)
+cyto.unlisted.all[cyto.unlisted.all$p < 0.05 & abs(cyto.unlisted.all$r) > 0.8,] %>% write.table(., 'cyto.shavings.merged.p.0.05.r.0.8.txt', quote=F, sep="	", row.names=F)
+cyto.unlisted.all[cyto.unlisted.all$p < 0.01 & abs(cyto.unlisted.all$r) > 0.6,] %>% write.table(., 'cyto.shavings.merged.p.0.01.r.0.6.txt', quote=F, sep="	", row.names=F)
+cyto.unlisted.all[cyto.unlisted.all$p < 0.01 & abs(cyto.unlisted.all$r) > 0.8,] %>% write.table(., 'cyto.shavings.merged.p.0.01.r.0.8.txt', quote=F, sep="	", row.names=F)
+cyto.unlisted.all[cyto.unlisted.all$p < 0.005 & abs(cyto.unlisted.all$r) > 0.6,] %>% write.table(., 'cyto.shavings.merged.p.0.005.r.0.6.txt', quote=F, sep="	", row.names=F)
+cyto.unlisted.all[cyto.unlisted.all$p < 0.005 & abs(cyto.unlisted.all$r) > 0.8,] %>% write.table(., 'cyto.shavings.merged.p.0.005.r.0.8.txt', quote=F, sep="	", row.names=F)
+cyto.unlisted.all[cyto.unlisted.all$p < 0.001 & abs(cyto.unlisted.all$r) > 0.6,] %>% write.table(., 'cyto.shavings.merged.p.0.001.r.0.6.txt', quote=F, sep="	", row.names=F)
+cyto.unlisted.all[cyto.unlisted.all$p < 0.001 & abs(cyto.unlisted.all$r) > 0.8,] %>% write.table(., 'cyto.shavings.merged.p.0.001.r.0.8.txt', quote=F, sep="	", row.names=F)
+```
+
+It is important to bear in mind here that these cutoffs are arbitrarily chosen to give a tractable dataset for network analysis. To give some idea of the size of these networks, we can pass them to the `dim` function to see how many rows (e.g., significant relationships) we were saving in each network.
+
+```{r, eval=F, message=F}
+setwd(paste("./Net.analysis/CorrNetworks.", cur.s, sep=""))
+library(tidyverse)
+
+  # correlation networks
+cyto.unlisted.all[cyto.unlisted.all$p < 0.05 & abs(cyto.unlisted.all$r) > 0.6,] %>% dim()
+cyto.unlisted.all[cyto.unlisted.all$p < 0.05 & abs(cyto.unlisted.all$r) > 0.8,] %>% dim()
+cyto.unlisted.all[cyto.unlisted.all$p < 0.01 & abs(cyto.unlisted.all$r) > 0.6,]%>% dim()
+cyto.unlisted.all[cyto.unlisted.all$p < 0.01 & abs(cyto.unlisted.all$r) > 0.8,] %>% dim()
+cyto.unlisted.all[cyto.unlisted.all$p < 0.005 & abs(cyto.unlisted.all$r) > 0.6,] %>% dim()
+cyto.unlisted.all[cyto.unlisted.all$p < 0.005 & abs(cyto.unlisted.all$r) > 0.8,] %>% dim()
+cyto.unlisted.all[cyto.unlisted.all$p < 0.001 & abs(cyto.unlisted.all$r) > 0.6,] %>% dim()
+cyto.unlisted.all[cyto.unlisted.all$p < 0.001 & abs(cyto.unlisted.all$r) > 0.8,] %>% dim()
+```
+
+## Hub OTUs
+
+Now we want to know which of these taxa are 'hub' OTUs, that is, significantly more connected to more other OTUs than most of the OTUs in the network. To do this, we calculated newtork statistics for each 'vertex' (OTU) in the network. Then we fit a distribution to the network statistics. We used the betweenness (proportion of all paths between pairs of other OTUs in which an OTU falls) and degree (total number of connections to other OTUs). If an OTU fell outside the distribution (90th percentile) for both network statistics, we considered it a hub within that network. Based on preliminary examination, we found that the betweenness centrality statistics conformed reasonably well to an exponential distribution, and the degree statistic conformed to a weibull. To do this for all combinations of r- and p- value cutoffs we chose for our analysis, we created a loop and stored the results at each level in data.bd.
+
+```{r, eval=F}
+setwd("/Users/will1809/OneDrive - purdue.edu/TCD microbiome spring 2017/Aaron Manuscript/Geoff_Final_RFiles/Juglans.microbiome.github")
+
+setwd(paste("./Net.analysis/CorrNetworks.", cur.s, sep=""))
+
+## set up data.bd to store betweenness and degree for hub OTUs identified in the analysis.
+data.bd <- data.frame(name=NULL, BetweennessCentrality=NULL, Degree=NULL, p=NULL, r=NULL)
+
+for (i in c("0.05","0.01","0.005", "0.001")) {
+  for (cutoff in c("0.6","0.8")) {
+
+    # Read in appropriate network into a igraph object (network)
+	  gr <-read.csv(paste("cyto.shavings.merged.p.", i, ".r.", cutoff,".txt", sep = ''), sep='\t') %>% as.matrix() %>% graph_from_data_frame(directed =F)
+	  
+	  # Calculate degree and betweenness for the network and store in cyto
+	  cyto <- data.frame(Degree = degree(gr))
+	  cyto$BetweennessCentrality = betweenness(gr)
+
+	  # Fit the Weibull distribution to degree and find OTUs that fall above the 90th percentile
+	  degree.w<-fitdistr(cyto$Degree, 'Weibull')
+	  cutoff.d<-qweibull(0.9, degree.w$estimate[1], degree.w$estimate[2])
+	  out.d <- cyto$Degree > cutoff.d
+
+	  # Fit the exponential distribution to betweenness and find OTUs that fall above the 90th percentile
+  	betweenness.exp <- fitdistr(cyto$BetweennessCentrality, "exponential")
+  	cutoff.b<-qexp(0.9, rate = betweenness.exp $estimate)
+	  out.b <- cyto$BetweennessCentrality > cutoff.b
+	
+	  # Save the hub OTUs for this network
+  	prefix <- paste("cyto.shavings.merged.p.", i, ".r.", cutoff, ".network.analysis", sep = '')
+	  cyto[out.b & out.d,] %>% write.csv(.,paste(prefix, '.bd.csv', sep=''), quote=F,row.names=T)
+	  
+	  ## add the hub OTUs to our data.bd table to keep track of
+	  ## our results for different combinations of r and p cutoffs
+	  cyto$name=rownames(cyto)
+	  data.bd <- rbind(data.bd, cbind(cyto[out.d & out.b,c('name','BetweennessCentrality','Degree')], p=i, r=cutoff), make.row.names=F)
+  
+}}
+```
+
+This chunk just tabulates the results (bd.tab) from the hub OTU portion and outputs them to a file.
+
+```{r, eval=F}
+setwd("/Users/will1809/OneDrive - purdue.edu/TCD microbiome spring 2017/Aaron Manuscript/Geoff_Final_RFiles/Juglans.microbiome.github")
+
+bd.tab <- with(data.bd, data.frame(name=unique(name)))
+bd.tab$p0.05.r0.6 <- as.integer(bd.tab$name %in% data.bd[data.bd$p=='0.05' & data.bd$r=='0.6','name'])
+bd.tab$p0.01.r0.6 <- as.integer(bd.tab$name %in% data.bd[data.bd$p=='0.01' & data.bd$r=='0.6','name'])
+bd.tab$p0.005.r0.6 <- as.integer(bd.tab$name %in% data.bd[data.bd$p=='0.005' & data.bd$r=='0.6','name'])
+bd.tab$p0.001.r0.6 <- as.integer(bd.tab$name %in% data.bd[data.bd$p=='0.0001' & data.bd$r=='0.6','name'])
+bd.tab$p0.05.r0.8 <- as.integer(bd.tab$name %in% data.bd[data.bd$p=='0.05' & data.bd$r=='0.8','name'])
+bd.tab$p0.01.r0.8 <- as.integer(bd.tab$name %in% data.bd[data.bd$p=='0.01' & data.bd$r=='0.8','name'])
+bd.tab$p0.005.r0.8 <- as.integer(bd.tab$name %in% data.bd[data.bd$p=='0.005' & data.bd$r=='0.8','name'])
+bd.tab$p0.001.r0.8 <- as.integer(bd.tab$name %in% data.bd[data.bd$p=='0.0001' & data.bd$r=='0.8','name'])
+
+bd.tab
+
+bd.tab %>% cbind( tax_table(shavings.merge)[as.character(bd.tab$name),], .) %>% write.csv(., paste("Results/Shavings.HubOTUS.", cur.s, ".csv", sep=""), quote=F, row.names=T)
+
+### Find matches between identified hub OTUs and random forest taxa
+otunames.rf <- read.csv("Results/RF.shavings.t.table.csv", row.names=1)
+otunames.rf[as.character(bd.tab$name),] %>% write.csv(., paste("Results/Shavings.HubOTUS.RF.consensus.", cur.s, ".csv", sep=""), quote=F, row.names=T)
+
+```
+
+## Figures
+
+In the final analysis, we produced figures for all networks (all p- and r- cutoff combinations, states, and compartments- stem and bulk soil). This amount of analysis is not practical for an R markdown, but to facilitate it we wrote a function that produces the desired figure, with and without small, disconnected subnetworks, highlighting bacteria in black, fungi in red, and hub taxa with closed circles. Positive and negative correlations are depicted in different colors. Geosmithia morbida is plotted in green.
+
+```{r, cache=T}
+
+figure.network <- function (p, r, s, subs=F) {
+
+  # the aruments to this function ar p (p cutoff), r (r cutoff), s (state)
+  # and whether you want to include subnetworks in the plot (subs)
+  
+  # make a graph object from the network
+  gr <- read.csv(paste("Net.analysis/CorrNetworks.", s,"/cyto.shavings.merged.p.", p, ".r.", r,".txt", sep = ''), sep='\t')[,1:3] %>% as.matrix() %>% graph_from_data_frame(directed =F)
+  
+  # create edge attributes for positive and negative sign correlations and absolute value of the correlation
+  edge_attr(gr, name= 'r.sign') <- read.csv(paste("Net.analysis/CorrNetworks.", s,"/cyto.shavings.merged.p.", p, ".r.", r,".txt", sep = ''), sep='\t')[,3] %>% sign() %>% as.factor()
+  edge_attr(gr, name= 'r.abs') <- read.csv(paste("Net.analysis/CorrNetworks.", s,"/cyto.shavings.merged.p.", p, ".r.", r,".txt", sep = ''), sep='\t')[,3] %>% abs() %>% as.numeric()
+  
+  # create vertex attributes for degree and fungus vs bacteria
+  vertex_attr(gr, name='deg') <- degree(gr)
+  vertex_attr(gr, name='fu.ba') <- (vertex_attr(gr, 'name') %>% grepl('Botu',.) ) %>% as.numeric()
+  
+  # create another vertex attribute for whether a vertex was a hub taxa in our results
+  bd.tab <- read.csv(paste("Results/Shavings.HubOTUS.", s, ".csv", sep=""), row.names = 1)
+  vertex_attr(gr, name='hub') <- vertex_attr(gr, 'name') %in% rownames(bd.tab)[bd.tab[, paste("p",p,".r",r,sep="")] == 1] %>% as.numeric()
+  
+  # if in Washington, find Geosmithia morbida (Otu0115) and modify the vertex attributes so it can be
+  # coded along with hub and fungus/bacteria, so it can be plotted in a different color and shape
+  if (s == "WA") {
+    vertex_attr(gr, name='hub') <- ((((vertex_attr(gr, 'name') == 'Otu0115' )) %>% as.numeric) + vertex_attr(gr, name='hub'))
+    vertex_attr(gr, name='fu.ba') <- ((((vertex_attr(gr, 'name') == 'Otu0115' )) %>% as.numeric)*2 + vertex_attr(gr, name='fu.ba'))
+  }
+  
+  # if sub networks are not desired, remove them and just plot the biggest one
+  if (!subs) {
+    dec.subrs <- decompose.graph(gr) # breaks up graph into subnetworks
+    cl.gr.i <- which.max(clusters(gr)$csize) # figures out the biggest subnetwork
+    gr <- dec.subrs[[cl.gr.i]] # replaces our graph object with just the big subnetwork
+  }
+  
+  # create a layout 'kk' Kamada-Kawai
+  # weights= 2-as.numeric(edge_attr(gr, 'r'))
+  # allows the negative correlations to be plotted
+  # farther away from each other. 2 - r will be close
+  # to 1 for positive correlations, plotting them close
+  # together, whereas close to 3 for strong negative correlations.
+  layout <- layout_with_kk(gr, weights=2-as.numeric(edge_attr(gr, 'r')))
+  
+  # now graph with the layout object and return the resulting
+  # graph object as output from this funtion
+
+  ggraph(gr, layout) + 
+    geom_edge_link(aes(width=.1, alpha=r.abs, color=as.factor(r.sign))) + 
+    scale_edge_color_manual(values=c('grey','blue')) + 
+    scale_edge_width(range=c(0.2,1)) + 
+    geom_node_point(aes(size=deg, shape=as.factor(hub), color=as.factor(fu.ba))) + 
+    scale_size(range = c(.2,2.5)) + scale_color_manual(values=c('red','black','green')) +
+    scale_shape_manual(values=c(1,19,8)) + 
+    theme_graph() + 
+    theme(legend.position='none')
+  
+}
+```
+
+Below, I just create a plot for one network at p= and r= for WA, without subnetworks.
+
+```{r}
+p<-"0.01"
+r<-"0.8"
+figure.network(p, r, "WA")
+```
+
+We could make a multipanel plot as well, and since the results of this analysis are already saved, I can give an example of that as well.
+
+```{r}
+p<-"0.01"
+r<-"0.8"
+grid.arrange(
+  figure.network(p, r, "IN"),
+  figure.network(p, r, "TN"),
+  figure.network(p, r, "WA"),
+  nrow=1,
+  top=paste("p = ", p, "r = ", r, sep="")
+)
+```
+
+Finally, I include the full loop to make all the figures and save them below.
+
+```{r}
+#for (p in c("0.05","0.01","0.005", "0.001")) {
+#  for (r in c("0.6","0.8")) {
+#    
+#    pdf(paste("Net.analysis/Net.figures/Shavings/Allstates.networks.caulo.", "p", p, ".r", r, ".nosubnets.pdf", sep=""), width=12, height=6)
+    
+#    grid.arrange(
+#      figure.network(p, r, "IN"),
+#      figure.network(p, r, "TN"),
+#      figure.network(p, r, "WA"),
+#      nrow=1,
+#      top=paste("p = ", p, "r = ", r, sep="")
+#    )
+    
+#    dev.off()
+    
+#    pdf(paste("Net.analysis/Net.figures/Shavings/Subnetworks/Allstates.networks.caulo.", "p", p, ".r", r, ".wsubnets.pdf", sep=""), width=12, height=6)
+    
+#    grid.arrange(
+#      figure.network(p, r, "IN", T),
+#      figure.network(p, r, "TN", T),
+#      figure.network(p, r, "WA", T),
+#      nrow=1,
+#      top=paste("p = ", p, "r = ", r, sep="")
+#    )
+    
+#    dev.off()
+
+#  }}
+```
