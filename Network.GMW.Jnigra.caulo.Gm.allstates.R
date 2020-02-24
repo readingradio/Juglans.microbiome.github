@@ -7,6 +7,7 @@ library(igraph)
 library(tidygraph)
 library(ggraph)
 library(gridExtra)
+library(QuACN)
 
 load("R_Environments/Jnigra.microbiome.merged.WilliamsOnufrak.RData")
 
@@ -97,13 +98,33 @@ for (cur.s in c("WA","IN","TN")) {
 
 }
 
+analyze.network <- function (p, r, s, subs=F) {
 
+  gr <- read.csv(paste("Net.analysis/CorrNetworks.", s,"/cyto.shavings.merged.p.", p, ".r.", r,".txt", sep = ''), sep='\t')[,1:3] %>% as.matrix() %>% graph_from_data_frame(directed =F)
+  
+  # calculate Shannon entropy and Koloromov algorithmic complexity
+  
+  # first, get the adjacency matrix from graph
+  adj.mat <- as_adj(gr)
+  #adj.mat %>% as.matrix() %>% as.vector() %>% head(500)
+  dim(as.matrix(adj.mat))
+  adj.str <-  adj.mat %>% as.matrix() %>% as.vector() %>% paste(collapse="")
+  
+  K <- acss(adj.str, alphabet=2)
+  
+  S <- entropy(adj.str)
+  S2<- entropy2(adj.str)
+  S[[1]]
+  
+  vector(Kolomorov = K, Shannon.ent = S[[1]], Shannon.2nd = S2)
+}
 
 ## figures
 
 figure.network <- function (p, r, s, subs=F) {
 
   gr <- read.csv(paste("Net.analysis/CorrNetworks.", s,"/cyto.shavings.merged.p.", p, ".r.", r,".txt", sep = ''), sep='\t')[,1:3] %>% as.matrix() %>% graph_from_data_frame(directed =F)
+  
   edge_attr(gr, name= 'r.sign') <- read.csv(paste("Net.analysis/CorrNetworks.", s,"/cyto.shavings.merged.p.", p, ".r.", r,".txt", sep = ''), sep='\t')[,3] %>% sign() %>% as.factor()
   edge_attr(gr, name= 'r.abs') <- read.csv(paste("Net.analysis/CorrNetworks.", s,"/cyto.shavings.merged.p.", p, ".r.", r,".txt", sep = ''), sep='\t')[,3] %>% abs() %>% as.numeric()
   vertex_attr(gr, name='deg') <- degree(gr)

@@ -1,0 +1,426 @@
+s <- 2#
+s*C
+r/10; c/10#
+(r/10)%*%(c/10)  # the %*% around the * operator stipulates #
+#                  element-by-element multiplication
+r
+c
+I; c#
+I%*%c # 3x3 * 3x1 = 3x1 vector for solution (3 inner products)
+c%*%I  # Error! 3x1 * 3x3 is not conformable; can't multiply
+I; A#
+I%*%A
+I[2,2] <- 2		# change value of element [2,2] in I; note square brackets#
+I; A#
+A%*%I     # Get error message: non-conformable arguments (b/c [3x2] x [3x3] not possible)#
+I%*%A
+crossprod(I,A) # try crossprod(A, I), where A*I is not conformable#
+##
+#  Inverse of a matrix#
+A <- matrix(c(3,-6,2,-5),2,2,byrow=TRUE)#
+A#
+solve(A)		# solves for the inverse of A (elements are multiples)#
+            # check - does the inverse multiplied by the original yield an identity matrix?#
+solve(A) %*% A
+install.packages('lawn')
+library("lawn")#
+lawn_bbox_polygon(c(-122.2047, 47.5204, -122.1065, 47.6139)) %>% view
+install.packages('leaflet')
+library('leaflet')
+lawn_bbox_polygon(c(-122.2047, 47.5204, -122.1065, 47.6139)) %>% view
+lawn_bbox_polygon(c(46.591169, -118.535378, 45.741266, -116.686558)) %>% view
+lawn_bbox_polygon(c(-118.535378, 46.591169, -116.686558, 45.741266)) %>% view
+lawn_bbox_polygon(c(-119, 46.591169, -116.686558, 45.741266)) %>% view
+lawn_bbox_polygon(c(-118.535378, 47, -116.686558, 45.741266)) %>% view
+lawn_bbox_polygon(c(-119, 47, -116.686558, 45.741266)) %>% view
+ncdc_stations(extent =c(-119, 47, -116.686558, 45.741266))
+library('rnoaa')
+ncdc_stations(extent =c(-119, 47, -116.686558, 45.741266))
+?token
+?rnoaa
+ncdc_stations(extent =c(-119, 47, -116.686558, 45.741266))
+?ncdc_stations
+ncdc_stations(extent =c(-119, 47, -116.686558, 45.741266), token='wTFkCIjQSaRynGTPpQQGGjZqnTwZlIxJ')
+ncdc_stations(extent = c(47.5204, -122.2047, 47.6139, -122.1065), token='wTFkCIjQSaRynGTPpQQGGjZqnTwZlIxJ')
+ncdc_stations(extent = c(45.741266, -119, 45.741266, -116.686558), token='wTFkCIjQSaRynGTPpQQGGjZqnTwZlIxJ')
+ncdc_stations(extent = c(45.741266, -119, 47, -116.686558), token='wTFkCIjQSaRynGTPpQQGGjZqnTwZlIxJ')47
+ncdc_stations(extent = c(45.741266, -119, 47, -116.686558), token='wTFkCIjQSaRynGTPpQQGGjZqnTwZlIxJ')
+homr(state = 'WA')
+stati <- data(ncdc_stations(extent = c(45.741266, -119, 47, -116.686558), token='wTFkCIjQSaRynGTPpQQGGjZqnTwZlIxJ'), limit=100)
+stati <- data(ncdc_stations(extent = c(45.741266, -119, 47, -116.686558), token='wTFkCIjQSaRynGTPpQQGGjZqnTwZlIxJ', limit=100))
+stati <- ncdc_stations(extent = c(45.741266, -119, 47, -116.686558), token='wTFkCIjQSaRynGTPpQQGGjZqnTwZlIxJ', limit=100)
+stati
+stati$id
+stati$data$id
+?ncdc
+get_GSOD()
+library(GSODR)
+install.packages('GSODR')
+install.packages('gsod')
+install.packages("gsod", repos="http://R-Forge.R-project.org")
+library(gsod)
+help(gsod)
+data(stations)
+stations
+library(ggplot)
+library(ggplot2)
+library(tidyr)#
+library(vegan)#
+#
+#First I import the whole OTU table I recieved from Mothur. Note at this point taxonomy is not included, it is just raw OTU counts (columns) by sample or group (rows). Below I indicate that the row.names are in column 2 of the imported file. #
+bigfile.sample<-read.table("/Users/will1809/OneDrive - purdue.edu/TCD microbiome spring 2017/Results.sep.2019/Caulo.ITS/Spr2017OTU.Jan2018.opti_mcc.branch.shared",header=TRUE,sep="\t",fill=TRUE,strip.white=TRUE, row.names=2)#
+#
+rownames(bigfile.sample) <- rownames(bigfile.sample) %>% sub('s_S.+', '', ., perl=T)#
+#Next I import the metadata for the particular habitat of interest. In this case I am working with drill shavings. I will use this metadata to subset the larger OTU file above. #
+source('/Users/will1809/OneDrive - purdue.edu/TCD microbiome spring 2017/Results.sep.2019/Caulo.ITS/baxter.sept2019.R')#
+ds.met<- get_metadata()#
+#Next I import the taxonomy file. This contains the taxonomy assignments for all OTUs in the study and not just the ones for the particuluar habitat of interest. This will get subset as well. #
+taxonomy<-read.table("/Users/will1809/OneDrive - purdue.edu/TCD microbiome spring 2017/Results.sep.2019/Caulo.ITS/jnits.trim.contigs.good.unique.precluster.pick.pick.opti_mcc.0.02.cons.taxonomy",header=TRUE,sep="\t",fill=TRUE,strip.white=TRUE,row.names=1)#
+ds.names<-ds.met$Group[ds.met$Type=='BranchBark'] %>% sub('s$', '', ., perl=T)#
+#
+# added this to deal with sample name issue#
+# its confusing but it works#
+ds.met2 <- ds.met[ds.met$Type=='BranchBark',]#
+#
+cbind(ds.met2$Group, ds.names)#
+#
+ds.met2$sample.name.2 <- ds.names#
+#
+ds.met2[,c('sample.name.2','Group')]#
+#Here I use the subset function to pull out just the samples belonging to drill shavings. #
+ds<-subset(bigfile.sample, rownames(bigfile.sample) %in% ds.names)#
+dim(ds)#
+dspure<- ds[,colSums(ds)>0]#
+#Here I am further subsetting the data. I am removing some MOTHUR metadata that is useless.  #
+dim(dspure)#
+#
+dspure[1:4,1:4]#
+dspure[1:4,7829:7831]#
+dspureotu<-dspure[,3:7831]#
+#
+dim(dspureotu)#
+#Below I am reformatting the OTU table so that I can begin to filter and merge the taxonomy information. #
+transdspure<-as.data.frame(t(dspureotu))#
+#The below function is asking specifically for the OTU IDs. These are the row names. I will use these to subset the taxonomy file. #
+transdspurelabs<-labels(transdspure)#
+taxds<-subset(taxonomy, rownames(taxonomy) %in% transdspurelabs[[1]])#
+taxdspure<-(taxds[,2])#
+#Below I am using the separate function from tidyr to split the taxonomy strings into columns by semi-colon so that I can rename the OTUs to give them more meaning for downstream analyses.#
+taxonomylabs<-c("kingdom","phylum","class","order","family","genus","species")#
+otutabtaxds<-data.frame(taxonomy=taxdspure,transdspure)#
+otutabtaxdssep<-separate(otutabtaxds,into=taxonomylabs,col=taxonomy,sep=";")#
+head(otutabtaxdssep)#
+#Here I am renaming the OTUs using the make.names function. This will make the OTU name something more informative. I am using genus to do this. #
+rownames(otutabtaxdssep)<-make.names(otutabtaxdssep$genus,unique=TRUE)#
+rownames(otutabtaxdssep)#
+head(otutabtaxdssep)#
+#
+dim(otutabtaxdssep)#
+otutabtaxds<-otutabtaxdssep[,8:54] ### missing a sample#
+renamotutabtaxds<-as.data.frame(t(otutabtaxds))#
+#Rarefaction#
+sort(rowSums(renamotutabtaxds[,1:7829]))#
+#Here we are rarefying the data using the rrarefy function from vegan. I use the sort function above to determine the lowest number of sequences in a sample. #
+## stopped here 7:33 pm July 25. 2019#
+#
+rareotuds<-as.data.frame(rrarefy(renamotutabtaxds, sample=3500))#
+rareotuds<-as.data.frame(subset(rareotuds,rowSums(rareotuds)>3499))#
+samples<-row.names(rareotuds)#
+# Lost 1 sample#
+#Relabundance calculation#
+#relabundds <- rareotuds / 38000#
+#
+dim(rareotuds)#
+rareotutabtaxds<-as.data.frame(rareotuds, total=rowSums(rareotuds[,1:7829]))#
+rareotutabtaxds#
+#
+relabundds<-decostand(rareotutabtaxds, method="total")
+pairs(relabundds)
+pairs(relabundds[1:10,1:10])
+relabundds[1:10,1:10]
+pairs(relabundds[,1:10])
+pairs(relabundds[,1:10], col=as.numeric(row.names(relabundds)))
+row.names(relabundds)
+as.numeric(row.names(relabundds))
+pairs(relabundds[,1:10], col=as.numeric(as.vector(row.names(relabundds)))
+pairs(relabundds[,1:10], col=as.numeric(as.vector(row.names(relabundds))))
+pairs(relabundds[,1:10], col=as.numeric(row.names(relabundds[,1:10])))
+pairs(relabundds[,1:10], col=as.numeric(row.names(relabundds)[,1:10]))
+pairs(relabundds[,1:10], col=as.numeric(row.names(relabundds)))
+iris<-cbind(row.names(relabundds),relabundds[,1:10])
+iris
+pairs(iris[,2:11], col=as.numeric(iris[,1]))
+iris.dist<-vegdist(relabundds, method="euclid")
+ds
+ds.met
+adonis(iris.dist ~ ds.met)
+dim(iris.dist)
+iris.dist<-vegdist(relabundds, method="euclid")
+dim(iris.dist)
+iris.dist
+dims(iris.dist)
+dim(iris.dist)
+str(iris.dist)
+ds.met
+adonis(iris.dist ~ ds.met$Clone)
+adonis(t(iris.dist) ~ ds.met$Clone)
+hclust(iris.dist)
+hplot(clust(iris.dist))
+plot(hclust(iris.dist))
+adonis(relabundds ~ ds.met$Clone)
+dim(relabundds)
+dim(ds.met)
+ds.met2
+dim(ds.met2)
+ds.met2[,c('sample.name.2','Group')]
+rownames(bigfile.sample) %in% ds.names
+adonis(relabundds ~ ds.met2$Clone)
+adonis(relabundds ~ ds.met2$Clone[-1])
+ds.met2$sample.name2
+ds.met2$sample.name.2
+setideff(ds.met2$sample.name.2, row.names(relabundds))
+setdiff(ds.met2$sample.name.2, row.names(relabundds))
+relabundds <- relabunnds[-which(row.names(relabundds) == setdiff(ds.met2$sample.name.2, row.names(relabundds))),]
+relabundds <- relabundds[-which(row.names(relabundds) == setdiff(ds.met2$sample.name.2, row.names(relabundds))),]
+adonis(relabundds ~ ds.met2$Clone[-1])
+adonis(relabundds ~ ds.met2$Clone)
+dim(relabundds)
+dim(ds.met2)
+which(row.names(relabundds) == setdiff(ds.met2$sample.name.2, row.names(relabundds)))
+relabundds<-decostand(rareotutabtaxds, method="total")
+setdiff(ds.met2$sample.name.2, row.names(relabundds))
+which(row.names(relabundds) == setdiff(ds.met2$sample.name.2, row.names(relabundds)))
+row.names(relabundds)
+ds.met2$sample.name.2
+row.names(relabundds) == setdiff(ds.met2$sample.name.2, row.names(relabundds)))
+which(row.names(relabundds) == setdiff(ds.met2$sample.name.2, row.names(relabundds)))
+row.names(relabundds) == setdiff(ds.met2$sample.name.2, row.names(relabundds))
+row.names(relabundds) %in% setdiff(ds.met2$sample.name.2, row.names(relabundds))
+setdiff(ds.met2$sample.name.2, row.names(relabundds))
+missing<-setdiff(ds.met2$sample.name.2, row.names(relabundds))
+which(row.names(relabundds) == missing)
+row.names(relabundds)
+ds.met3 <- ds.met2[-which(ds.met2$sample.name.2 == missing),]
+adonis(relabundds ~ ds.met3$Clone)
+adonis(relabundds ~ ds.met3$Group)
+ds.met3$Group
+adonis(relabundds ~ ds.met3$State)
+plot(hclust(relabundds))
+hclust(relabundds)
+relabundds
+iris.nmds <- metaMDS(relabundds)
+mds.pts <- iris.nmds$points
+iris.xy <- scores(mds.pts, display="sites")
+plot(mds.pts)
+points(iris.xy, col=as.numeric(ds.met3))
+points(iris.xy, col=as.numeric(ds.met3$State))
+iris.xy
+points(iris.xy, col=as.numeric(ds.met3$State))
+ds.met3$State
+plot(mds.pts, col=as.numeric(ds.met3$State))
+as.numeric(ds.met3$State)
+ds.met3$State
+as.numeric(ds.met3$State)
+plot(mds.pts, col=as.numeric(as.factor(ds.met3$State)))
+update
+install.packages('knitr')
+install.packages('rmarkdown')
+readline()
+words <- readline()
+words
+subject <- readline()
+verb <- readline()
+object <- readling()
+object <- readline()
+paste(subject, verb, object)
+getwd()
+library(tidyverse)#
+library(Hmisc)#
+library(MASS)#
+library(igraph)#
+library(tidygraph)#
+library(ggraph)#
+library(gridExtra)#
+library(phyloseq)#
+#
+source("Net.complex.functions.R")
+source("Net.complex.functions.R")
+source("./OACC/BDM2D.R")
+source("Net.complex.functions.R")
+source("Net.complex.functions.R")
+p<-0.001
+R<-0.8
+r<0.8
+r<-0.8
+analyze.network(p, r, "IN", TRUE, "soil")
+gr <- read.csv(paste("Net.analysis/CorrNetworks.", s,"/cyto.", tissue, ".merged.p.", p, ".r.", r,".txt", sep = ''), sep='\t')[,1:3] %>% as.matrix() %>% graph_from_data_frame(directed =F)
+s<-"IN"
+gr <- read.csv(paste("Net.analysis/CorrNetworks.", s,"/cyto.", tissue, ".merged.p.", p, ".r.", r,".txt", sep = ''), sep='\t')[,1:3] %>% as.matrix() %>% graph_from_data_frame(directed =F)
+tissue="shavings"
+tissu<-"soil"
+gr <- read.csv(paste("Net.analysis/CorrNetworks.", s,"/cyto.", tissue, ".merged.p.", p, ".r.", r,".txt", sep = ''), sep='\t')[,1:3] %>% as.matrix() %>% graph_from_data_frame(directed =F)
+analyze.network(p, r, "IN", subs=TRUE, tissue="soil")
+analyze.network(p, r, "IN", subs=TRUE, tissue="soils")
+p<-"0.000001"
+analyze.network(p, r, "IN", subs=TRUE, tissue="soils")
+out <-NULL#
+#
+for (p in c( "0.00005", "0.00001","0.000005","0.000001")) {#
+  for (r in c("0.6","0.8")) {#
+  	out <- rbind(out, cbind(data.frame(State = "IN", P=p, R=r), analyze.network(p, r, "IN", subs=TRUE, tissue="soils")))#
+  	out <- rbind(out, cbind(data.frame(State = "TN", P=p, R=r), analyze.network(p, r, "TN", subs=TRUE, tissue="soil")))#
+  	out <- rbind(out, cbind(data.frame(State = "WA", P=p, R=r), analyze.network(p, r, "WA", subs=TRUE, tissue="soil")))#
+}}
+out <-NULL#
+#
+for (p in c( "0.00005", "0.00001","0.000005","0.000001")) {#
+  for (r in c("0.6","0.8")) {#
+  	out <- rbind(out, cbind(data.frame(State = "IN", P=p, R=r), analyze.network(p, r, "IN", subs=TRUE, tissue="soils")))#
+  	out <- rbind(out, cbind(data.frame(State = "TN", P=p, R=r), analyze.network(p, r, "TN", subs=TRUE, tissue="soils")))#
+  	out <- rbind(out, cbind(data.frame(State = "WA", P=p, R=r), analyze.network(p, r, "WA", subs=TRUE, tissue="soils")))#
+}}
+out
+out$P <- out$P %>% as.character() %>% as.numeric()
+out$P
+out %>% write.csv("Results/Network.complexity.soil.csv")
+save.image("R_Environments/Soil.net.stats.RData")
+quartz()#
+with(out[out$State=="IN" & out$R == 0.8,], plot(P, Kolmogorov, lty=1, type="b", ylim=c(0,max(out$Kolmogorov))))#
+with(out[out$State=="TN" & out$R == 0.8,], lines(P, Kolmogorov, lty = 2, type="b"))#
+with(out[out$State=="WA" & out$R == 0.8,], lines(P, Kolmogorov, lty = 3, type="b"))#
+with(out[out$State=="IN" & out$R == 0.6,], lines(P, Kolmogorov, lty = 1, type="b", pch=2))#
+with(out[out$State=="TN" & out$R == 0.6,], lines(P, Kolmogorov, lty = 2, type="b", pch=2))#
+with(out[out$State=="WA" & out$R == 0.6,], lines(P, Kolmogorov, lty = 3, type="b", pch=2))#
+legend('topleft', legend=c("IN","TN","WA","R=0.8","R=0.6"), lty=c(1,2,3,NA,NA), pch=c(NA,NA,NA,1,2))
+quartz()#
+with(out[out$State=="IN" & out$R == 0.8,], plot(P, Entropy, lty=1, type="b", ylim=c(min(out$Entropy),max(out$Entropy))))#
+with(out[out$State=="TN" & out$R == 0.8,], lines(P, Entropy, lty = 2, type="b"))#
+with(out[out$State=="WA" & out$R == 0.8,], lines(P, Entropy, lty = 3, type="b"))#
+with(out[out$State=="IN" & out$R == 0.6,], lines(P, Entropy, lty = 1, type="b", pch=2))#
+with(out[out$State=="TN" & out$R == 0.6,], lines(P, Entropy, lty = 2, type="b", pch=2))#
+with(out[out$State=="WA" & out$R == 0.6,], lines(P, Entropy, lty = 3, type="b", pch=2))#
+legend('bottomright', legend=c("IN","TN","WA","R=0.8","R=0.6"), lty=c(1,2,3,NA,NA), pch=c(NA,NA,NA,1,2))
+quartz()#
+with(out[out$State=="IN" & out$R == 0.8,], plot(P, Complex.Index, lty=1, type="b", ylim=c(min(out$Complex.Index),max(out$Complex.Index))))#
+with(out[out$State=="TN" & out$R == 0.8,], lines(P, Complex.Index, lty = 2, type="b"))#
+with(out[out$State=="WA" & out$R == 0.8,], lines(P, Complex.Index, lty = 3, type="b"))#
+with(out[out$State=="IN" & out$R == 0.6,], lines(P, Complex.Index, lty = 1, type="b", pch=2))#
+with(out[out$State=="TN" & out$R == 0.6,], lines(P, Complex.Index, lty = 2, type="b", pch=2))#
+with(out[out$State=="WA" & out$R == 0.6,], lines(P, Complex.Index, lty = 3, type="b", pch=2))#
+legend('topleft', legend=c("IN","TN","WA","R=0.8","R=0.6"), lty=c(1,2,3,NA,NA), pch=c(NA,NA,NA,1,2))
+quartz()#
+with(out[out$State=="IN" & out$R == 0.8,], plot(P, Norm.Edge.Complex, lty=1, type="b", ylim=c(min(out$Norm.Edge.Complex),max(out$Norm.Edge.Complex))))#
+with(out[out$State=="TN" & out$R == 0.8,], lines(P, Norm.Edge.Complex, lty = 2, type="b"))#
+with(out[out$State=="WA" & out$R == 0.8,], lines(P, Norm.Edge.Complex, lty = 3, type="b"))#
+with(out[out$State=="IN" & out$R == 0.6,], lines(P, Norm.Edge.Complex, lty = 1, type="b", pch=2))#
+with(out[out$State=="TN" & out$R == 0.6,], lines(P, Norm.Edge.Complex, lty = 2, type="b", pch=2))#
+with(out[out$State=="WA" & out$R == 0.6,], lines(P, Norm.Edge.Complex, lty = 3, type="b", pch=2))#
+legend('topleft', legend=c("IN","TN","WA","R=0.8","R=0.6"), lty=c(1,2,3,NA,NA), pch=c(NA,NA,NA,1,2))
+quartz()#
+with(out[out$State=="IN" & out$R == 0.8,], plot(P, Shannon.ent, lty=1, type="b", ylim=c(min(out$Shannon.ent),max(out$Shannon.ent))))#
+with(out[out$State=="TN" & out$R == 0.8,], lines(P, Shannon.ent, lty = 2, type="b"))#
+with(out[out$State=="WA" & out$R == 0.8,], lines(P, Shannon.ent, lty = 3, type="b"))#
+with(out[out$State=="IN" & out$R == 0.6,], lines(P, Shannon.ent, lty = 1, type="b", pch=2))#
+with(out[out$State=="TN" & out$R == 0.6,], lines(P, Shannon.ent, lty = 2, type="b", pch=2))#
+with(out[out$State=="WA" & out$R == 0.6,], lines(P, Shannon.ent, lty = 3, type="b", pch=2))#
+legend('topleft', legend=c("IN","TN","WA","R=0.8","R=0.6"), lty=c(1,2,3,NA,NA), pch=c(NA,NA,NA,1,2))
+quartz()#
+with(out[out$State=="IN" & out$R == 0.8,], plot(P, Shannon.2nd, lty=1, type="b", ylim=c(min(out$Shannon.2nd),max(out$Shannon.2nd))))#
+with(out[out$State=="TN" & out$R == 0.8,], lines(P, Shannon.2nd, lty = 2, type="b"))#
+with(out[out$State=="WA" & out$R == 0.8,], lines(P, Shannon.2nd, lty = 3, type="b"))#
+with(out[out$State=="IN" & out$R == 0.6,], lines(P, Shannon.2nd, lty = 1, type="b", pch=2))#
+with(out[out$State=="TN" & out$R == 0.6,], lines(P, Shannon.2nd, lty = 2, type="b", pch=2))#
+with(out[out$State=="WA" & out$R == 0.6,], lines(P, Shannon.2nd, lty = 3, type="b", pch=2))#
+legend('topleft', legend=c("IN","TN","WA","R=0.8","R=0.6"), lty=c(1,2,3,NA,NA), pch=c(NA,NA,NA,1,2))
+in.hubs <- read.csv("Results/Shavings.HubOTUS.IN.csv")
+intersect(in.hubs, tn.hubs)
+tn.hubs
+tn.hubs <- read.csv("Results/Shavings.HubOTUS.TN.csv")
+tn.hubs
+intersect(in.hubs$name, tn.hubs$name)
+intersect(wa.hubs$name, tn.hubs$name)
+wa.hubs <- read.csv("Results/Shavings.HubOTUS.WA.csv")
+intersect(wa.hubs$name, tn.hubs$name)
+intersect(wa.hubs$name, in.hubs$name)
+in.hubs <- read.csv("Results/Soil.HubOTUS.IN.csv")#
+tn.hubs <- read.csv("Results/Soil.HubOTUS.TN.csv")#
+wa.hubs <- read.csv("Results/Soil.HubOTUS.WA.csv")#
+#
+i
+in.hubs <- read.csv("Results/Soils.HubOTUS.IN.csv")
+tn.hubs <- read.csv("Results/Soils.HubOTUS.TN.csv")
+wa.hubs <- read.csv("Results/Soils.HubOTUS.WA.csv")
+intersect(in.hubs$name, tn.hubs$name)
+intersect(wa.hubs$name, tn.hubs$name)
+intersect(wa.hubs$name, in.hubs$name)
+?venn
+?Venn
+library(VennDiagram)
+install.packages("VennDiagram")
+library(VennDiagram)
+quartz(); venn.diagram(in.hubs$name, wa.hubs$name, tn.hubs$name)
+quartz(); venn.diagram(x = list(in.hubs$name, wa.hubs$name, tn.hubs$name), category.names=c("IN","WA","TN"))
+quartz(); venn.diagram(x = list(in.hubs$name, wa.hubs$name, tn.hubs$name), category.names=c("IN","WA","TN"), filename="Figures/Soil.Net.Venn.png", output=T)
+intersect(wa.hubs$name, in.hubs$name, tn.hubs$name)
+intersect(wa.hubs$name, in.hubs$name) %>% intersect(tn.hubs$name)
+intersect(wa.hubs$name, in.hubs$name)
+in.hubs <- read.csv("Results/Shavings.HubOTUS.IN.csv")#
+tn.hubs <- read.csv("Results/Shavings.HubOTUS.TN.csv")#
+wa.hubs <- read.csv("Results/Shavings.HubOTUS.WA.csv")#
+#
+intersect(in.hubs$name, tn.hubs$name)#
+intersect(wa.hubs$name, tn.hubs$name)#
+intersect(wa.hubs$name, in.hubs$name)#
+intersect(wa.hubs$name, in.hubs$name) %>% intersect(tn.hubs$name)
+venn.diagram(x = list(in.hubs$name, wa.hubs$name, tn.hubs$name), category.names=c("IN","WA","TN"), filename="Figures/Shavings.Net.Venn.png", output=T)
+otunames.rf <- read.csv("../../Results/RF.shavings.t.table.csv", row.names=1)
+cur.s<-"IN"
+setwd(paste("./Net.analysis/CorrNetworks.", cur.s, sep=""))
+otunames.rf <- read.csv("../../Results/RF.shavings.t.table.csv", row.names=1)
+otunames.rf[as.chacater(bd.tab$name),]
+bd.tab <- read.csv(paste("../../Results/Shavings.HubOTUS.", cur.s, ".csv", sep=""))
+bd.tab
+otunames.rf[as.chacater(bd.tab$name),]
+otunames.rf[as.character(bd.tab$name),]
+otunames.rf
+as.character(bd.tab$name)
+x<- intersect(as.character(bd.tab$name), rownames(otunames.rf))
+x
+otunames.rf[x,]
+otunames.rf[x,] %>% write.csv(., paste("../../Results/Shavings.HubOTUS.RF.consensus.", cur.s, ".csv", sep=""), quote=F, row.names=T)
+cur.s<-"TN"
+setwd("../..")
+setwd(paste("./Net.analysis/CorrNetworks.", cur.s, sep=""))
+bd.tab <- read.csv(paste("../../Results/Shavings.HubOTUS.", cur.s, ".csv", sep=""))
+x<- intersect(as.character(bd.tab$name), rownames(otunames.rf))
+otunames.rf[x,] %>% write.csv(., paste("../../Results/Shavings.HubOTUS.RF.consensus.", cur.s, ".csv", sep=""), quote=F, row.names=T)
+otunames.rf[x,]
+cur.s<-"WA"
+setwd(paste("./Net.analysis/CorrNetworks.", cur.s, sep=""))
+setwd("../..")
+setwd(paste("./Net.analysis/CorrNetworks.", cur.s, sep=""))
+bd.tab <- read.csv(paste("../../Results/Shavings.HubOTUS.", cur.s, ".csv", sep=""))
+x<- intersect(as.character(bd.tab$name), rownames(otunames.rf))
+otunames.rf[x,] %>% write.csv(., paste("../../Results/Shavings.HubOTUS.RF.consensus.", cur.s, ".csv", sep=""), quote=F, row.names=T)
+otunames.rf[x,]
+entropy
+in.hubs <- read.csv("Results/Soils.HubOTUS.IN.csv")#
+tn.hubs <- read.csv("Results/Soils.HubOTUS.TN.csv")#
+wa.hubs <- read.csv("Results/Soils.HubOTUS.WA.csv")#
+#
+intersect(in.hubs$name, tn.hubs$name)#
+intersect(wa.hubs$name, tn.hubs$name)#
+intersect(wa.hubs$name, in.hubs$name)#
+intersect(wa.hubs$name, in.hubs$name) %>% intersect(tn.hubs$name)
+setwd("../..")
+in.hubs <- read.csv("Results/Soils.HubOTUS.IN.csv")#
+tn.hubs <- read.csv("Results/Soils.HubOTUS.TN.csv")#
+wa.hubs <- read.csv("Results/Soils.HubOTUS.WA.csv")#
+#
+intersect(in.hubs$name, tn.hubs$name)#
+intersect(wa.hubs$name, tn.hubs$name)#
+intersect(wa.hubs$name, in.hubs$name)#
+intersect(wa.hubs$name, in.hubs$name) %>% intersect(tn.hubs$name)
+citation(QuACN)
+citation('QuACN')
+citation('acss')
