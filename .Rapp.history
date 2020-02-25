@@ -247,7 +247,6 @@ source("Net.complex.functions.R")
 source("Net.complex.functions.R")
 source("./OACC/BDM2D.R")
 source("Net.complex.functions.R")
-source("Net.complex.functions.R")
 p<-0.001
 R<-0.8
 r<0.8

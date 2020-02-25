@@ -108,71 +108,23 @@ out <-NULL
 
 for (p in c("0.05","0.01","0.005", "0.001")) {
   for (r in c("0.6","0.8")) {
-  	out <- rbind(out, cbind(data.frame(State = "IN", P=p, R=r), analyze.network(p, r, "IN", subs=TRUE)))
-  	out <- rbind(out, cbind(data.frame(State = "TN", P=p, R=r), analyze.network(p, r, "TN", subs=TRUE)))
-  	out <- rbind(out, cbind(data.frame(State = "WA", P=p, R=r), analyze.network(p, r, "WA", subs=TRUE)))
+  	
+  	IN <- read.network (p, r, "IN", subs=T, tissue="shavings", path = ".")
+	TN <- read.network (p, r, "TN", subs=T, tissue="shavings", path = ".")
+  	WA <- read.network (p, r, "WA", subs=T, tissue="shavings", path = ".")
+  	
+  	states <- list(IN,TN,WA)
+  	names(states) <- c("IN", "TN", "WA")
+  	out <- rbind(out, cbind(data.frame(P = rep(p, 3), R = rep(r, 3)), compare.networks(states)))
 }}
-#out$P <- c(rep("0.05",6),rep("0.01",6),rep("0.005",6),rep("0.001",6))
-#out$P <- as.factor(out$P)
+
 out$P <- out$P %>% as.character() %>% as.numeric()
 
 out %>% write.csv("Results/Network.complexity.caulosphere.csv")
 
 save.image("R_Environments/Caulo.net.stats.RData")
 
-quartz()
-with(out[out$State=="IN" & out$R == 0.8,], plot(P, Kolmogorov, lty=1, type="b", ylim=c(0,max(out$Kolmogorov))))
-with(out[out$State=="TN" & out$R == 0.8,], lines(P, Kolmogorov, lty = 2, type="b"))
-with(out[out$State=="WA" & out$R == 0.8,], lines(P, Kolmogorov, lty = 3, type="b"))
-with(out[out$State=="IN" & out$R == 0.6,], lines(P, Kolmogorov, lty = 1, type="b", pch=2))
-with(out[out$State=="TN" & out$R == 0.6,], lines(P, Kolmogorov, lty = 2, type="b", pch=2))
-with(out[out$State=="WA" & out$R == 0.6,], lines(P, Kolmogorov, lty = 3, type="b", pch=2))
-legend('topleft', legend=c("IN","TN","WA","R=0.8","R=0.6"), lty=c(1,2,3,NA,NA), pch=c(NA,NA,NA,1,2))
-
-quartz()
-with(out[out$State=="IN" & out$R == 0.8,], plot(P, Entropy, lty=1, type="b", ylim=c(min(out$Entropy),max(out$Entropy))))
-with(out[out$State=="TN" & out$R == 0.8,], lines(P, Entropy, lty = 2, type="b"))
-with(out[out$State=="WA" & out$R == 0.8,], lines(P, Entropy, lty = 3, type="b"))
-with(out[out$State=="IN" & out$R == 0.6,], lines(P, Entropy, lty = 1, type="b", pch=2))
-with(out[out$State=="TN" & out$R == 0.6,], lines(P, Entropy, lty = 2, type="b", pch=2))
-with(out[out$State=="WA" & out$R == 0.6,], lines(P, Entropy, lty = 3, type="b", pch=2))
-legend('bottomright', legend=c("IN","TN","WA","R=0.8","R=0.6"), lty=c(1,2,3,NA,NA), pch=c(NA,NA,NA,1,2))
-
-quartz()
-with(out[out$State=="IN" & out$R == 0.8,], plot(P, Complex.Index, lty=1, type="b", ylim=c(min(out$Complex.Index),max(out$Complex.Index))))
-with(out[out$State=="TN" & out$R == 0.8,], lines(P, Complex.Index, lty = 2, type="b"))
-with(out[out$State=="WA" & out$R == 0.8,], lines(P, Complex.Index, lty = 3, type="b"))
-with(out[out$State=="IN" & out$R == 0.6,], lines(P, Complex.Index, lty = 1, type="b", pch=2))
-with(out[out$State=="TN" & out$R == 0.6,], lines(P, Complex.Index, lty = 2, type="b", pch=2))
-with(out[out$State=="WA" & out$R == 0.6,], lines(P, Complex.Index, lty = 3, type="b", pch=2))
-legend('topleft', legend=c("IN","TN","WA","R=0.8","R=0.6"), lty=c(1,2,3,NA,NA), pch=c(NA,NA,NA,1,2))
-
-quartz()
-with(out[out$State=="IN" & out$R == 0.8,], plot(P, Norm.Edge.Complex, lty=1, type="b", ylim=c(min(out$Norm.Edge.Complex),max(out$Norm.Edge.Complex))))
-with(out[out$State=="TN" & out$R == 0.8,], lines(P, Norm.Edge.Complex, lty = 2, type="b"))
-with(out[out$State=="WA" & out$R == 0.8,], lines(P, Norm.Edge.Complex, lty = 3, type="b"))
-with(out[out$State=="IN" & out$R == 0.6,], lines(P, Norm.Edge.Complex, lty = 1, type="b", pch=2))
-with(out[out$State=="TN" & out$R == 0.6,], lines(P, Norm.Edge.Complex, lty = 2, type="b", pch=2))
-with(out[out$State=="WA" & out$R == 0.6,], lines(P, Norm.Edge.Complex, lty = 3, type="b", pch=2))
-legend('topleft', legend=c("IN","TN","WA","R=0.8","R=0.6"), lty=c(1,2,3,NA,NA), pch=c(NA,NA,NA,1,2))
-
-quartz()
-with(out[out$State=="IN" & out$R == 0.8,], plot(P, Shannon.ent, lty=1, type="b", ylim=c(min(out$Shannon.ent),max(out$Shannon.ent))))
-with(out[out$State=="TN" & out$R == 0.8,], lines(P, Shannon.ent, lty = 2, type="b"))
-with(out[out$State=="WA" & out$R == 0.8,], lines(P, Shannon.ent, lty = 3, type="b"))
-with(out[out$State=="IN" & out$R == 0.6,], lines(P, Shannon.ent, lty = 1, type="b", pch=2))
-with(out[out$State=="TN" & out$R == 0.6,], lines(P, Shannon.ent, lty = 2, type="b", pch=2))
-with(out[out$State=="WA" & out$R == 0.6,], lines(P, Shannon.ent, lty = 3, type="b", pch=2))
-legend('topleft', legend=c("IN","TN","WA","R=0.8","R=0.6"), lty=c(1,2,3,NA,NA), pch=c(NA,NA,NA,1,2))
-
-quartz()
-with(out[out$State=="IN" & out$R == 0.8,], plot(P, Shannon.2nd, lty=1, type="b", ylim=c(min(out$Shannon.2nd),max(out$Shannon.2nd))))
-with(out[out$State=="TN" & out$R == 0.8,], lines(P, Shannon.2nd, lty = 2, type="b"))
-with(out[out$State=="WA" & out$R == 0.8,], lines(P, Shannon.2nd, lty = 3, type="b"))
-with(out[out$State=="IN" & out$R == 0.6,], lines(P, Shannon.2nd, lty = 1, type="b", pch=2))
-with(out[out$State=="TN" & out$R == 0.6,], lines(P, Shannon.2nd, lty = 2, type="b", pch=2))
-with(out[out$State=="WA" & out$R == 0.6,], lines(P, Shannon.2nd, lty = 3, type="b", pch=2))
-legend('topleft', legend=c("IN","TN","WA","R=0.8","R=0.6"), lty=c(1,2,3,NA,NA), pch=c(NA,NA,NA,1,2))
+net.complex.multipanel (out)
 
 ## hubs shared between states
 
