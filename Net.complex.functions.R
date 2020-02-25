@@ -79,14 +79,14 @@ compare.networks <- function (g = list(), bs=4, subs=T) { # takes a named list o
 	summaryBy( . ~ Name, boot.out, FUN = c(mean, sd) )
 }
 
-network.complexity.plot <- function (x, stat=c("Kolmogorov", "Entropy", "Complex.Index", "Norm.Edge.Complex", "Shannon.ent", "Shannon.2nd"), maxx=max(x$y2), leg=NA) {
+network.complexity.plot <- function (x, stat=c("Kolmogorov", "Entropy", "Complex.Index", "Norm.Edge.Complex", "Shannon.ent", "Shannon.2nd"), maxx=max(x$P), maxy=max(x$y2), leg=NA) {
 
 	s.m <- paste(stat, "mean", sep=".")
 	s.s <- paste(stat, "sd", sep=".")
 	x$y1 <- x[,s.m] - x[,s.s]
 	x$y2 <- x[,s.m] + x[,s.s]
 
-	x[x$Name=="IN" & x$R == 0.8, c("P", s.m)] %>% plot(lty=1, type="b", ylim=c(0,maxx))
+	x[x$Name=="IN" & x$R == 0.8, c("P", s.m)] %>% plot(lty=1, type="b", xlim=c(0,maxx), ylim=c(0,maxy))
 	x[x$Name=="TN" & x$R == 0.8, c("P", s.m)] %>% lines(lty = 2, type="b")
 	x[x$Name=="WA" & x$R == 0.8, c("P", s.m)] %>% lines(lty = 3, type="b")
 
