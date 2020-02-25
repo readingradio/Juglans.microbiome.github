@@ -126,6 +126,7 @@ save.image("R_Environments/Soil.net.stats.RData")
 
 quartz()
 net.complex.multipanel (out)
+net.complex.multipanel (out[out$P<0.00005,])
 
 ## hubs shared between states
 

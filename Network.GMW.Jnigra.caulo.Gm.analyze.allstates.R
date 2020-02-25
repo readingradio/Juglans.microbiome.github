@@ -122,13 +122,14 @@ out$P <- out$P %>% as.character() %>% as.numeric()
 
 out %>% write.csv("Results/Network.complexity.caulosphere.csv")
 
+#out <- read.csv("Results/Network.complexity.caulosphere.csv")[,-1]
 save.image("R_Environments/Caulo.net.stats.RData")
 
 #load("R_Environments/Caulo.net.stats.RData")
 
 quartz()
 net.complex.multipanel (out)
-net.complex.multipanel (out[out$P<0.00005,])
+net.complex.multipanel (out[out$P<0.05,])
 
 ## hubs shared between states
 
