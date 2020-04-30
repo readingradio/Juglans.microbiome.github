@@ -25,12 +25,12 @@ rarefaction.curve <- function (curves, legpos='none') {
 			axis.text = element_text(size = 14))
 }
 
-rare.xlab <- function (main="") labs(title=main, x="\nK Sequences Sampled", y="")
+rare.xlab <- function (main="") labs(title=main, x="\n1000 Sequences Sampled", y="")
 rare.ylab <- function (main="") labs(title=main, x="", y="OTU Richness\n")
 rare.main <- function (main="") labs(title=main, x="", y="")
-rare.corn <- function (main="") labs(title=main, x="\nK Sequences Sampled", y="OTU Richness\n")
+rare.corn <- function (main="") labs(title=main, x="\n1000 Sequences Sampled", y="OTU Richness\n")
 
-rare.lgnd <- function () theme(legend.text=element_text(size=14), legend.title=element_text(size=14))
+rare.lgnd <- function () theme(legend.text=element_text(size=20), legend.title=element_text(size=20))
 
 ##### ITS2 SOIL
 
@@ -100,7 +100,8 @@ B16s.branches <- rarefaction.curve(B16s.branches.curves, legpos="none")
 
 grid.arrange(its2.branches + rare.ylab("ITS2 Branches"), its2.soil + rare.main("ITS2 Soil"), B16s.branches + rare.corn("16S Branches"), B16s.soil + rare.xlab("16S Soil"), nrow=2, ncol=2)
 
-ggarrange(its2.branches + rare.ylab("ITS2 Branches"), its2.soil + rare.main("ITS2 Soil"), B16s.branches + rare.corn("16S Branches"), B16s.soil + rare.xlab("16S Soil"), nrow=2, ncol=2)
+plots<-ggarrange(its2.branches + rare.ylab("ITS2 Branches"), its2.soil + rare.main("ITS2 Soil"), B16s.branches + rare.corn("16S Branches"), B16s.soil + rare.xlab("16S Soil"), nrow=2, ncol=2, common.legend= TRUE, legend="right")
+ggexport(plots,filename="../Figures/Figure S1.pdf", height=8, width=9)
 
 combined.curves <-
 	rbind(data.frame(its2.soil.curves[,c("numsampled","sobs","sample","State")], Compart="Soil", Barcode="ITS2"),
