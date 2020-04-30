@@ -1,0 +1,35 @@
+### this script produce a .subsample.shared file and produces rarefaction curves
+#
+# run from script directory
+#
+set.dir(input=../Mothur_output, output=../Mothur_output)
+#
+# insert your final shared file here to find the smallest size sample
+#
+count.groups(shared=Phyllo.ITS2.jn.Oct2019.opti_mcc.branch.shared)
+#
+# find number to rarefy to 
+#
+## rarefaction curve
+## will skip every 100 curves
+#
+rarefaction.shared(shared=Phyllo.ITS2.jn.Oct2019.opti_mcc.branch.shared)
+#
+rarefaction.single(shared=Phyllo.ITS2.jn.Oct2019.opti_mcc.branch.shared, calc=sobs, freq=100)
+#
+# does all possible rarefactions
+# many NAs because different depths of coverage
+#
+summary.single(shared=Phyllo.ITS2.jn.Oct2019.opti_mcc.branch.shared, calc=sobs-chao-coverage-invsimpson-shannon-nseqs, subsample=T)
+#
+# TRUE uses smallest sample size
+# first two files without rarefection
+# second two average after rarefaction
+# third w sd deviation
+#
+# You can graphically visualize rarefaction curves with R
+#
+# finally use this command to produce your .subsample.shared file
+#
+# sub.sample(shared=Phyllo.ITS2.jn.Oct2019.opti_mcc.branch.shared)
+quit()

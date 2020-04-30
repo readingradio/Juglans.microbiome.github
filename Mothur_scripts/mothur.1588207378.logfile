@@ -1,0 +1,89 @@
+Mac version
+
+Using ReadLine
+
+Using Boost
+
+Running 64Bit Version
+
+mothur v.1.40.4
+Last updated: 05/31/18
+by
+Patrick D. Schloss
+
+Department of Microbiology & Immunology
+
+University of Michigan
+http://www.mothur.org
+
+When using, please cite:
+Schloss, P.D., et al., Introducing mothur: Open-source, platform-independent, community-supported software for describing and comparing microbial communities. Appl Environ Microbiol, 2009. 75(23):7537-41.
+
+Distributed under the GNU General Public License
+
+Type 'help()' for information on the commands that are available
+
+For questions and analysis support, please visit our forum at https://www.mothur.org/forum
+
+Type 'quit()' to exit program
+
+Batch Mode
+
+
+mothur > set.dir(input=../Mothur_output, output=../Mothur_output)
+Mothur's directories:
+outputDir=/Users/will1809/OneDrive - purdue.edu/TCD microbiome spring 2017/Aaron Manuscript/Geoff_Final_RFiles/Juglans.microbiome.github/Mothur_output/
+inputDir=/Users/will1809/OneDrive - purdue.edu/TCD microbiome spring 2017/Aaron Manuscript/Geoff_Final_RFiles/Juglans.microbiome.github/Mothur_output/
+
+mothur > count.groups(shared=Soil.ITS2.jn.Oct2019.opti_mcc.shared)
+Unable to open /Users/will1809/OneDriveSoil.ITS2.jn.Oct2019.opti_mcc.shared. Trying input directory /Users/will1809/OneDrive - purdue.edu/TCD microbiome spring 2017/Aaron Manuscript/Geoff_Final_RFiles/Juglans.microbiome.github/Mothur_output/OneDriveSoil.ITS2.jn.Oct2019.opti_mcc.shared.
+Unable to open /Users/will1809/OneDrive - purdue.edu/TCD microbiome spring 2017/Aaron Manuscript/Geoff_Final_RFiles/Juglans.microbiome.github/Mothur_output/OneDriveSoil.ITS2.jn.Oct2019.opti_mcc.shared. Trying output directory /Users/will1809/OneDrive - purdue.edu/TCD microbiome spring 2017/Aaron Manuscript/Geoff_Final_RFiles/Juglans.microbiome.github/Mothur_output/OneDriveSoil.ITS2.jn.Oct2019.opti_mcc.shared.
+Unable to open /Users/will1809/OneDrive - purdue.edu/TCD microbiome spring 2017/Aaron Manuscript/Geoff_Final_RFiles/Juglans.microbiome.github/Mothur_output/OneDriveSoil.ITS2.jn.Oct2019.opti_mcc.shared. Trying default /Users/will1809/mothur/OneDriveSoil.ITS2.jn.Oct2019.opti_mcc.shared.
+Unable to open /Users/will1809/mothur/OneDriveSoil.ITS2.jn.Oct2019.opti_mcc.shared. Trying mothur's executable location /Users/will1809/mothur/OneDriveSoil.ITS2.jn.Oct2019.opti_mcc.shared.
+Unable to open /Users/will1809/mothur/OneDriveSoil.ITS2.jn.Oct2019.opti_mcc.shared.
+Unable to open /Users/will1809/OneDriveSoil.ITS2.jn.Oct2019.opti_mcc.shared
+You have no current groupfile, countfile or sharedfile and one is required.
+[ERROR]: did not complete count.groups.
+
+mothur > rarefaction.shared(shared=Soil.ITS2.jn.Oct2019.opti_mcc.shared)
+Unable to open /Users/will1809/OneDriveSoil.ITS2.jn.Oct2019.opti_mcc.shared. Trying input directory /Users/will1809/OneDrive - purdue.edu/TCD microbiome spring 2017/Aaron Manuscript/Geoff_Final_RFiles/Juglans.microbiome.github/Mothur_output/OneDriveSoil.ITS2.jn.Oct2019.opti_mcc.shared.
+Unable to open /Users/will1809/OneDrive - purdue.edu/TCD microbiome spring 2017/Aaron Manuscript/Geoff_Final_RFiles/Juglans.microbiome.github/Mothur_output/OneDriveSoil.ITS2.jn.Oct2019.opti_mcc.shared. Trying output directory /Users/will1809/OneDrive - purdue.edu/TCD microbiome spring 2017/Aaron Manuscript/Geoff_Final_RFiles/Juglans.microbiome.github/Mothur_output/OneDriveSoil.ITS2.jn.Oct2019.opti_mcc.shared.
+Unable to open /Users/will1809/OneDrive - purdue.edu/TCD microbiome spring 2017/Aaron Manuscript/Geoff_Final_RFiles/Juglans.microbiome.github/Mothur_output/OneDriveSoil.ITS2.jn.Oct2019.opti_mcc.shared. Trying default /Users/will1809/mothur/OneDriveSoil.ITS2.jn.Oct2019.opti_mcc.shared.
+Unable to open /Users/will1809/mothur/OneDriveSoil.ITS2.jn.Oct2019.opti_mcc.shared. Trying mothur's executable location /Users/will1809/mothur/OneDriveSoil.ITS2.jn.Oct2019.opti_mcc.shared.
+Unable to open /Users/will1809/mothur/OneDriveSoil.ITS2.jn.Oct2019.opti_mcc.shared.
+Unable to open /Users/will1809/OneDriveSoil.ITS2.jn.Oct2019.opti_mcc.shared
+[ERROR]: did not complete rarefaction.shared.
+
+mothur > rarefaction.single(shared=Soil.ITS2.jn.Oct2019.opti_mcc.shared, calc=sobs, freq=100)
+Unable to open /Users/will1809/OneDriveSoil.ITS2.jn.Oct2019.opti_mcc.shared. Trying input directory /Users/will1809/OneDrive - purdue.edu/TCD microbiome spring 2017/Aaron Manuscript/Geoff_Final_RFiles/Juglans.microbiome.github/Mothur_output/OneDriveSoil.ITS2.jn.Oct2019.opti_mcc.shared.
+Unable to open /Users/will1809/OneDrive - purdue.edu/TCD microbiome spring 2017/Aaron Manuscript/Geoff_Final_RFiles/Juglans.microbiome.github/Mothur_output/OneDriveSoil.ITS2.jn.Oct2019.opti_mcc.shared. Trying output directory /Users/will1809/OneDrive - purdue.edu/TCD microbiome spring 2017/Aaron Manuscript/Geoff_Final_RFiles/Juglans.microbiome.github/Mothur_output/OneDriveSoil.ITS2.jn.Oct2019.opti_mcc.shared.
+Unable to open /Users/will1809/OneDrive - purdue.edu/TCD microbiome spring 2017/Aaron Manuscript/Geoff_Final_RFiles/Juglans.microbiome.github/Mothur_output/OneDriveSoil.ITS2.jn.Oct2019.opti_mcc.shared. Trying default /Users/will1809/mothur/OneDriveSoil.ITS2.jn.Oct2019.opti_mcc.shared.
+Unable to open /Users/will1809/mothur/OneDriveSoil.ITS2.jn.Oct2019.opti_mcc.shared. Trying mothur's executable location /Users/will1809/mothur/OneDriveSoil.ITS2.jn.Oct2019.opti_mcc.shared.
+Unable to open /Users/will1809/mothur/OneDriveSoil.ITS2.jn.Oct2019.opti_mcc.shared.
+Unable to open /Users/will1809/OneDriveSoil.ITS2.jn.Oct2019.opti_mcc.shared
+No valid current files. You must provide a list, sabund, rabund or shared file before you can use the collect.single command.
+[ERROR]: did not complete rarefaction.single.
+
+mothur > summary.single(shared=Soil.ITS2.jn.Oct2019.opti_mcc.shared, calc=sobs-chao-coverage-invsimpson-shannon-nseqs, subsample=T)
+Unable to open /Users/will1809/OneDriveSoil.ITS2.jn.Oct2019.opti_mcc.shared. Trying input directory /Users/will1809/OneDrive - purdue.edu/TCD microbiome spring 2017/Aaron Manuscript/Geoff_Final_RFiles/Juglans.microbiome.github/Mothur_output/OneDriveSoil.ITS2.jn.Oct2019.opti_mcc.shared.
+Unable to open /Users/will1809/OneDrive - purdue.edu/TCD microbiome spring 2017/Aaron Manuscript/Geoff_Final_RFiles/Juglans.microbiome.github/Mothur_output/OneDriveSoil.ITS2.jn.Oct2019.opti_mcc.shared. Trying output directory /Users/will1809/OneDrive - purdue.edu/TCD microbiome spring 2017/Aaron Manuscript/Geoff_Final_RFiles/Juglans.microbiome.github/Mothur_output/OneDriveSoil.ITS2.jn.Oct2019.opti_mcc.shared.
+Unable to open /Users/will1809/OneDrive - purdue.edu/TCD microbiome spring 2017/Aaron Manuscript/Geoff_Final_RFiles/Juglans.microbiome.github/Mothur_output/OneDriveSoil.ITS2.jn.Oct2019.opti_mcc.shared. Trying default /Users/will1809/mothur/OneDriveSoil.ITS2.jn.Oct2019.opti_mcc.shared.
+Unable to open /Users/will1809/mothur/OneDriveSoil.ITS2.jn.Oct2019.opti_mcc.shared. Trying mothur's executable location /Users/will1809/mothur/OneDriveSoil.ITS2.jn.Oct2019.opti_mcc.shared.
+Unable to open /Users/will1809/mothur/OneDriveSoil.ITS2.jn.Oct2019.opti_mcc.shared.
+Unable to open /Users/will1809/OneDriveSoil.ITS2.jn.Oct2019.opti_mcc.shared
+No valid current files. You must provide a list, sabund, rabund or shared file before you can use the collect.single command.
+[ERROR]: If you want to subsample with a list, rabund or sabund file, you must provide the sample size.  You can do this by setting subsample=yourSampleSize.
+[ERROR]: did not complete summary.single.
+
+mothur > quit()
+
+mothur > quit()
+
+
+************************************************************
+************************************************************
+************************************************************
+Detected 5 [ERROR] messages, please review.
+************************************************************
+************************************************************
+************************************************************

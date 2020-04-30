@@ -177,6 +177,7 @@ custom.otu.tax.tbl(shavings.merge, 'Order', 'o__Ophiostomatales')
 ## SOIL #################
 #########################
 
+custom.otu.tax.tbl(shavings.merge, 'Genus', 'g__Fusarium')
 custom.otu.tax.tbl(soils.merge, 'Genus', 'g__Fusarium')[,1:10]
 custom.otu.tax.tbl(soils.merge, 'Family', 'f__Xylariaceae')
 custom.otu.tax.tbl(soils.merge, 'Genus', 'g__Neocosmospora')
