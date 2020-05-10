@@ -1,0 +1,921 @@
+---
+title: "16S_Caulosphere_Microbiome2017_FA19"
+author: "Aaron Onufrak"
+date: "Fall 2019"
+output: rmdformats::readthedown
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# R Packages
+
+The following code uses several packages including vegan for community ecology, tidyr and ply for organizing data tables and manipulating strings of text, and ggplot for plotting data. 
+
+```{r Packages, results='hide',message=FALSE}
+#In this chunk I load all of the requisite packages.
+library(vegan)
+library(ggplot2)
+library(ggpubr)
+library(tidyr)
+library(plyr)
+library(data.table)
+library(RColorBrewer)
+library(ape)
+library(car)
+library(Hmisc)
+library(plotly)
+library(knitr)
+library(kableExtra)
+library(DT)
+```
+
+# Project Summary
+The following code is used to analyze 16S data from drill shaving samples collected from phloem tissues of 47 *Juglans nigra* trees. Raw reads were generated on the Illumina Miseq platform (2x250) and processed into OTUs using the bioinformatics pipeline Mothur. Following sequence processing in Mothur, a total of 4,530 OTUs were generated from 18,922 unique sequences (333,951 sequences total from 5,628,726 reads prior to processing).Taxonomic assignments were made in Mothur using the SILVA database. OTUs were generated in MOTHUR using a 97% similarity threshold for sequences aligned to the V4 region of the 16S rRNA region. 
+
+## Data Import
+Below raw OTU tables **(data has not yet been rarefied)**, metadata which indicates the state from which the sample was collected and clone ID, and the taxonomic classifications for each OTU are imported into R. 
+
+```{r Import Data and Subset}
+#First I import the whole OTU table I recieved from Mothur. Note at this point taxonomy is not included, it is just raw OTU counts (columns) by sample or group (rows). Below I indicate that the row.names are in column 2 of the imported file. 
+bigfile.sample.ds<-read.table("/Volumes/AaronOnufrakMac/researchprojects_2019.2022_ajo/j.nigra_microbiome_2017_ajo_gmw/barks16sstatistics_jnigra17_2019_ajo/bark16smothur_jnigra17_microbiome/bark16sotutable_jnigra17_fa19_ajo.shared",header=TRUE,sep="\t",fill=TRUE,strip.white=TRUE, row.names=2)
+
+#Next I import the metadata for the particular habitat of interest. In this case I am working with drill shavings. I will use this metadata to subset the larger OTU file above. 
+ds.met<-read.table("/Volumes/AaronOnufrakMac/researchprojects_2019.2022_ajo/j.nigra_microbiome_2017_ajo_gmw/barks16sstatistics_jnigra17_2019_ajo/bark16smothur_jnigra17_microbiome/bark16smetadata_jnigra17_su19_ajo.txt",header=TRUE,sep="\t",fill=TRUE,strip.white=TRUE)
+
+#Next I import the taxonomy file. In earlier versions of this code, this contained taxonomic assignments for the whole dataset and not just a single habitat. Current version is only 16S drill shaving data.  
+taxonomy.ds<-read.table("/Volumes/AaronOnufrakMac/researchprojects_2019.2022_ajo/j.nigra_microbiome_2017_ajo_gmw/barks16sstatistics_jnigra17_2019_ajo/bark16smothur_jnigra17_microbiome/bark16staxonomy_jnigra17_fa19_ajo.cons.taxonomy",header=TRUE,sep="\t",fill=TRUE,strip.white=TRUE,row.names=1)
+
+#I then create a new object that contains the group names from the metadata file. 
+ds.names<-ds.met$Group
+```
+
+## Data Subsetting
+Below I subset the OTU table to remove mothur inserted metadata which indicates the percent identity threshold and the number of OTUs. 
+```{r Data Clean-up}
+#Here I use the subset function to pull out just the samples belonging to drill shavings. 
+ds<-subset(bigfile.sample.ds, rownames(bigfile.sample.ds) %in% ds.names)
+
+#Here I am removing any OTU that is not present in any samples. What the below function is doing is summing the columns (OTUs) and any OTU that equals 0 is removed from the dataset. This will hopefully speed up downstream analyses. This function becomes more important when you have an OTU table from multiple habitats and are only interested in one habitat. 
+ds.pure<- ds[,colSums(ds)>0]
+
+#Here I am further subsetting the data. I am removing some MOTHUR metadata that is particularly meaningful to downstream analyses (i.e. percent identity cut-off and number of OTUs).  
+ds.pureotu<-ds.pure[,3:4530]
+```
+
+# Rarefaction and Singleton Removal
+To evaluate coverage and differences in sequencing depth between samples, I generate rarefaction curves with sequencing depth on the x-axis and number of OTUs on the y-axis. These curves can be used to evaluate where to set the rarefaction cut-off to reduce sampling biases when calculating alpha-diversity measures such as diversity and observed richness. Additionally, to reduce the effects of rare taxa on ordinations, I remove singletons here as well.
+## Rarefaction Curves
+Below I generate the rarefaction curves using the rarecurve function from vegan. This will take sometime to run, particularly on larger OTU tables. The output is then subset so that individual samples can be plotted in ggplot. 
+```{r Rarefaction and Singleton Removal, warning='hide', cache=TRUE}
+#Below I create the rarefaction curves for each sample using the rarecurve function from vegan. 
+library(vegan)
+rarebacdscurve<-rarecurve(ds.pureotu)
+
+#I then create an object that spans the range of the OTU richness. This will be used to plot the vertical line in my ggplot rarefaction curve. 
+f<-(0:2000)
+
+#I then create objects containing the x and y coordinates values for each sample. This is probably not the most elegant way of creating rarefaction curves in ggplot, but I don't know a better way at the moment. 
+sequenceds47<-attr(rarebacdscurve[[47]],which="Subsample")
+sequenceds46<-attr(rarebacdscurve[[46]],which="Subsample")
+sequenceds45<-attr(rarebacdscurve[[45]],which="Subsample")
+sequenceds44<-attr(rarebacdscurve[[44]],which="Subsample")
+sequenceds43<-attr(rarebacdscurve[[43]],which="Subsample") 
+sequenceds42<-attr(rarebacdscurve[[42]],which="Subsample")
+sequenceds41<-attr(rarebacdscurve[[41]],which="Subsample")
+sequenceds40<-attr(rarebacdscurve[[40]],which="Subsample")
+sequenceds39<-attr(rarebacdscurve[[39]],which="Subsample")
+sequenceds38<-attr(rarebacdscurve[[38]],which="Subsample")
+sequenceds37<-attr(rarebacdscurve[[37]],which="Subsample")
+sequenceds36<-attr(rarebacdscurve[[36]],which="Subsample")
+sequenceds35<-attr(rarebacdscurve[[35]],which="Subsample")
+sequenceds34<-attr(rarebacdscurve[[34]],which="Subsample")
+sequenceds33<-attr(rarebacdscurve[[33]],which="Subsample")
+sequenceds32<-attr(rarebacdscurve[[32]],which="Subsample")
+sequenceds31<-attr(rarebacdscurve[[31]],which="Subsample")
+sequenceds30<-attr(rarebacdscurve[[30]],which="Subsample")
+sequenceds29<-attr(rarebacdscurve[[29]],which="Subsample")
+sequenceds28<-attr(rarebacdscurve[[28]],which="Subsample")
+sequenceds27<-attr(rarebacdscurve[[27]],which="Subsample")
+sequenceds26<-attr(rarebacdscurve[[26]],which="Subsample")
+sequenceds25<-attr(rarebacdscurve[[25]],which="Subsample")
+sequenceds24<-attr(rarebacdscurve[[24]],which="Subsample")
+sequenceds23<-attr(rarebacdscurve[[23]],which="Subsample")
+sequenceds22<-attr(rarebacdscurve[[22]],which="Subsample")
+sequenceds21<-attr(rarebacdscurve[[21]],which="Subsample")
+sequenceds20<-attr(rarebacdscurve[[20]],which="Subsample")
+sequenceds19<-attr(rarebacdscurve[[19]],which="Subsample")
+sequenceds18<-attr(rarebacdscurve[[18]],which="Subsample")
+sequenceds17<-attr(rarebacdscurve[[17]],which="Subsample")
+sequenceds16<-attr(rarebacdscurve[[16]],which="Subsample")
+sequenceds15<-attr(rarebacdscurve[[15]],which="Subsample")
+sequenceds14<-attr(rarebacdscurve[[14]],which="Subsample")
+sequenceds13<-attr(rarebacdscurve[[13]],which="Subsample")
+sequenceds12<-attr(rarebacdscurve[[12]],which="Subsample")
+sequenceds11<-attr(rarebacdscurve[[11]],which="Subsample")
+sequenceds10<-attr(rarebacdscurve[[10]],which="Subsample")
+sequenceds9<-attr(rarebacdscurve[[9]],which="Subsample")
+sequenceds8<-attr(rarebacdscurve[[8]],which="Subsample")
+sequenceds7<-attr(rarebacdscurve[[7]],which="Subsample")
+sequenceds6<-attr(rarebacdscurve[[6]],which="Subsample")
+sequenceds5<-attr(rarebacdscurve[[5]],which="Subsample")
+sequenceds4<-attr(rarebacdscurve[[4]],which="Subsample")
+sequenceds3<-attr(rarebacdscurve[[3]],which="Subsample")
+sequenceds2<-attr(rarebacdscurve[[2]],which="Subsample")
+sequenceds1<-attr(rarebacdscurve[[1]],which="Subsample")
+
+#Here I plot the rarefaction curves using ggplot. 
+library(ggplot2)
+library(ggpubr)
+dsrarecurv<-ggplot()+
+  geom_line(aes(x=sequenceds47,y=rarebacdscurve[[47]]), size=1)+
+  geom_line(aes(x=sequenceds46,y=rarebacdscurve[[46]]),size=1)+
+  geom_line(aes(x=sequenceds45,y=rarebacdscurve[[45]]),size=1 )+
+  geom_line(aes(x=sequenceds44,y=rarebacdscurve[[44]]),size=1)+
+  geom_line(aes(x=sequenceds43,y=rarebacdscurve[[43]]),size=1)+
+  geom_line(aes(x=sequenceds42,y=rarebacdscurve[[42]]),size=1)+
+  geom_line(aes(x=sequenceds41,y=rarebacdscurve[[41]]),size=1)+
+  geom_line(aes(x=sequenceds40,y=rarebacdscurve[[40]]),size=1)+
+  geom_line(aes(x=sequenceds39,y=rarebacdscurve[[39]]), size=1)+  
+  geom_line(aes(x=sequenceds38,y=rarebacdscurve[[38]]), size=1)+  
+  geom_line(aes(x=sequenceds37,y=rarebacdscurve[[37]]), size=1)+
+  geom_line(aes(x=sequenceds36,y=rarebacdscurve[[36]]),size=1)+
+  geom_line(aes(x=sequenceds35,y=rarebacdscurve[[35]]),size=1 )+
+  geom_line(aes(x=sequenceds34,y=rarebacdscurve[[34]]),size=1)+
+  geom_line(aes(x=sequenceds33,y=rarebacdscurve[[33]]),size=1)+
+  geom_line(aes(x=sequenceds32,y=rarebacdscurve[[32]]),size=1)+
+  geom_line(aes(x=sequenceds31,y=rarebacdscurve[[31]]),size=1)+
+  geom_line(aes(x=sequenceds30,y=rarebacdscurve[[30]]),size=1)+
+  geom_line(aes(x=sequenceds29,y=rarebacdscurve[[29]]), size=1)+  
+  geom_line(aes(x=sequenceds28,y=rarebacdscurve[[28]]), size=1)+
+  geom_line(aes(x=sequenceds27,y=rarebacdscurve[[27]]), size=1)+
+  geom_line(aes(x=sequenceds26,y=rarebacdscurve[[26]]),size=1)+
+  geom_line(aes(x=sequenceds25,y=rarebacdscurve[[25]]),size=1 )+
+  geom_line(aes(x=sequenceds24,y=rarebacdscurve[[24]]),size=1)+
+  geom_line(aes(x=sequenceds23,y=rarebacdscurve[[23]]),size=1)+
+  geom_line(aes(x=sequenceds22,y=rarebacdscurve[[22]]),size=1)+
+  geom_line(aes(x=sequenceds21,y=rarebacdscurve[[21]]),size=1)+
+  geom_line(aes(x=sequenceds20,y=rarebacdscurve[[20]]),size=1)+
+  geom_line(aes(x=sequenceds19,y=rarebacdscurve[[19]]), size=1)+
+  geom_line(aes(x=sequenceds18,y=rarebacdscurve[[18]]),size=1)+
+  geom_line(aes(x=sequenceds17,y=rarebacdscurve[[17]]),size=1)+
+  geom_line(aes(x=sequenceds16,y=rarebacdscurve[[16]]),size=1)+
+  geom_line(aes(x=sequenceds15,y=rarebacdscurve[[15]]),size=1)+
+  geom_line(aes(x=sequenceds14,y=rarebacdscurve[[14]]), size=1)+
+  geom_line(aes(x=sequenceds13,y=rarebacdscurve[[13]]), size=1)+
+  geom_line(aes(x=sequenceds12,y=rarebacdscurve[[12]]),size=1)+
+  geom_line(aes(x=sequenceds11,y=rarebacdscurve[[11]]),size=1 )+
+  geom_line(aes(x=sequenceds10,y=rarebacdscurve[[10]]),size=1)+
+  geom_line(aes(x=sequenceds9,y=rarebacdscurve[[9]]),size=1)+
+  geom_line(aes(x=sequenceds8,y=rarebacdscurve[[8]]),size=1)+
+  geom_line(aes(x=sequenceds7,y=rarebacdscurve[[7]]),size=1)+
+  geom_line(aes(x=sequenceds6,y=rarebacdscurve[[6]]),size=1)+
+  geom_line(aes(x=sequenceds5,y=rarebacdscurve[[5]]), size=1)+
+  geom_line(aes(x=sequenceds4,y=rarebacdscurve[[4]]),size=1)+
+  geom_line(aes(x=sequenceds3,y=rarebacdscurve[[3]]),size=1)+
+  geom_line(aes(x=sequenceds2,y=rarebacdscurve[[2]]),size=1)+
+  geom_line(aes(x=sequenceds1,y=rarebacdscurve[[1]]),size=1)+
+  geom_path(aes(x=2000,y=f), linetype=5)+
+  #scale_color_manual(values=c("#00CCCC","#336699","#336699","#336699","#663300","#663300","#00CCCC","#CC9933","#CC9933","#CC9933","#0000FF","#0000FF","#006600","#006600"))+
+  theme(panel.grid.major=element_blank(),
+       panel.grid.minor=element_blank(),
+       panel.background = element_blank(),
+  panel.border=element_rect(color="black", size=1, fill=NA))+
+ theme(axis.title.x=element_text(size=14, face="bold"))+
+  theme(axis.title.y=element_text(size=14, face="bold"))+
+  theme(axis.text.x=element_text(size=12, face="bold"))+
+  theme(axis.text.y=element_text(size=12, face="bold"))+ 
+labs(x=("Sequencing Depth"), y=expression(bold(paste("OTU Richness", sep=""))))
+dsrarecurv
+#Save the rarefaction curves as a .png file at 300 dpi. 
+#ggsave(filename = "16s_drillshavings_rarecurve.png", plot(dsrarecurv),dpi=300)
+```
+
+
+## Sample Rarefaction
+Below I rarefy my samples using the rrarefy function from vegan. Rarefaction cut-offs are determined by reviewing the rarefaction curves and identifying the lowest number of sequences that minimizes sample loss but maximizing sampling depth across samples. Based on the above rarefaction curve, a cut-off of **2,000** sequences per samples results in the loss of seven samples (three from TN and four from WA).
+```{r Sample Rarefaction, warning=FALSE}
+#Here we are rarefying the data using the rrarefy function from vegan. I first use the sort function to determine the lowest number of sequences in a sample. 
+sort(rowSums(ds.pureotu[,1:4528]))
+
+#Then using the rrarefy function from vegan, I rarefy my samples. The rarefaction cutoff or "sample" value is determined by evaluating my rarefaction curves and choosing the number of sequences that minimizes sample loss but maximizes sampling depth. 
+library(vegan)
+ds.rareotu<-as.data.frame(rrarefy(ds.pureotu, sample=2000))
+```
+
+# Good's Coverage
+```{r}
+library(QsRutils)
+goods(ds.rareotu)
+```
+
+## Data Subsetting
+Below I remove **unrarefied samples (those less than minimum sequencing depth)** as well as **singleton OTUs (those with only one sequence following rarefaction)**.
+```{r Data Subsetting 2}
+#Because the rrarefy function doesn't automatically remove samples from the dataframe I subset the rarefied dataframe to remove unrarefied samples (those less than the minimum sequencing depth). 
+ds.rareotu<-as.data.frame(subset(ds.rareotu,rowSums(ds.rareotu)>=2000))
+
+#First I create an object that contains the sample names of the samples that passed through the rarefaction step. This will be used to filter the metadata file. 
+ds.samples<-row.names(ds.rareotu)
+ds.met.rare<-subset(ds.met,ds.met$Group%in% ds.samples)
+
+#I am now removing OTUs present in the OTU table that were only present in samples removed following rarefaction. These OTUs will have column sums of 0. 
+ds.rareotu<-ds.rareotu[,colSums(ds.rareotu)>0]
+
+#The following line is for saving the rarefied OTU table. This file is later reloaded to be used in downstream analyses. This is done to maintain consistency of results because rarefying generates slightly different results each time. 
+#write.table(ds.rareotu, "~/Documents/microbiome2017/16s_bark_otutable_rarefied_fa19_ajo.shared",sep="\t", row.names=TRUE)
+
+#I am now removing singleton OTUs (OTUs with only 1 representative sequence following rarefaction). This is to limit the effects of rare species on our distance matrices used during ordination.  
+ds.rareotu.nosingletons<-ds.rareotu[,colSums(ds.rareotu)>1]
+
+
+#The following line is for saving the rarefied OTU table with singletons removed. This file is later reloaded to be used in downstream analyses. This is done to maintain consistency of results because rarefying generates slightly different results each time. 
+#write.table(ds.rareotu.nosingletons, "~/Documents/microbiome2017/16s_bark_otutable_rarefied_nosingleton_fa19_ajo.shared",sep="\t", row.names=TRUE)
+```
+
+
+# Relative Abundance Charts
+To visualize differences in the relative abundance of different taxa, I reorganize the OTU table and taxonomy strings to create relative abundance stacked bar charts. Below, stacked bar charts are made for phylum, class, and order levels. 
+
+## Taxonomy Subsetting
+To begin, the taxonomy file is subsetted to include only taxonomy information for OTUs present in the rarefied OTU table with singletons removed. The OTU table is first transposed so that OTU IDs are the row names and sample names are the column names. Then the taxonomic assignments are added to the OTU table. Taxonomic strings are then split by semi-colon into individual columns by Phylum, Class, Order, Family, and Genus (SILVA does not go to species level).
+```{r Taxonomy Subsetting, message='hide', warning=FALSE}
+#Now that samples have been rarefied I can perform alpha and beta diversity analyses on my data sets. To begin I first reformat my OTU table so that I can do some filtering and add taxonomy information. 
+ds.rareotu.nosingles<-read.table("/Volumes/AaronOnufrakMac/researchprojects_2019.2022_ajo/j.nigra_microbiome_2017_ajo_gmw/barks16sstatistics_jnigra17_2019_ajo/bark16smothur_jnigra17_microbiome/bark16sotutable.rarefied.nosingleton_jnigra17_fa19_ajo.shared", header=TRUE, sep="\t")
+
+#I now transpose my OTU table so that I can begin to add in taxonomy information. 
+t.ds.rareotu.nosingles<-as.data.frame(t(ds.rareotu.nosingles))
+
+#The below function is asking specifically for the OTU IDs. These are the row names. I will use these to subset the taxonomy file. 
+t.ds.rareotu.nosingleslabs<-labels(t.ds.rareotu.nosingles)
+ds.taxrare<-subset(taxonomy.ds, rownames(taxonomy.ds) %in% t.ds.rareotu.nosingleslabs[[1]])
+
+#Now I am subsetting the new taxonomy file to include only the taxonomy information stored in column 2. 
+ds.taxrareinfo<-(ds.taxrare[,2])
+
+#Below I am using the separate function from tidyr to split the taxonomy strings into columns by semi-colon so that I can rename the OTUs to give them more meaning for downstream analyses.
+library(tidyr)
+
+#The SILVA database only provides classifications up to genus level, new columns are created only up to Genus level.
+ds.taxonomylabs<-c("kingdom","phylum","class","order","family","genus")
+
+#Below I create a new data frame with a column containing taxonomy information. 
+t.ds.rareotutabtax<-data.frame(taxonomy=ds.taxrareinfo,t.ds.rareotu.nosingles)
+
+#I then separate the taxonomy strings into new columns labeled with the taxonomy labels saved in the taxonomylabs object. Strings are being separated based on the presence of semi-colons. 
+t.ds.rareotutabtaxsep<-separate(t.ds.rareotutabtax,into=ds.taxonomylabs,col=taxonomy,sep=";")
+head(t.ds.rareotutabtaxsep)
+```
+
+## Relative Abundance OTU Table
+I then create a relative abundance OTU table. This table contains taxonomic information and can be searched to look at specific OTUs more easily.
+```{r Relative Abundance OTU Table, message='hide', warning=FALSE}
+#Now that samples have been rarefied I can perform alpha and beta diversity analyses on my data sets. To begin I first reformat my OTU table so that I can do some filtering and add taxonomy information. 
+ds.rareotu.nosingles<-read.table("/Volumes/AaronOnufrakMac/researchprojects_2019.2022_ajo/j.nigra_microbiome_2017_ajo_gmw/barks16sstatistics_jnigra17_2019_ajo/bark16smothur_jnigra17_microbiome/bark16sotutable.rarefied.nosingleton_jnigra17_fa19_ajo.shared", header=TRUE, sep="\t")
+
+ds.rareotu.nosingles.table<-decostand(ds.rareotu.nosingles,method="total")
+
+
+#I now transpose my OTU table so that I can begin to add in taxonomy information. 
+t.ds.rareotu.nosingles.table<-as.data.frame(t(ds.rareotu.nosingles.table))
+
+#The below function is asking specifically for the OTU IDs. These are the row names. I will use these to subset the taxonomy file. 
+t.ds.rareotu.nosingleslabs<-labels(t.ds.rareotu.nosingles.table)
+ds.taxrare<-subset(taxonomy.ds, rownames(taxonomy.ds) %in% t.ds.rareotu.nosingleslabs[[1]])
+
+#Now I am subsetting the new taxonomy file to include only the taxonomy information stored in column 2. 
+ds.taxrareinfo<-(ds.taxrare[,2])
+
+#Below I am using the separate function from tidyr to split the taxonomy strings into columns by semi-colon so that I can rename the OTUs to give them more meaning for downstream analyses.
+library(tidyr)
+
+#The SILVA database only provides classifications up to genus level, new columns are created only up to Genus level.
+ds.taxonomylabs<-c("kingdom","phylum","class","order","family","genus")
+
+#Below I create a new data frame with a column containing taxonomy information. 
+t.ds.rareotutabtax.table<-data.frame(taxonomy=ds.taxrareinfo,t.ds.rareotu.nosingles.table)
+
+#I then separate the taxonomy strings into new columns labeled with the taxonomy labels saved in the taxonomylabs object. Strings are being separated based on the presence of semi-colons. 
+t.ds.rareotutabtaxsep.table<-separate(t.ds.rareotutabtax.table,into=ds.taxonomylabs,col=taxonomy,sep=";")
+datatable(t.ds.rareotutabtaxsep.table, fillContainer = T, height="500dpx")
+```
+
+## Phylum Relative Abudance Charts
+Below I generate a phylum relative abundance plot. I first extract the phylum information. I then clean the taxa names to remove assignment confidence values. OTU raw abundance is then summed by phylum and state, phyla that represent less than 1% of the total community are grouped into other, and relative abundance is calculated. Stacked bar charts are made using the melt function and ggplot. 
+```{r Phylum Relative Abundance charts, warning=FALSE, message=FALSE}
+#Below I create a data frame that consists of phylum assignment and the rarefied OTU table. 
+t.ds.raretabphy<-data.frame(phylum=t.ds.rareotutabtaxsep$phylum,t.ds.rareotu.nosingles)
+
+#I then remove the assignment confidence values contained in parentheses found in each taxonomic string using the sub function.
+t.ds.raretabphy$phylum<-sub("\\(.*)","",x=t.ds.raretabphy$phylum)
+
+#The following code is for the generation of phylum relative abundance stacked bar charts. I first sum each OTU by the phylum it belongs to. 
+library(plyr)
+t.ds.rareotutabphy<-as.data.frame(ddply(t.ds.raretabphy, .(phylum),colwise(sum)))
+rownames(t.ds.rareotutabphy)<-make.names(t.ds.rareotutabphy$phylum)
+t.ds.rareotutabphy<-t.ds.rareotutabphy[,2:41]
+
+#I then transpose the data frame so that sample names are now row names and column names are OTU names. 
+ds.rareotutabphy<-as.data.frame(t(t.ds.rareotutabphy))
+ds.rareotutabphy.state<-data.frame(state=ds.met.rare$State,ds.rareotutabphy)
+
+#I then sum each OTU by state and subset to exclude sample names. This is because the following functions only work on matrices containing numeric data.  
+ds.rareotutabphy.statesum<-as.data.frame(ddply(ds.rareotutabphy.state, .(state),colwise(sum)))
+ds.phylumcols<-ds.rareotutabphy.statesum[,2:20]
+
+#I am now creating an other category. Other includes those OTUs belonging to a phylum that comprises less than 1% of the total community. This new object is referred to as phyothers.
+ds.phyoth<-ds.phylumcols[,colSums(ds.phylumcols)/sum(ds.phylumcols)<=0.01]
+ds.phyothers<-rowSums(ds.phyoth)
+
+#I then create an object that contains all of the phyla that comprise more than 1% of the total community. 
+ds.phyreg<-ds.phylumcols[,colSums(ds.phylumcols)/sum(ds.phylumcols)>0.01]
+
+#I then create a new dataframe containing the state information, the other column, and the remaining phyla.
+ds.phytot2<-data.frame(state=ds.rareotutabphy.statesum$state,ds.phyreg,Other=ds.phyothers)
+
+#These values are then converted to relative abundance using the decostand function from vegan. 
+library(vegan)
+ds.phyrelabund<-decostand(ds.phytot2[,2:10],method="total")
+ds.phyrelabund<-data.frame(state=ds.rareotutabphy.statesum$state,ds.phyrelabund)
+
+#Below I use the melt function from the data.table package to reformat the data into stacked bar graph format. 
+library(data.table)
+library(ggplot2)
+library(ggpubr)
+library(RColorBrewer)
+ds.phyrelabundmelt<-melt(ds.phyrelabund, id.vars="state", variable.name="Phylum")
+ds.colors.n.phylum <- length(unique(ds.phyrelabundmelt[,'Phylum']))
+
+#Below I generate the relative abundance bar charts in ggplot
+ds.phyrel<-ggplot(ds.phyrelabundmelt, aes(x=state, y=value, fill=Phylum))+
+  geom_bar(stat="identity", show.legend=TRUE, color="black")+
+  scale_fill_manual(values=colorRampPalette(brewer.pal(9, 'Set1'))(ds.colors.n.phylum)) +
+  xlab("State") +
+  ylab("Relative Abundance") +
+  scale_y_continuous(breaks=c(0,0.25,0.50,0.75,1),limits=c(0,1.05))+
+  theme(panel.border = element_blank(), panel.background=element_blank(),panel.grid.major = element_blank(), panel.grid.minor = element_blank(), axis.text.x = element_text(size = 14), axis.ticks.x = element_blank(), axis.text.y = element_text(size = 14), axis.line.y.left = element_line(), axis.title.y = element_text(size = 14))+
+geom_text(data=NULL,aes(x=0.5, y=1.05,label="Caulosphere: 16S"),hjust=0,colour="black")
+library(plotly)
+ggplotly(ds.phyrel,tooltip=c("Phylum"))
+#ggsave(filename = "16s_drillshavings_phylrelabund.png", plot(ds.phyrel),dpi=300)
+```
+
+## Class Relative Abundance Chart
+Below I generate a class relative abundance plot. I first extract the class information from the OTU table that contains the taxonomy information. I then clean the taxa names to remove assignment confidence values and other non-taxonomic associated string portions from the class assignment. I then create an unknown group which consists of uncultured bacteria and bacteria unclassified at the class level. OTU raw abundance is then summed by class and state, classes that represent less than 1% of the total community are grouped into other, and relative abundance is calculated. Stacked bar charts are made using the melt function from ggplot. 
+```{r Class Relative Abundance Chart, warning=FALSE, message=FALSE}
+#The following chunk creates a relative abundance bar chart at the class level. 
+library(plyr)
+t.ds.raretabcls<-data.frame(class=t.ds.rareotutabtaxsep$class,t.ds.rareotu.nosingles)
+
+#What I am doing below is cleaning up the class names. These include assignment confidence levels, _or, and _.
+t.ds.raretabcls$class<-sub("\\(.*)","",x=t.ds.raretabcls$class)
+t.ds.raretabcls$class<-sub("_or","",x=t.ds.raretabcls$class)
+t.ds.raretabcls$class<-sub("_"," ",x=t.ds.raretabcls$class)
+
+#I then sum the OTUs by class and make the row names the class name. 
+t.ds.rareotutabcls<-as.data.frame(ddply(t.ds.raretabcls, .(class),colwise(sum)))
+rownames(t.ds.rareotutabcls)<-make.names(t.ds.rareotutabcls$class)
+t.ds.rareotutabcls<-t.ds.rareotutabcls[,2:41]
+
+#I then transpose the data frame and sum each class by state. 
+ds.rareotutabcls<-as.data.frame(t(t.ds.rareotutabcls))
+ds.rareotutabcls.state<-data.frame(state=ds.met.rare$State,ds.rareotutabcls)
+ds.rareotutabcls.statesum<-as.data.frame(ddply(ds.rareotutabcls.state, .(state),colwise(sum)))
+
+#At the class level, SILVA may classify things as unknown class, phylum.unclassified, or uncultured. These don't provide a lot of information and thus are grouped into a knew group called unknown. 
+ds.clsunknown<-ds.rareotutabcls.statesum[,grep(".unclassified|Unknown.class|uncultured",names(ds.rareotutabcls.statesum))]
+ds.clsunknownsum<-rowSums(ds.clsunknown)
+
+#I then use the same grep function as above to pull out the class with meaningful information. By setting invert=TRUE I select items lacking the strings in the grep command. 
+ds.clstot<-ds.rareotutabcls.statesum[,grep(".unclassified|Unknown.class|uncultured",names(ds.rareotutabcls.statesum), invert=TRUE)]
+
+#I then subset the data so that only numerical data is present and creating a new class of objects, other, that includes OTUs from classes that represent 1% or less of the total community. 
+ds.clscols<-ds.clstot[,2:44]
+ds.clsoth<-ds.clscols[,colSums(ds.clscols)/sum(ds.clscols)<=0.01]
+ds.clsothers<-rowSums(ds.clsoth)
+ds.clsreg<-ds.clscols[,colSums(ds.clscols)/sum(ds.clscols)>0.01]
+
+#I then create a new data frame that contains all of the class data and determine relative abundance using the decostand function from vegan. 
+ds.clstot2<-data.frame(state=ds.clstot$state,ds.clsreg,Other=ds.clsothers,Unclassified=ds.clsunknownsum)
+library(vegan)
+ds.clsrelabund<-decostand(ds.clstot2[,2:12],method="total")
+ds.clsrelabund<-data.frame(state=ds.rareotutabcls.statesum$state,ds.clsrelabund)
+
+#Below I use the melt function from the data.table package to reformat the data into stacked bar graph format.
+library(data.table)
+library(ggplot2)
+library(ggpubr)
+library(RColorBrewer)
+ds.clsrelabundmelt<-melt(ds.clsrelabund, id.vars="state", variable.name="class")
+
+ds.cls.colorCount<- length(unique(ds.clsrelabundmelt[,'class']))
+getPalette=colorRampPalette(brewer.pal(9,"Set1"))
+
+#Below I generate the relative abundance bar charts in ggplot
+ds.clsrel<-ggplot(ds.clsrelabundmelt, aes(x=state, y=value, fill=class))+
+  geom_bar(stat="identity",show.legend=TRUE,color="black")+
+  scale_fill_manual(values=getPalette(ds.cls.colorCount))+
+  xlab("State") +
+  ylab("Relative Abundance") +
+   theme(panel.border = element_blank(),panel.background=element_blank(), panel.grid.major = element_blank(), panel.grid.minor = element_blank(), axis.text.x = element_text(size = 14), axis.ticks.x = element_blank(), axis.text.y = element_text(size = 14), axis.line.y.left = element_line(), axis.title.y = element_text(size = 14))+
+  scale_y_continuous(breaks=c(0,0.25,0.50,0.75,1),limits=c(0,1.05))+
+  geom_text(data=NULL,aes(x=0.51, y=1.05,label="Caulosphere: 16S"),hjust=0,colour="black")
+
+library(plotly)
+ggplotly(ds.clsrel,tooltip=c("class"))
+#ggsave(filename = "16s_drillshavings_clsrelabund.png", plot(ds.clsrel),dpi=300)
+```
+
+
+## Order Relative Abundance Chart
+Below I generate an order relative abundance plot. I first extract the order information from the OTU table that contains the taxonomy information. I then clean the taxa names to remove assignment confidence values and other non-taxonomic associated string portions from the order assignment. I then create an unknown group which consists of uncultured bacteria and bacteria unclassified at the order level. OTU raw abundance is then summed by order and state, orders that represent less than 1% of the total community are grouped into other, and relative abundance is calculated. Stacked bar charts are made using the melt function from ggplot. 
+```{r Order Relative Abundance Chart, message=FALSE, warning=FALSE}
+#The following chunk creates a relative abundance bar chart at the order level.
+
+#What I am doing below is cleaning up the order names. These include assignment confidence levels, _or, and _.
+library(plyr)
+t.ds.raretabord<-data.frame(order=t.ds.rareotutabtaxsep$order,t.ds.rareotu.nosingles)
+t.ds.raretabord$order<-sub("\\(.*)","",x=t.ds.raretabord$order)
+t.ds.raretabord$order<-sub("_or","",x=t.ds.raretabord$order)
+t.ds.raretabord$order<-sub("_"," ",x=t.ds.raretabord$order)
+
+#I then sum the OTUs by class and make the row names the order name. 
+t.ds.rareotutabord<-as.data.frame(ddply(t.ds.raretabord, .(order),colwise(sum)))
+rownames(t.ds.rareotutabord)<-make.names(t.ds.rareotutabord$order)
+t.ds.rareotutabord<-t.ds.rareotutabord[,2:41]
+
+#I then transpose the data frame and sum each order by state. 
+ds.rareotutabord<-as.data.frame(t(t.ds.rareotutabord))
+ds.rareotutabord.state<-data.frame(state=ds.met.rare$State,ds.rareotutabord)
+ds.rareotutabord.statesum<-as.data.frame(ddply(ds.rareotutabord.state, .(state),colwise(sum)))
+
+#At the class level, SILVA may classify things as unknown class, phylum.unclassified, or uncultured. These don't provide a lot of information and thus are grouped into a knew group called unknown. 
+ds.ordunknown<-ds.rareotutabord.statesum[,grep(".unclassified|Unknown.Order|uncultured",names(ds.rareotutabord.statesum))]
+
+#I then use the same grep function as above to pull out the order with meaningful information. By setting invert=TRUE I select items lacking the strings in the grep command. 
+ds.ordunknownsum<-rowSums(ds.ordunknown)
+ds.ordtot<-ds.rareotutabord.statesum[,grep(".unclassified|Unknown.Order|uncultured",names(ds.rareotutabord.statesum), invert=TRUE)]
+
+#I then subset the data so that only numerical data is present and creating a new class of objects, other, that includes OTUs from order that represent 1% or less of the total community. 
+ds.ordcols<-ds.ordtot[,2:92]
+ds.ordoth<-ds.ordcols[,colSums(ds.ordcols)/sum(ds.ordcols)<=0.01]
+ds.ordothers<-rowSums(ds.ordoth)
+ds.ordreg<-ds.ordcols[,colSums(ds.ordcols)/sum(ds.ordcols)>0.01]
+
+#I then create a new data frame that contains all of the order data and determine relative abundance using the decostand function from vegan. 
+library(vegan)
+ds.ordtot2<-data.frame(state=ds.ordtot$state,ds.ordreg,Other=ds.ordothers, Unclassified=ds.ordunknownsum)
+ds.ordrelabund<-decostand(ds.ordtot2[,2:25],method="total")
+ds.ordrelabund<-data.frame(state=ds.rareotutabord.statesum$state,ds.ordrelabund)
+
+#Below I use the melt function from the data.table package to reformat the data into stacked bar graph format.
+library(data.table)
+library(ggplot2)
+library(ggpubr)
+library(RColorBrewer)
+ds.ordrelabundmelt<-melt(ds.ordrelabund, id.vars="state", variable.name="order")
+
+ds.ord.colorCount<- length(unique(ds.ordrelabundmelt[,'order']))
+getPalette=colorRampPalette(brewer.pal(9,"Set1"))
+
+#Below I generate the relative abundance bar charts in ggplot
+ds.ordrel<-ggplot(ds.ordrelabundmelt, aes(x=state, y=value, fill=order))+
+  geom_bar(stat="identity",show.legend=TRUE,color="black")+
+  scale_fill_manual(values=getPalette(ds.ord.colorCount))+
+  xlab("State") +
+  ylab("Relative Abundance") +
+    theme(panel.border = element_blank(),panel.background=element_blank(), panel.grid.major = element_blank(), panel.grid.minor = element_blank(), axis.text.x = element_text(size = 14), axis.ticks.x = element_blank(), axis.text.y = element_text(size = 14), axis.line.y.left = element_line(), axis.title.y = element_text(size = 14))+
+  scale_y_continuous(breaks=c(0,0.25,0.50,0.75,1),limits=c(0,1.05))+
+  geom_text(data=NULL,aes(x=0.51, y=1.05,label="Caulosphere: 16S"),hjust=0,colour="black")
+library(plotly)
+ggplotly(ds.ordrel,tooltip=c("order"))
+
+#ggsave(filename = "16s_drillshavings_ordrelabund.png", plot(ds.ordrel),dpi=300)
+```
+
+
+```{r Order Relative Abundance Chart, message=FALSE, warning=FALSE}
+#The following chunk creates a relative abundance bar chart at the order level.
+
+#What I am doing below is cleaning up the order names. These include assignment confidence levels, _or, and _.
+library(plyr)
+t.ds.raretabfam<-data.frame(family=t.ds.rareotutabtaxsep$family,t.ds.rareotu.nosingles)
+t.ds.raretabfam$family<-sub("\\(.*)","",x=t.ds.raretabfam$family)
+t.ds.raretabfam$family<-sub("_or","",x=t.ds.raretabfam$family)
+t.ds.raretabfam$family<-sub("_"," ",x=t.ds.raretabfam$family)
+
+#I then sum the OTUs by class and make the row names the order name. 
+t.ds.rareotutabfam<-as.data.frame(ddply(t.ds.raretabfam, .(family),colwise(sum)))
+rownames(t.ds.rareotutabfam)<-make.names(t.ds.rareotutabfam$family)
+t.ds.rareotutabfam<-t.ds.rareotutabfam[,2:41]
+
+#I then transpose the data frame and sum each order by state. 
+ds.rareotutabfam<-as.data.frame(t(t.ds.rareotutabfam))
+ds.rareotutabfam.state<-data.frame(state=ds.met.rare$State,ds.rareotutabfam)
+ds.rareotutabfam.statesum<-as.data.frame(ddply(ds.rareotutabfam.state, .(state),colwise(sum)))
+
+#At the class level, SILVA may classify things as unknown class, phylum.unclassified, or uncultured. These don't provide a lot of information and thus are grouped into a knew group called unknown. 
+ds.famunknown<-ds.rareotutabfam.statesum[,grep(".unclassified|Unknown.Family|uncultured",names(ds.rareotutabfam.statesum))]
+
+#I then use the same grep function as above to pull out the Family with meaningful information. By setting invert=TRUE I select items lacking the strings in the grep command. 
+ds.famunknownsum<-rowSums(ds.famunknown)
+ds.famtot<-ds.rareotutabfam.statesum[,grep(".unclassified|Unknown.Family|uncultured",names(ds.rareotutabfam.statesum), invert=TRUE)]
+
+#I then subset the data so that only numerical data is present and creating a new class of objects, other, that includes OTUs from order that represent 1% or less of the total community. 
+ds.famcols<-ds.famtot[,2:153]
+ds.famoth<-ds.famcols[,colSums(ds.famcols)/sum(ds.famcols)<=0.01]
+ds.famothers<-rowSums(ds.famoth)
+ds.famreg<-ds.famcols[,colSums(ds.famcols)/sum(ds.famcols)>0.01]
+
+#I then create a new data frame that contains all of the order data and determine relative abundance using the decostand function from vegan. 
+library(vegan)
+ds.famtot2<-data.frame(state=ds.famtot$state,ds.famreg,Other=ds.famothers, Unclassified=ds.famunknownsum)
+ds.famrelabund<-decostand(ds.famtot2[,2:25],method="total")
+ds.famrelabund<-data.frame(state=ds.rareotutabfam.statesum$state,ds.famrelabund)
+
+#Below I use the melt function from the data.table package to reformat the data into stacked bar graph format.
+library(data.table)
+library(ggplot2)
+library(ggpubr)
+library(RColorBrewer)
+ds.famrelabundmelt<-melt(ds.famrelabund, id.vars="state", variable.name="family")
+
+ds.fam.colorCount<- length(unique(ds.famrelabundmelt[,'family']))
+getPalette=colorRampPalette(brewer.pal(9,"Set1"))
+
+#Below I generate the relative abundance bar charts in ggplot
+ds.famrel<-ggplot(ds.famrelabundmelt, aes(x=state, y=value, fill=family))+
+  geom_bar(stat="identity",show.legend=TRUE,color="black")+
+  scale_fill_manual(values=getPalette(ds.fam.colorCount))+
+  xlab("State") +
+  ylab("Relative Abundance") +
+   theme(panel.border = element_blank(),panel.background=element_blank(), panel.grid.major = element_blank(), panel.grid.minor = element_blank(), axis.text.x = element_text(size = 14), axis.ticks.x = element_blank(), axis.text.y = element_text(size = 14), axis.line.y.left = element_line(), axis.title.y = element_text(size = 14))+
+  scale_y_continuous(breaks=c(0,0.25,0.50,0.75,1),limits=c(0,1.05))+
+  geom_text(data=NULL,aes(x=0.51, y=1.05,label="Caulosphere: 16S"),hjust=0,colour="black")
+library(plotly)
+ggplotly(ds.famrel,tooltip=c("family"))
+
+ggsave(filename = "16s_drillshavings_famrelabund.png", plot(ds.famrel),dpi=300)
+```
+
+# Taxonomy Filtering and Merging
+Taxonomy is first filtered to include only those OTUs present in the rarefied OTU table with no singletons. Then the OTU table is transposed so that OTU ID is the row name and sample ID is the column name. Taxonomy strings are then added to the OTU table and strings are split by semi-colon. 
+```{r Taxonomy Filtering and Merging, warning=FALSE}
+#Below I am reformatting the OTU table so that I can begin to filter and merge the taxonomy information. 
+#I first transpose the rarefied OTU table with no singletons.
+t.ds.rareotu.nosingles<-as.data.frame(t(ds.rareotu.nosingles))
+
+#The below function is asking specifically for the OTU IDs. These are the row names. I will use these to subset the taxonomy file. 
+t.ds.rareotu.nosingleslabs<-labels(t.ds.rareotu.nosingles)
+ds.taxrare<-subset(taxonomy.ds, rownames(taxonomy.ds) %in% t.ds.rareotu.nosingleslabs[[1]])
+ds.taxrareinfo<-(ds.taxrare[,2])
+
+#Below I am using the separate function from tidyr to split the taxonomy strings into columns by semi-colon so that I can rename the OTUs to give them more meaning for downstream analyses.
+library(tidyr)
+ds.taxonomylabs<-c("kingdom","phylum","class","order","family","genus")
+t.ds.rareotutabtax<-data.frame(taxonomy=ds.taxrareinfo,t.ds.rareotu.nosingles)
+t.ds.rareotutabtaxsep<-separate(t.ds.rareotutabtax,into=ds.taxonomylabs,col=taxonomy,sep=";")
+```
+
+## Renaming of OTUs
+OTUs are then renamed. Prior to official renaming, taxonomy strings are cleaned so that assignment confidence values and taxon leaders and any _unclassifed tails are removed. 
+```{r Renaming of OTUs}
+#Here I am renaming the OTUs using the make.names function. This will make the OTU name something more informative. I am using genus to do this. 
+t.ds.rareotutabtaxsep$genus<-sub("\\(.*)","",x=t.ds.rareotutabtaxsep$genus)
+t.ds.rareotutabtaxsep$genus<-sub("(_unclassified)","",x=t.ds.rareotutabtaxsep$genus)
+t.ds.rareotutabtax.rename<-t.ds.rareotutabtaxsep[,7:46]
+rownames(t.ds.rareotutabtaxsep)<-make.names(paste(rownames(t.ds.rareotutabtaxsep),t.ds.rareotutabtaxsep$genus,sep="_"))
+ds.rareotutabtax.rename<-as.data.frame(t(t.ds.rareotutabtax.rename))
+```
+
+# Principal Coordinate Analysis
+To visually assess differences in the community composition of drill shaving bacterial communities by clone and state, I perform a principal coordinate analysis (PCoA).
+
+## Relative Abundance Calculation
+Prior to conducting a PCoA I first convert my OTU table from raw OTU abundances to relative abundance.
+```{r Relative Abundance Calculation}
+#Below I convert raw abundances to relative abundance using the decostand function from vegan. 
+library(vegan)
+ds.relabund<-decostand(ds.rareotutabtax.rename, method="total")
+```
+
+## Principal Coordinate Analysis
+I then perform the PCoA using the pcoa function from the ape package. Prior to performing the PCoA, a distance matrix needs to be calculated for the OTU table. In this case, I use the bray-curtis method.
+```{r Principal Coordinate Analysis}
+#Below I calculate the distance matrix using the bray-curtis method and the perform the principal coordinate analysis on the relativized OTU table. 
+ds.bacdist<-vegdist(ds.relabund, method="bray")
+library(ape)
+ds.bac.pcoa<-pcoa(ds.bacdist)
+#biplot(bacdspcoa,plot.axes = c(1,2))
+```
+
+## Plotting of Principal Coordinate Analysis
+Then to plot the PCoA, I use the ggplot function. To use ggplot I need to first pull out the site scores for each sample and generate ellipses.
+```{r PCoA}
+#We need to first subset our metadata table to include only those samples that passed rarefaction.  
+ds.met.rare<-subset(ds.met,ds.met$Group%in% ds.samples)
+
+#Then we extract PCoA site scores (these will be the x and y coordinates for each sample)
+ds.bac.pcoavec<-as.data.frame(ds.bac.pcoa$vectors)
+ds.bac.pcoasitescores<-data.frame(PC1=ds.bac.pcoavec$Axis.1, PC2=ds.bac.pcoavec$Axis.2)
+
+#Create a new dataframe that includes the site scores from above with metadata from your study. 
+ds.bac.pcoagraph<-data.frame(ds.bac.pcoasitescores,PC1=ds.bac.pcoasitescores$PC1, PC2=ds.bac.pcoasitescores$PC2, State=ds.met.rare$State, Clone=ds.met.rare$Clone,group=ds.met.rare$Group)
+
+#This is where you make confidence ellipses. I don't know what all the code means. Just know where to plug in my objects. 
+ds.bac.pcoaellipse<-ordiellipse(ds.bac.pcoasitescores,ds.bac.pcoagraph$State, display="sites", kind="sd", draw="none")
+
+df_ell.bark16s <- data.frame()
+for(g in levels(ds.bac.pcoagraph$State)){
+df_ell.bark16s <- rbind(df_ell.bark16s, cbind(as.data.frame(with(ds.bac.pcoagraph[ds.bac.pcoagraph$State==g,],                                                vegan:::veganCovEllipse(ds.bac.pcoaellipse[[g]]$cov,ds.bac.pcoaellipse[[g]]$center,ds.bac.pcoaellipse[[g]]$scale))) ,State=g))}
+
+#Plot PCoA in ggplot
+library(ggplot2)
+ds.pcoa<-ggplot(ds.bac.pcoagraph, aes(PC1,PC2))+
+  #geom_text(aes(label=group))+
+  geom_path(data=df_ell.bark16s, aes(x=PC1, y=PC2, colour=State),size=0.5, linetype=1)+
+  geom_point(aes(shape=Clone,colour=State), size=3.5)+
+  xlab("PC1 (32.0%)")+
+  ylab("PC2 (12.4%)")+
+ theme(axis.title.x=element_text(size=14, face="bold"))+
+  theme(axis.title.y=element_text(,size=14, face="bold"))+
+  theme(axis.text.x=element_text(size=12, face="bold"))+
+  theme(axis.text.y=element_text(size=12, face="bold"))+ 
+  scale_color_manual(values=c("#006600","#3399FF","#FF9900"))+
+ geom_text(aes(x=-0.60, y=0.60, label="Caulosphere: 16S"),hjust=0,colour="black")+
+  scale_shape_manual(values=c(16,10,8,7,0,2))+
+  scale_x_continuous(breaks=c(-0.60,-0.30,0,0.30,0.60),limits=c(-0.60,0.60))+
+  scale_y_continuous(breaks=c(-0.60,-0.30,0,0.30,0.60),limits=c(-.60,.60))+
+  theme(panel.grid.major=element_blank(),
+        panel.grid.minor=element_blank(),
+    panel.border=element_rect(colour="black", size=1, fill=NA))+
+  theme(panel.grid.major=element_blank(),
+       panel.grid.minor=element_blank(),
+       panel.background = element_blank(),
+  panel.border=element_rect(color="black", size=1, fill=NA))
+ds.pcoa
+#ggsave(filename = "16s_drillshavings_pcoa.png", plot(ds.pcoa),dpi=300)
+```
+
+## PERMANOVA 
+To formally test how well state and clone explain differences in drill shaving bacterial community composition, I perform a PERMANOVA using the adonis function from vegan
+```{r Permanovas}
+#Below I perform permanovas by state and clone using the adonis function from vegan. 
+library(vegan)
+ds.bac.perm.state.inter<-adonis(ds.relabund~ds.met.rare$State*ds.met.rare$Clone, method="bray",permutations=10000)
+ds.bac.perm.state.inter
+
+ds.bac.perm.state.add<-adonis(ds.relabund~ds.met.rare$State+ds.met.rare$Clone, method="bray",permutations=10000)
+ds.bac.perm.state.add
+
+ds.bac.perm.state.sing<-adonis(ds.relabund~ds.met.rare$State, method="bray",permutations=10000)
+ds.bac.perm.state.sing
+
+```
+
+# Richness and Diversity
+Then to assess the alpha diversity of our samples, I calculate the observed richness and shannon diversity index using the vegan package. This is done using the rarefied OTU table that contains singletons. Singletons are included to keep sampling depth standard between samples.
+
+## Richness
+Observed OTU richness is first calculated for each sample. Then due to the unbalanced nature of our study design, we use a type 3 ANOVA.
+```{r Richness}
+#In this chunk we calculate richness and create a data frame including richness with metadata
+
+#I first import my rarefied OTU table that contains singletons.
+ds.rareotu.wsingles<-read.table("/Volumes/AaronOnufrakMac/researchprojects_2019.2022_ajo/j.nigra_microbiome_2017_ajo_gmw/barks16sstatistics_jnigra17_2019_ajo/bark16smothur_jnigra17_microbiome/bark16sotutable.rarefied_jnigra17_fa19_ajo.shared", header=TRUE, sep="\t")
+
+#Below I calculate observed species richness using the specnumber function from vegan. I then create a new data frame to include sample metadata. 
+library(vegan)
+ds.bac.rich<-specnumber(ds.rareotu.wsingles)
+ds.richnesstabmet<-data.frame(State=ds.met.rare$State, clone=ds.met.rare$Clone, sample=ds.met.rare$Group,Richness=ds.bac.rich)
+
+#I first test for a significant interaction between state and clone. Due to the unbalanced design we use a type 3 ANOVA. 
+library(car)
+ds.anova.typ3.rich<-aov((Richness)~State*clone, data=ds.richnesstabmet)
+ds.typ3aov.rich<-Anova(ds.anova.typ3.rich,type="III")
+ds.typ3aov.rich
+kable(ds.typ3aov.rich)
+
+#The below two lines generate plots to evaluate regression assumptions.
+par(mfrow=c(2,2))
+plot(ds.anova.typ3.rich)
+
+#There was no significant interaction between state and clone and thus we drop the interaction term.  
+ds.anova.add.rich<-aov((Richness)~State+clone, data=ds.richnesstabmet)
+ds.add.aov.rich<-Anova(ds.anova.add.rich,type="III")
+ds.add.aov.rich
+kable(ds.add.aov.rich)
+
+#Perform Tukey test
+ds.add.aov.rich.tukey<-(TukeyHSD(ds.anova.add.rich))
+ds.add.aov.rich.tukey.table<-rbind(ds.add.aov.rich.tukey$State,ds.add.aov.rich.tukey$clone)
+ds.add.aov.rich.tukey.table
+kable(ds.add.aov.rich.tukey.table)
+
+#The below two lines generate plots to evaluate regression assumptions. 
+par(mfrow=c(2,2))
+plot(ds.anova.add.rich)
+
+#There was no significant interaction between state and clone and thus we drop the interaction term.  
+ds.anova.sing.rich<-aov((Richness)~State, data=ds.richnesstabmet)
+ds.sing.aov.rich<-Anova(ds.anova.sing.rich,type="III")
+ds.sing.aov.rich
+kable(ds.sing.aov.rich)
+
+#Perform Tukey test
+ds.anova.sing.rich.tukey<-TukeyHSD(ds.anova.sing.rich)
+ds.anova.sing.rich.tukey.table<-rbind(ds.anova.sing.rich.tukey$State)
+ds.anova.sing.rich.tukey.table
+kable(ds.anova.sing.rich.tukey.table)
+
+#The below two lines generate plots to evaluate regression assumptions. 
+par(mfrow=c(2,2))
+plot(ds.anova.sing.rich)
+
+#I then create a box plot for the richness data by state using ggplot. 
+library(Hmisc)
+library(ggpubr)
+ds.richness.summarized<-summarize(ds.richnesstabmet$Richness,by=ds.richnesstabmet$State, FUN=max)
+ds.richness.summarized<-data.frame(State=ds.richness.summarized$`ds.richnesstabmet$State`,Richness=ds.richness.summarized$`ds.richnesstabmet$Richness`)
+
+library(ggplot2)
+library(ggpubr)
+#Below I create a boxplot for richness values.
+ds.rich<-ggboxplot(ds.richnesstabmet, x="State", y="Richness", outlier.shape=NA)+
+  geom_jitter(data=ds.richnesstabmet,position=position_jitter(0.2), aes(shape=clone),size=3)+
+  scale_shape_manual(values=c(16,10,8,7,0,2))+
+  #geom_text(data=richness.summarized, aes(x=State, y = 25 + Richness, label=Group, fontface="bold"))+
+  #scale_fill_manual(values=c("#006600","#3399FF","#FF9900"))+
+  geom_text(data=NULL,aes(x=1, y=620, label="A"))+
+  geom_text(data=NULL,aes(x=2, y=425, label="B"))+
+  geom_text(data=NULL,aes(x=3, y=185, label="C"))+
+  geom_text(data=NULL,aes(x=0.5, y=710, label="Caulosphere: 16S"),hjust=0,colour="black")+
+  theme(axis.line.x=element_blank(), 
+        axis.text.x=element_blank(),
+        axis.title.x=element_blank(),
+        axis.ticks.x=element_blank(),
+        axis.text=element_text(),
+        axis.title=element_text())
+ds.rich
+```
+
+## Diversity
+Shannon diversity is first calculated for each sample. Then due to the unbalanced nature of our study design, we use a type 3 ANOVA.
+```{r Diversity}
+#In this chunk we calculate shannon diversity and create a data frame including diversity with metadata
+#I first import my rarefied OTU table that contains singletons.
+ds.rareotu.wsingles<-read.table("/Volumes/AaronOnufrakMac/researchprojects_2019.2022_ajo/j.nigra_microbiome_2017_ajo_gmw/barks16sstatistics_jnigra17_2019_ajo/bark16smothur_jnigra17_microbiome/bark16sotutable.rarefied_jnigra17_fa19_ajo.shared", header=TRUE, sep="\t")
+
+#Calculate shannon diversity using the diversity function of vegan
+library(vegan)
+ds.bac.div<-diversity (ds.rareotu.wsingles, index="shannon")
+
+#I then create a new data frame to include sample metadata.
+ds.diversity.tabmet<-data.frame(State=ds.met.rare$State, clone=ds.met.rare$Clone, sample=ds.met.rare$Group,Shannon=ds.bac.div)
+
+#I first test for a significant interaction between state and clone. Due to the unbalanced design we use a type 3 ANOVA. 
+library(car)
+ds.anova.typ3.div<-aov((Shannon)~State*clone, data=ds.diversity.tabmet)
+ds.typ3aov.div<-Anova(ds.anova.typ3.div,type="III")
+ds.typ3aov.div
+kable(ds.typ3aov.div)
+
+#The below two lines generate plots to evaluate regression assumptions. 
+par(mfrow=c(2,2))
+plot(ds.anova.typ3.div)
+
+#There was no significant interaction between state and clone.
+ds.anova.add.div<-aov((Shannon)~State+clone, data=ds.diversity.tabmet)
+ds.add.aov.div<-Anova(ds.anova.add.div,type="III")
+ds.add.aov.div
+kable(ds.add.aov.div)
+
+#Perform a tukey test
+ds.anova.add.div.tukey<-TukeyHSD(ds.anova.add.div)
+ds.anova.add.div.tukey.table<-rbind(ds.anova.add.div.tukey$State,ds.anova.add.div.tukey$clone)
+ds.anova.add.div.tukey.table
+kable(ds.anova.add.div.tukey.table)
+
+#The below two lines generate plots to evaluate regression assumptions. 
+par(mfrow=c(2,2))
+plot(ds.anova.add.div)
+
+#There was no significant interaction between state and clone. 
+ds.anova.sing.div<-aov((Shannon)~State, data=ds.diversity.tabmet)
+ds.sing.aov.div<-Anova(ds.anova.sing.div,type="III")
+ds.sing.aov.div
+kable(ds.sing.aov.div)
+
+#Perform a Tukey test
+ds.anova.sing.div.tukey<-TukeyHSD(ds.anova.sing.div)
+ds.anova.sing.div.tukey.table<-rbind(ds.anova.sing.div.tukey$State,ds.anova.sing.div.tukey$clone)
+ds.anova.sing.div.tukey.table
+kable(ds.anova.sing.div.tukey.table)
+
+#The below two lines generate plots to evaluate regression assumptions. 
+par(mfrow=c(2,2))
+plot(ds.anova.sing.div)
+
+#I then create a box plot for the richness data by state using ggplot. 
+library(Hmisc)
+library(ggpubr)
+ds.diversity.summarized<-summarize(ds.diversity.tabmet$Shannon,by=ds.diversity.tabmet$State, FUN=max)
+ds.diversity.summarized<-data.frame(State=ds.diversity.summarized$`ds.diversity.tabmet$State`,Diversity=ds.diversity.summarized$`ds.diversity.tabmet$Shannon`)
+
+library(ggplot2)
+library(ggpubr)
+#Below I create a boxplot for richness values.
+ds.div<-ggboxplot(ds.diversity.tabmet, x="State", y="Shannon", outlier.shape=NA)+
+  geom_jitter(data=ds.diversity.tabmet,position=position_jitter(0.2), aes(shape=clone),size=3)+
+  scale_shape_manual(values=c(16,10,8,7,0,2))+
+  #geom_text(data=diversity.summarized, aes(x=State, y = 0.5 + Diversity, label=group, fontface="bold"))+
+  #scale_fill_manual(values=c("#006600","#3399FF","#FF9900"))+
+  geom_text(data=NULL,aes(x=1, y=6.3, label="A"))+
+  geom_text(data=NULL,aes(x=2, y=5.5, label="B"))+
+  geom_text(data=NULL,aes(x=3, y=4.4, label="C"))+
+  geom_text(data=NULL,aes(x=0.5, y=7, label="Caulosphere: 16S"),hjust=0)+
+  scale_y_continuous(breaks=c(3,4,5,6),limits=c(2,7)) + 
+   theme(axis.line.x=element_blank(), 
+        axis.text.x=element_blank(),
+        axis.title.x=element_blank(),
+        axis.ticks.x=element_blank(),
+        axis.title.y=element_text(),
+        axis.text.y=element_text())
+ds.div
+
+dsalphdiv<-ggarrange(ds.rich,ds.div,ncol=1,nrow=2, align="v",common.legend = TRUE)
+dsalphdiv
+#ggsave(filename = "16s_drillshavings_alphdiv.png", plot(dsalphdiv),dpi=300)
+```
+
+## Renaming of OTUs
+OTUs are then renamed. Prior to official renaming, taxonomy strings are cleaned so that assignment confidence values and taxon leaders and any _unclassifed tails are removed. 
+```{r Renaming of OTUs}
+#Here I am renaming the OTUs using the make.names function. This will make the OTU name something more informative. I am using genus to do this. 
+t.ds.rareotutabtaxsep$genus<-sub("\\(.*)","",x=t.ds.rareotutabtaxsep$genus)
+t.ds.rareotutabtaxsep$genus<-sub("(_unclassified)","",x=t.ds.rareotutabtaxsep$genus)
+t.ds.rareotutabtaxsep$genus<-sub("_ge","",x=t.ds.rareotutabtaxsep$genus)
+rownames(t.ds.rareotutabtaxsep)<-make.names(paste(rownames(t.ds.rareotutabtaxsep),t.ds.rareotutabtaxsep$genus,sep="_"))
+t.ds.rareotutabtax.rename<-t.ds.rareotutabtaxsep[,7:46]
+ds.rareotutabtax.rename<-as.data.frame(t(t.ds.rareotutabtax.rename))
+
+```
+
+```{r}
+library(indicspecies)
+set.seed(577)
+indicspecies.bac.ds<-multipatt(ds.rareotutabtax.rename, ds.met.rare$State,func="IndVal.g",control=how(nperm=10000))
+summary(indicspecies.bac.ds,indvalcomp=TRUE)
+
+
+tcd.status<-c("Negative","Negative","Negative","Positive","Positive","Positive","Positive","Positive","Positive","Positive")
+
+set.seed(577)
+indicspecies.bac.disease<-multipatt(ds.rareotutabtax.rename[31:40,], tcd.status,func="IndVal.g",control=how(nperm=10000))
+summary(indicspecies.bac.disease,indvalcomp=TRUE)
+```
+
+```{r}
+ds.indicators<-read.table("/Volumes/AaronOnufrakMac/researchprojects_2019.2022_ajo/j.nigra_microbiome_2017_ajo_gmw/barks16sstatistics_jnigra17_2019_ajo/bark16smothur_jnigra17_microbiome/bark16s_indicatoranalysis_sp20_ajo.csv",header=TRUE,sep=",")
+
+library(tidyr)
+ds.indicators.long<-as.data.frame(pivot_longer(ds.indicators, cols=c("Specificity","Sensitivity","Indicator.Value"),"Statistic"))
+
+ds.indicators.long$OTU<-sub("\\."," ",ds.indicators.long$OTU)
+
+in.ds.indicators<-subset(ds.indicators.long,ds.indicators.long[,3]=="IN")
+tn.ds.indicators<-subset(ds.indicators.long,ds.indicators.long[,3]=="TN")
+tn.in.ds.indicators<-subset(ds.indicators.long,ds.indicators.long[,3]=="IN-TN")
+wa.ds.indicators<-subset(ds.indicators.long,ds.indicators.long[,3]=="WA")
+tcd.positive.ds.indicators<-subset(ds.indicators.long,ds.indicators.long[,3]=="Positive")
+tcd.negative.ds.indicators<-subset(ds.indicators.long,ds.indicators.long[,3]=="Negative")
+
+ds.indicator.mat<-ds.indicators[c(1:10,21:30,41:50,61:70,81:98),2:4]
+rownames(ds.indicator.mat)<-ds.indicators$OTU[c(1:10,21:30,41:50,61:70,81:98)]
+colnames(its2.soil.indicator.mat)<-colnames(its2.soil.indicators)[2:4]
+
+ds.indicator.row.dat<-data.frame(State=ds.indicators$Group)
+rownames(ds.indicator.row.dat)<-make.names(ds.indicators$OTU)
+
+annotation_colors<-list(
+  State=c(IN="springgreen3", IN.TN="slateblue2", TN="skyblue1", WA="violet",Negative="olivedrab1", Positive="darkslategrey")
+)
+
+my_colors<-colorRampPalette(colors=c("darkblue","lightblue"))
+
+library(ClassDiscovery)
+library(pheatmap)
+ds.heatmap<-pheatmap(ds.indicator.mat,
+         annotation_row=ds.indicator.row.dat,
+         color=gray.colors(15),
+         cluster_rows=FALSE,
+         cluster_cols=FALSE,
+         gaps_row=c(10,20,30,40,47),
+         annotation_colors=annotation_colors,
+         cellwidth = 10)
+
+ggsave("ds.indicator.png",ds.heatmap,height = 15,width=15,dpi=300)
+```
