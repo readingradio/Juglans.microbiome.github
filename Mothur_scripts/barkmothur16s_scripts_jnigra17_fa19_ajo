@@ -1,0 +1,49 @@
+make.file(inputdir=~/Documents/16sbarksu19ajorename, outputdir=~/Documents/mothurbarkoutput, type=fastq, prefix=16s)
+
+make.contigs(file=16s.files, oligos=mothur_16soligos_fa19_AJO.txt, pdiffs=2,  checkorient=TRUE)
+
+summary.seqs(fasta=16s.trim.contigs.fasta, inputdir=mothurbarkoutput)
+
+screen.seqs(fasta=16s.trim.contigs.fasta, group=16s.contigs.groups, summary=16s.trim.contigs.summary, maxambig=0, minlength=200, maxlength=275)
+
+unique.seqs(fasta=16s.trim.contigs.good.fasta)
+
+count.seqs(name=16s.trim.contigs.good.names, group=16s.contigs.groups)
+
+summary.seqs(count=16s.trim.contigs.good.count_table)
+
+pcr.seqs(fasta=silva.nr_v132.align, start=11894, end=25319, keepdots=F)
+
+align.seqs(fasta=16s.trim.contigs.good.unique.fasta, reference=silva.nr_v132.pcr.align)
+
+summary.seqs(fasta=16s.trim.contigs.good.unique.align, count=16s.trim.contigs.good.count_table)
+
+screen.seqs(fasta=16s.trim.contigs.good.unique.align, count=16s.trim.contigs.good.count_table, summary=16s.trim.contigs.good.unique.summary, start=1968, end=11550, maxhomop=8)
+
+summary.seqs(fasta=16s.trim.contigs.good.unique.good.align,count=16s.trim.contigs.good.good.count_table)
+
+filter.seqs(fasta=16s.trim.contigs.good.unique.good.align, vertical=T, trump=.)
+
+unique.seqs(fasta=16s.trim.contigs.good.unique.good.filter.fasta, count=16s.trim.contigs.good.good.count_table)
+
+pre.cluster(fasta=16s.trim.contigs.good.unique.good.filter.unique.fasta, count=16s.trim.contigs.good.unique.good.filter.count_table, diffs=2)
+
+chimera.vsearch(fasta=16s.trim.contigs.good.unique.good.filter.unique.precluster.fasta, count=16s.trim.contigs.good.unique.good.filter.unique.precluster.count_table, dereplicate=t)
+
+remove.seqs(fasta=16s.trim.contigs.good.unique.good.filter.unique.precluster.fasta, accnos=16s.trim.contigs.good.unique.good.filter.unique.precluster.denovo.vsearch.accnos)
+
+classify.seqs(fasta=16s.trim.contigs.good.unique.good.filter.unique.precluster.pick.fasta, count=16s.trim.contigs.good.unique.good.filter.unique.precluster.denovo.vsearch.pick.count_table, reference=silva.nr_v132.align, taxonomy=silva.nr_v132.tax, cutoff=80)
+
+remove.lineage(fasta=16s.trim.contigs.good.unique.good.filter.unique.precluster.pick.fasta, count=16s.trim.contigs.good.unique.good.filter.unique.precluster.denovo.vsearch.pick.count_table, taxonomy=16s.trim.contigs.good.unique.good.filter.unique.precluster.pick.nr_v132.wang.taxonomy, taxon=Bacteria;Bacteria_unclassified;-Archaea;Bacteria_unclassified;-Chloroplast-Mitochondria-unknown-Eukaryota)
+
+summary.tax(taxonomy=16s.trim.contigs.good.unique.good.filter.unique.precluster.pick.nr_v132.wang.pick.taxonomy, count=16s.trim.contigs.good.unique.good.filter.unique.precluster.denovo.vsearch.pick.pick.count_table)
+
+dist.seqs(fasta=16s.trim.contigs.good.unique.good.filter.unique.precluster.pick.pick.fasta, cutoff=0.03)
+
+cluster(column=16s.trim.contigs.good.unique.good.filter.unique.precluster.pick.pick.dist, count=16s.trim.contigs.good.unique.good.filter.unique.precluster.denovo.vsearch.pick.pick.count_table)
+
+make.shared(list=16s.trim.contigs.good.unique.good.filter.unique.precluster.pick.pick.opti_mcc.list, count=16s.trim.contigs.good.unique.good.filter.unique.precluster.denovo.vsearch.pick.pick.count_table, label=0.03)
+
+classify.otu(list=16s.trim.contigs.good.unique.good.filter.unique.precluster.pick.pick.opti_mcc.list, count=16s.trim.contigs.good.unique.good.filter.unique.precluster.denovo.vsearch.pick.pick.count_table, taxonomy=16s.trim.contigs.good.unique.good.filter.unique.precluster.pick.nr_v132.wang.pick.taxonomy, label=0.03)
+
+remove.lineage(constaxonomy=current, list=current, taxon=Bacteria;Bacteria_unclassified;-Archaea;Bacteria_unclassified;)
