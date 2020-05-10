@@ -1,0 +1,680 @@
+---
+title: "Funguild_soil_FA19_AJO"
+author: "Aaron Onufrak"
+date: "October 16, 2019"
+output: rmdformats::readthedown
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# R packages 
+The following code uses several packages particularly tidyr and plyr for organizing data tables and manipulating strings of text.
+
+```{r R Packages, message='hide',warning=FALSE, }
+library(stringr)
+library(tidyr)
+library(plyr)
+library(vegan)
+library(ape)
+```
+
+
+# Data Import, Subsetting, and Reformatting
+Prior to assigning functional guild with Funguild, the OTU table must first be reformatted so that it includes the taxonomy assignments from UNITE. To begin I first import the rarefied shared file from mothur.
+
+## Data Import
+Below ITS data from bulk soils collected from 47 *Juglans nigra* trees are imported into R. This includes a rarefied OTU table from mothur and the taxonomic classifications for each OTU. Samples were rarefied to 25,000 sequences in mothur prior to import, resulting in the loss of two samples from WA. Taxonomic assignments were made in mothur using the UNITE database.
+```{r Data Import}
+#Load OTU table (shared file in mothur) and taxonomy files. The first column of the Mothur shared file is titled "label" and is unimportant so
+its2.soil.shared.rare<-read.table("/Volumes/AaronOnufrakMac/researchprojects_2019.2022_ajo/j.nigra_microbiome_2017_ajo_gmw/soilits2statistics_jnigra17_su19_ajo/soilfunguild_jnigra17_2019_ajo/soilits2otutable.rarefied_jnigra17_fa19_gw.shared", header=TRUE, sep="\t", row.names=2)
+
+its2.soil.tax<-read.table("/Volumes/AaronOnufrakMac/researchprojects_2019.2022_ajo/j.nigra_microbiome_2017_ajo_gmw/soilits2statistics_jnigra17_su19_ajo/soilfunguild_jnigra17_2019_ajo/soilits2taxonomy_jnigra17_fa19_gw.cons.taxonomy", header=TRUE, sep="\t")
+```
+
+
+## Subsetting of OTU Table
+To begin, I first subset the Mothur OTU table by removing mothur associated metadata, remove singleton OTUs (OTUs with only 1 sequence following rarefaction), and subset the taxonomy file. 
+```{r Reformatting of OTU Table}
+#Here I subset the taxonomy file using the OTU label, transpose the OTU table, and merge the taxonomy info for import into funguild.  
+
+#First I remove Mothur associated metatdata that includes the percent identity threshold and the number of OTUs. 
+its2.soil.shared.rare<-(its2.soil.shared.rare[,3:10579])
+
+#I then remove singleton OTUs or OTUs with only one sequence following rarefaction. 
+its2.soil.shared.rare.nosingles<-as.data.frame(its2.soil.shared.rare[,(colSums(its2.soil.shared.rare))>1])
+
+its2.soil.otu.lab<-labels(its2.soil.shared.rare.nosingles)
+
+#Below I subset the taxonomy file. This is a universal taxonomy file for multiple compartments. We just want the OTUs specific to the caulosphere.
+its2.soil.tax.sub<-subset(its2.soil.tax, its2.soil.tax$OTU %in% its2.soil.otu.lab[[2]])
+```
+
+## Reformatting of OTU Table
+Prior to running funguild, the OTU table needs to be transposed and the taxonomy strings from UNITE added to meet the input requirements for funguild. 
+```{r}
+#To add taxonomy information I first transposed the OTU table so that OTU IDs are the row names and sample names are the Column names. 
+t.its2.soil.shared.rare.nosingles<-t(its2.soil.shared.rare.nosingles)
+
+#I then create a column called otu that contains the OTU ID. This will be used to merge the OTU table to the taxonomy table.
+t.its2.soil.shared.rare.nosingles<-data.frame(otu=labels(t.its2.soil.shared.rare.nosingles)[[1]],t.its2.soil.shared.rare.nosingles)
+
+#I then merge the taxonomy file and the transposed OTU table using the OTU ID column. 
+t.its2.soil.otutab.tax<-merge(t.its2.soil.shared.rare.nosingles,its2.soil.tax.sub, by.x="otu",by.y="OTU")
+
+#Then I remove the column titled "size" from the new transposed OTU table with taxonomy information. This column does not really provide any useful information in this context and following funguild assignments the OTU table will be pretty heavily cluttered. 
+t.its2.soil.otutab.tax<-t.its2.soil.otutab.tax[,-47]
+
+#I then change the column names of the OTU ID column and the taxonomy column to align with the input requirements for funguild. 
+names(t.its2.soil.otutab.tax)[1]<-"OTU_ID"
+names(t.its2.soil.otutab.tax)[47]<-"taxonomy"
+
+t.its2.soil.otutab.tax1<-t.its2.soil.otutab.tax[1:3500,]
+t.its2.soil.otutab.tax2<-t.its2.soil.otutab.tax[3501:6738,]
+
+#write.table(t.its2.soil.otutab.tax1, "~/Documents/microbiome2017//funguild.soil.input.file.1_FA19.txt",sep="\t", row.names=FALSE)
+
+#write.table(t.its2.soil.otutab.tax2, "~/Documents/microbiome2017//funguild.soil.input.file.2_FA19.txt",sep="\t", row.names=FALSE)
+```
+
+
+# Funguild Assignments Import
+Following functional guild assignment on funguild using the funguild webserver (http://www.stbates.org/guilds/app.php). Funguild assigned 3,836 OTUs out of 6,738 OTUs to a functional guild. Below I import the functional guild assignments into R. 
+```{r Data Import 2}
+# After running funguild in linux, I then import the funguild output table. 
+  t.funguild.soil.1<-read.delim("/Volumes/AaronOnufrakMac/researchprojects_2019.2022_ajo/j.nigra_microbiome_2017_ajo_gmw/soilits2statistics_jnigra17_su19_ajo/soilfunguild_jnigra17_2019_ajo/soilfunguildoutput.1_jnigra17_fa19.25.11_ajo.guilds.txt",header=TRUE,sep="\t",fill=TRUE,strip.white=TRUE)
+
+t.funguild.soil.2<-read.delim("/Volumes/AaronOnufrakMac/researchprojects_2019.2022_ajo/j.nigra_microbiome_2017_ajo_gmw/soilits2statistics_jnigra17_su19_ajo/soilfunguild_jnigra17_2019_ajo/soilfunguildoutput.2_jnigra17_fa19.25.11_ajo.guilds.txt",header=TRUE,sep="\t",fill=TRUE,strip.white=TRUE)
+
+
+#When importing the soil funguild outputs, more rows than what was present in the input may be created. This is because some of the text from the funguild citation wraps inappropriately and ends up in its own row. These rows will be removed in the following chunk. 
+```
+
+# Funguild Table Reformatting
+Prior to creating relative abundance plots, the functional guild output needs to be reformatted. First, compound guild strings need to be broken down into individual guilds and OTUs need to be weighted based on the number of guilds to which they were assigned. Then, OTUs are summed by guild and state. 
+```{r Funguild Table Reformatting}
+# When importing the funguild table, some columns containing citation information may get incorrectly wrapped so that they have their own rows. These are first removed with na.omit. 
+t.funguild.soil.1<-na.omit(t.funguild.soil.1)
+t.funguild.soil.2<-na.omit(t.funguild.soil.2)
+
+#Then the two funguild output files are merged using rbind. 
+t.funguild.soil<-rbind(t.funguild.soil.1,t.funguild.soil.2)
+
+#Here I am subsetting the data to pull out the the functional guild information from the funguild output. I then create a data frame that includes just the functional guild information and the abundance by site data. This table is currently a transposed OTU table. 
+t.soil.otu.id<-t.funguild.soil[,1]
+t.guild.soil<-t.funguild.soil[,51]
+t.otutab.soil<-(t.funguild.soil[,2:46])
+t.otutab.guild.soil<-data.frame(otu=t.soil.otu.id,Guilds=t.guild.soil,t.otutab.soil)
+head(t.otutab.guild.soil)
+
+#Before we move forward lets correct some spelling and formatting errors for some of the database submissions. 
+
+t.otutab.guild.soil$Guilds<-sub("\\--\\b","-",t.otutab.guild.soil$Guilds, ignore.case = FALSE)
+
+t.otutab.guild.soil$Guilds<-sub("\\bEpiphyt\\b","Epiphyte",t.otutab.guild.soil$Guilds, ignore.case = FALSE)
+
+t.otutab.guild.soil$Guilds<-sub("\\bWood Saprotrop\\b","Wood Saprotroph",t.otutab.guild.soil$Guilds, ignore.case = FALSE)
+
+t.otutab.guild.soil$Guilds<-sub("\\bAnimal Pathogen-Endophyte-Fungal Parasite-Plant Pathogen=Wood Saprotroph\\b","Animal Pathogen-Endophyte-Fungal Parasite-Plant Pathogen-Plant Pathogen-Wood Saprotroph",t.otutab.guild.soil$Guilds, ignore.case = FALSE)
+
+
+#Next I use the stringr package to quantify the number of "-" in the guild names. To weight each value, I divide the total count by the number of dashes plus 1. I add 1 because a name with only 1 dash will have two functional guilds. 
+library(stringr)
+t.otutab.guild.div.soil<-data.frame(Guilds=t.otutab.guild.soil$Guilds,(t.otutab.guild.soil[,3:47]/(str_count(t.otutab.guild.soil$Guilds,pattern="-")+1)))
+
+#Then using separate_rows, I split the functional guild names by dash and create duplicate columns. 
+library(tidyr)
+t.otutab.guild.div.sep.soil<-separate_rows(t.otutab.guild.div.soil, Guilds, sep="-")
+
+#Then using plyr I take the sum of the data by functional guild and then by site. 
+library(plyr)
+t.otutab.guild.div.sep.sum.soil<-as.data.frame(ddply(t.otutab.guild.div.sep.soil, .(Guilds),colwise(sum)))
+
+#I then make the row name the functional guild and change the names so that the period between two parts of a name becomes a space. 
+rownames(t.otutab.guild.div.sep.sum.soil)<-make.names(t.otutab.guild.div.sep.sum.soil$Guilds)
+
+
+#I then remove the column that contains guild names since this is a duplicate of the row names. 
+otutab.guild.div.sep.sum.soil<-t(t.otutab.guild.div.sep.sum.soil[,2:46])
+
+site<-c("IN","IN","IN","IN","IN","IN","IN","IN","IN","IN","IN","IN","IN","IN","IN","TN","TN","TN","TN","TN","TN","TN","TN","TN","TN","TN","TN","TN","TN","TN","TN","TN","TN","WA","WA","WA","WA","WA","WA","WA","WA","WA","WA","WA","WA")
+
+#Then I create a data frame that contains the state information alongside the functional guild assignments and the sum functional guilds by state.  
+otutab.guild.div.sep.sum.state.soil<-data.frame(state=site,otutab.guild.div.sep.sum.soil)
+otutab.guild.div.sep.sum.statesum.soil<-(ddply(otutab.guild.div.sep.sum.state.soil, .(state),colwise(sum)))
+
+#Then I rename the unassigned column, currently delimited with "X" to Unassigned and substitute . for spaces in the funguild names. 
+otutab.guild.div.sep.sum.statesum.soil$Unassigned<-otutab.guild.div.sep.sum.statesum.soil$X+otutab.guild.div.sep.sum.statesum.soil$NULL.
+
+#Then I remove the X and Null columns
+otutab.guild.div.sep.sum.statesum.soil<-otutab.guild.div.sep.sum.statesum.soil[,-2]
+otutab.guild.div.sep.sum.statesum.soil<-otutab.guild.div.sep.sum.statesum.soil[,-21]
+
+#Finally I remove the periods from the names and add spaces. 
+colnames(otutab.guild.div.sep.sum.statesum.soil)<-sub("\\."," ",colnames(otutab.guild.div.sep.sum.statesum.soil))
+```
+
+# Funguild Relative Abundance
+Relative abundance is then calculated for each functional guild. The first group includes the unassigned and the second group excludes the unassigned. 
+```{r Relative Abundance}
+# Then I calculate the relative abundance of each functional guild with unassigned included.
+library(vegan)
+funguild.relabund.other.soil<-decostand(otutab.guild.div.sep.sum.statesum.soil[,2:30],method="total")
+funguild.relabund.other.soil<-data.frame(state=otutab.guild.div.sep.sum.statesum.soil$state,funguild.relabund.other.soil)
+colnames(funguild.relabund.other.soil)<-sub("\\."," ",colnames(funguild.relabund.other.soil))
+
+# Then I calculate the relative abundance of each functional guild. 
+library(vegan)
+funguild.relabund.soil<-decostand(otutab.guild.div.sep.sum.statesum.soil[,2:29],method="total")
+funguild.relabund.soil<-data.frame(state=otutab.guild.div.sep.sum.statesum.soil$state,funguild.relabund.soil)
+colnames(funguild.relabund.soil)<-sub("\\."," ",colnames(funguild.relabund.soil))
+```
+
+# Relative Abundance Charts
+To visualize differences in the relative abundance of different functional guilds between states, I reorganize the OTU table and taxonomy strings to create relative abundance stacked bar charts. 
+```{r Relative Abundance Charts, warning=FALSE}
+#In this chunk you input the relative abundance of narrow functional groups.
+#Input guild data
+
+#Convert to stacked bar plot format using the melt fucntion from the data.table package.
+library(data.table)
+funguild.melt.other.soil<-melt(funguild.relabund.other.soil, id.vars="state", variable.name="Guild")
+soil.colors.n.funguild <- length(unique(funguild.melt.other.soil[,'Guild']))
+
+#Plot in ggplot
+library(ggplot2)
+funguild.other.soil<-ggplot(funguild.melt.other.soil, aes(x=state, y=value, fill=Guild))+
+  geom_bar(stat="identity", color="black" ,show.legend=TRUE)+
+   scale_fill_manual(values=c('#003300','#006600','#666600','#99CC00','#33FF00','#CCFF33','#99FF99','#CCFFFF','#00FFFF','#66CCCC','#3399FF','#333FFF','#006699','#000099','#330066','#6600cc','#9900CC','#CC33FF','#CC99FF','#FFCCFF','#FF66FF','#FF3399','#CC0066','#993366','#993333','#CC6600','#FF6633','#006600','#999999','#99CC00','#33FF00','#CCFF33','#99FF99','#00FFFF','#3399FF','#333FFF','#000099','#330066','#6600cc','#CC99FF','#003300','#006600','#666600','#99CC00','#33FF00','#CCFF33','#99FF99','#CCFFFF','#666600' ))+
+xlab("State") +
+  ylab("Relative Abundance") +
+  theme(panel.border = element_blank(), panel.grid.major = element_blank(), panel.grid.minor = element_blank(), axis.text.x = element_text(size = 14), axis.ticks.x = element_blank(), axis.text.y = element_text(size = 14), axis.line.y.left = element_line(), axis.title.y = element_text(size = 14))
+funguild.other.soil
+
+
+library(data.table)
+funguild.melt.soil<-melt(funguild.relabund.soil, id.vars="state", variable.name="Guild")
+soil.colors.n.funguild <- length(unique(funguild.melt.soil[,'Guild']))
+
+#Plot in ggplot
+library(ggplot2)
+funguild.soil<-ggplot(funguild.melt.soil, aes(x=state, y=value, fill=Guild))+
+  geom_bar(stat="identity", color="black" ,show.legend=TRUE)+
+   scale_fill_manual(values=c('#003300','#006600','#666600','#99CC00','#33FF00','#CCFF33','#99FF99','#CCFFFF','#00FFFF','#66CCCC','#3399FF','#333FFF','#006699','#000099','#330066','#6600cc','#9900CC','#CC33FF','#CC99FF','#FFCCFF','#FF66FF','#FF3399','#CC0066','#993366','#993333','#CC6600','#FF6633','#006600','#99CC00','#33FF00','#CCFF33','#99FF99','#00FFFF','#3399FF','#333FFF','#000099','#330066','#6600cc','#CC99FF','#003300','#006600','#666600','#99CC00','#33FF00','#CCFF33','#99FF99','#CCFFFF','#666600' ))+
+  ylab("Relative Abundance") +
+    theme(panel.border = element_blank(),panel.background = element_blank(), panel.grid.major = element_blank(), panel.grid.minor = element_blank(), axis.text.x = element_text(size = 14), axis.ticks.x = element_blank(), axis.text.y = element_text(size = 14), axis.line.y.left = element_line(), axis.title.y = element_text(size = 14))+geom_text(data=NULL,aes(x=0.51, y=1.05,label="Soil: Functional Guilds"),hjust=0,colour="black")
+funguild.soil
+
+#ggsave(filename = "ITS2_funguild_relativeabundance_soil_FA19_AJO.png", plot(funguild.soil),dpi=300)
+```
+
+## Plant Pathogens
+
+#### Subset for Plant Pathogens and PCOA
+I then reformat the OTU table for use in PCoA and funguild richness analyses. 
+```{r Funguild Table Reformatting}
+# First subset the funguild table to include only the fungal parasites
+t.plant.pathogen.soil<-subset(t.otutab.guild.div.sep.soil,t.otutab.guild.div.sep.soil$Guilds=="Plant Pathogen")
+
+# Then change the row names and then transpose the table so that sites are the row names.
+row.names(t.plant.pathogen.soil)<-make.names(t.plant.pathogen.soil$Guilds,unique = TRUE)
+t.plant.pathogen.soil<-t.plant.pathogen.soil[,-1]
+plant.pathogen.soil<-as.data.frame((t(t.plant.pathogen.soil)))
+
+# Calculate relative abundance using the decostand function from vegan
+plant.pathogen.soil.relabund<-decostand(plant.pathogen.soil,method="total")
+
+# Create distance matrix using the bray method with the vegdist function from vegan
+plant.pathogen.soil.dist<-vegdist(plant.pathogen.soil,method="bray")
+
+#Perform PCOA with pcoa function from ape package
+plant.pathogen.soil.pcoa.results<-pcoa(plant.pathogen.soil.dist)
+```
+
+### Plotting of plant.pathogen Principal Coordinate Analysis
+Then to plot the PCoA, I use the ggplot function. To use ggplot I need to first pull out the site scores for each sample and generate ellipses. 
+```{r PCoA}
+#Next I import the metadata for the particular habitat of interest. In this case I am working with drill shavings. I will use this metadata to subset the larger OTU file above. 
+its2.soil.met<-read.table("/Volumes/AaronOnufrakMac/researchprojects_2019.2022_ajo/j.nigra_microbiome_2017_ajo_gmw/soilits2statistics_jnigra17_su19_ajo/soilits2metadata_jnigra17_su19_ajo.txt",header=TRUE,sep="\t",fill=TRUE,strip.white=TRUE)
+
+#Then we extract PCoA site scores (these will be the x and y coordinates for each sample)
+plant.pathogen.soil.pcoavec<-as.data.frame(plant.pathogen.soil.pcoa.results$vectors)
+plant.pathogen.soil.pcoasitescores<-data.frame(PC1=plant.pathogen.soil.pcoavec$Axis.1, PC2=plant.pathogen.soil.pcoavec$Axis.2)
+
+#Create a new dataframe that includes the site scores from above with metadata from your study. 
+plant.pathogen.soil.pcoagraph<-data.frame(plant.pathogen.soil.pcoasitescores,PC1=plant.pathogen.soil.pcoasitescores$PC1, PC2=plant.pathogen.soil.pcoasitescores$PC2, State=its2.soil.met$State, Clone=its2.soil.met$Clone,group=its2.soil.met$Group)
+
+#This is where you make confidence ellipses. I don't know what all the code means. Just know where to plug in my objects. 
+plant.pathogen.soil.pcoaellipse<-ordiellipse(plant.pathogen.soil.pcoasitescores,plant.pathogen.soil.pcoagraph$State, display="sites", kind="sd", draw="none")
+
+df_ell.soil.pp <- data.frame()
+for(g in levels(plant.pathogen.soil.pcoagraph$State)){
+df_ell.soil.pp <- rbind(df_ell.soil.pp, cbind(as.data.frame(with(plant.pathogen.soil.pcoagraph[plant.pathogen.soil.pcoagraph$State==g,],                                                vegan:::veganCovEllipse(plant.pathogen.soil.pcoaellipse[[g]]$cov,plant.pathogen.soil.pcoaellipse[[g]]$center,plant.pathogen.soil.pcoaellipse[[g]]$scale))) ,State=g))}
+
+#Plot PCoA in ggplot
+library(ggplot2)
+plant.pathogen.soil.pcoa<-ggplot(plant.pathogen.soil.pcoagraph, aes(PC1,PC2, colour=State))+
+  #geom_text(aes(label=group))+
+  geom_path(data=df_ell.soil.pp, aes(x=PC1, y=PC2, colour=State),size=0.5, linetype=1)+
+  geom_point(aes(shape=Clone), size=3.5)+
+  xlab("PC1 (21.8%)")+
+  ylab("PC2 (14.2%)")+
+ theme(axis.title.x=element_text(size=14, face="bold"))+
+  theme(axis.title.y=element_text(size=14, face="bold"))+
+  theme(axis.text.x=element_text(size=12, face="bold"))+
+  theme(axis.text.y=element_text(size=12, face="bold"))+ 
+  scale_color_manual(values=c("#006600","#3399FF","#FF9900"))+
+  scale_shape_manual(values=c(16,10,8,7,0,2))+
+  scale_x_continuous(breaks=c(-0.60,-0.30,0,0.30,0.60),limits=c(-0.60,0.60))+
+  scale_y_continuous(breaks=c(-0.60,-0.30,0,0.30,0.60),limits=c(-.60,.60))+
+  theme(panel.grid.major=element_blank(),
+        panel.grid.minor=element_blank(),
+    panel.border=element_rect(colour="black", size=1, fill=NA))+
+  theme(panel.grid.major=element_blank(),
+       panel.grid.minor=element_blank(),
+       panel.background = element_blank(),
+  panel.border=element_rect(color="black", size=1, fill=NA))+
+  geom_text(data=NULL,aes(x=-0.60,y=0.60,label="Soil: Plant Pathogen"),hjust=0,colour="black")
+plant.pathogen.soil.pcoa
+#ggsave(filename = "ITS2_drillshavings_pcoa.png", plot(its2.ds.pcoa),dpi=300)
+```
+
+### Plant pathogens PERMANOVA 
+To formally test how well state and clone explain differences in drill shaving fungal community composition, I perform a PERMANOVA using the adonis function from vegan.
+```{r Permanovas}
+#Below I perform permanovas by state and clone using the adonis function from vegan. 
+library(vegan)
+plant.pathogen.soil.perm.state.inter<-adonis(plant.pathogen.soil.relabund~its2.soil.met$State*its2.soil.met$Clone, method="bray",permutations=10000)
+plant.pathogen.soil.perm.state.inter
+
+plant.pathogen.soil.perm.state.add<-adonis(plant.pathogen.soil.relabund~its2.soil.met$State+its2.soil.met$Clone, method="bray",permutations=10000)
+plant.pathogen.soil.perm.state.add
+
+plant.pathogen.soil.perm.state.sing<-adonis(plant.pathogen.soil.relabund~its2.soil.met$State, method="bray",permutations=10000)
+plant.pathogen.soil.perm.state.sing
+```
+
+### Plant pathogens Richness
+Observed OTU richness is first calculated for each sample. Then due to the unbalanced nature of our study design, we use a type 3 ANOVA.
+```{r Richness}
+#Below I calculate observed species richness using the specnumber function from vegan. I then create a new data frame to include sample metadata. 
+library(vegan)
+plant.pathogen.soil.rich<-specnumber(plant.pathogen.soil)
+plant.pathogen.soil.rich.tabmet<-data.frame(State=its2.soil.met$State, clone=its2.soil.met$Clone, sample=its2.soil.met$Group,Richness=plant.pathogen.soil.rich)
+
+#I first test for a significant interaction between state and clone. Due to the unbalanced design we use a type 3 ANOVA. 
+library(car)
+plant.pathogen.soil.anova.typ3.rich<-aov((Richness)~State*clone, data=plant.pathogen.soil.rich.tabmet)
+plant.pathogen.soil.typ3aov.rich<-Anova(plant.pathogen.soil.anova.typ3.rich,type="III")
+plant.pathogen.soil.typ3aov.rich
+kable(plant.pathogen.soil.typ3aov.rich)
+
+#The next line generates plots to evaluate regression assumptions. 
+par(mfrow=c(2,2))
+plot(plant.pathogen.soil.anova.typ3.rich)
+
+#There was no significant interaction between state and clone and thus we drop the interaction term.  
+plant.pathogen.soil.anova.add.rich<-aov((Richness)~State+clone, data=plant.pathogen.soil.rich.tabmet)
+plant.pathogen.soil.add.aov.rich<-Anova(plant.pathogen.soil.anova.add.rich,type="III")
+plant.pathogen.soil.add.aov.rich
+
+#Create a kable
+plant.pathogen.soil.add.aov.rich.tukey<-TukeyHSD(plant.pathogen.soil.anova.add.rich)
+plant.pathogen.soil.add.aov.rich.tukey
+plant.pathogen.soil.add.aov.rich.tukey.table<-rbind(plant.pathogen.soil.add.aov.rich.tukey$State,plant.pathogen.soil.add.aov.rich.tukey$clone)
+kable(plant.pathogen.soil.add.aov.rich.tukey.table)
+
+#The below two lines generate plots to evaluate regression assumptions. 
+par(mfrow=c(2,2))
+plot(plant.pathogen.soil.anova.add.rich)
+
+#There was no significant interaction between state and clone and thus we drop the interaction term.  
+plant.pathogen.soil.anova.sing.rich<-aov((Richness)~State, data=plant.pathogen.soil.rich.tabmet)
+plant.pathogen.soil.sing.aov.rich<-Anova(plant.pathogen.soil.anova.sing.rich,type="III")
+plant.pathogen.soil.sing.aov.rich
+kable(plant.pathogen.soil.sing.aov.rich)
+
+#Perform Tukey test
+plant.pathogen.soil.anova.sing.rich.tukey<-TukeyHSD(plant.pathogen.soil.anova.sing.rich)
+plant.pathogen.soil.anova.sing.rich.tukey
+plant.pathogen.soil.anova.sing.rich.tukey.table<-rbind(plant.pathogen.soil.anova.sing.rich.tukey$State)
+kable(plant.pathogen.soil.anova.sing.rich.tukey.table)
+
+#The below two lines generate plots to evaluate regression assumptions. 
+par(mfrow=c(2,2))
+plot(plant.pathogen.soil.anova.sing.rich)
+
+#I then create a box plot for the richness data by state using ggplot. 
+
+library(ggplot2)
+library(ggpubr)
+#Below I create a boxplot for richness values.
+plant.pathogen.soil.rich.plot<-ggboxplot(plant.pathogen.soil.rich.tabmet, x="State", y="Richness", outlier.shape=NA)+
+  geom_jitter(data=plant.pathogen.soil.rich.tabmet,position=position_jitter(0.2), aes(shape=clone),size=3)+
+  scale_shape_manual(values=c(16,10,8,7,0,2))+
+  #geom_text(data=richness.summarized, aes(x=State, y = 25 + Richness, label=Group, fontface="bold"))+
+  geom_text(data=NULL,aes(x=1, y=175, label="A"))+
+  geom_text(data=NULL,aes(x=2, y=175, label="A"))+
+  geom_text(data=NULL,aes(x=3, y=130, label="B"))+
+  geom_text(data=NULL,aes(x=0.5,y=190,label="Soil: Plant Pathogen"),hjust=0)+
+  theme(axis.line.x=element_blank(),
+        axis.title.x=element_blank())
+plant.pathogen.soil.rich.plot
+```
+
+## Arbuscular Mycorrhizae
+
+#### Subset for Arbuscular Mycorrhizae and PCOA
+I then reformat the OTU table for use in PCoA and funguild richness analyses. 
+```{r Funguild Table Reformatting}
+# First subset the funguild table to include only the fungal parasites
+t.arbuscular.mycorrhizae.soil<-subset(t.otutab.guild.div.sep.soil,t.otutab.guild.div.sep.soil$Guilds=="Arbuscular Mycorrhizal")
+
+# Then change the row names and then transpose the table so that sites are the row names.
+row.names(t.arbuscular.mycorrhizae.soil)<-make.names(t.arbuscular.mycorrhizae.soil$Guilds,unique = TRUE)
+t.arbuscular.mycorrhizae.soil<-t.arbuscular.mycorrhizae.soil[,-1]
+arbuscular.mycorrhizae.soil<-as.data.frame((t(t.arbuscular.mycorrhizae.soil)))
+
+# Calculate relative abundance using the decostand function from vegan
+arbuscular.mycorrhizae.soil.relabund<-decostand(arbuscular.mycorrhizae.soil,method="total")
+
+# Create distance matrix using the bray method with the vegdist function from vegan
+arbuscular.mycorrhizae.soil.dist<-vegdist(arbuscular.mycorrhizae.soil,method="bray")
+
+#Perform PCOA with pcoa function from ape package
+arbuscular.mycorrhizae.soil.pcoa.results<-pcoa(arbuscular.mycorrhizae.soil.dist)
+```
+
+### Plotting of arbuscular.mycorrhizae Principal Coordinate Analysis
+Then to plot the PCoA, I use the ggplot function. To use ggplot I need to first pull out the site scores for each sample and generate ellipses. 
+```{r PCoA}
+#Next I import the metadata for the particular habitat of interest. In this case I am working with drill shavings. I will use this metadata to subset the larger OTU file above. 
+its2.soil.met<-read.table("/Volumes/AaronOnufrakMac/researchprojects_2019.2022_ajo/j.nigra_microbiome_2017_ajo_gmw/soilits2statistics_jnigra17_su19_ajo/soilits2metadata_jnigra17_su19_ajo.txt",header=TRUE,sep="\t",fill=TRUE,strip.white=TRUE)
+
+#Then we extract PCoA site scores (these will be the x and y coordinates for each sample)
+arbuscular.mycorrhizae.soil.pcoavec<-as.data.frame(arbuscular.mycorrhizae.soil.pcoa.results$vectors)
+arbuscular.mycorrhizae.soil.pcoasitescores<-data.frame(PC1=arbuscular.mycorrhizae.soil.pcoavec$Axis.1, PC2=arbuscular.mycorrhizae.soil.pcoavec$Axis.2)
+
+#Create a new dataframe that includes the site scores from above with metadata from your study. 
+arbuscular.mycorrhizae.soil.pcoagraph<-data.frame(arbuscular.mycorrhizae.soil.pcoasitescores,PC1=arbuscular.mycorrhizae.soil.pcoasitescores$PC1, PC2=arbuscular.mycorrhizae.soil.pcoasitescores$PC2, State=its2.soil.met$State, Clone=its2.soil.met$Clone,group=its2.soil.met$Group)
+
+#This is where you make confidence ellipses. I don't know what all the code means. Just know where to plug in my objects. 
+arbuscular.mycorrhizae.soil.pcoaellipse<-ordiellipse(arbuscular.mycorrhizae.soil.pcoasitescores,arbuscular.mycorrhizae.soil.pcoagraph$State, display="sites", kind="sd", draw="none")
+
+df_ell.am <- data.frame()
+for(g in levels(arbuscular.mycorrhizae.soil.pcoagraph$State)){
+df_ell.am <- rbind(df_ell.am, cbind(as.data.frame(with(arbuscular.mycorrhizae.soil.pcoagraph[arbuscular.mycorrhizae.soil.pcoagraph$State==g,],                                                vegan:::veganCovEllipse(arbuscular.mycorrhizae.soil.pcoaellipse[[g]]$cov,arbuscular.mycorrhizae.soil.pcoaellipse[[g]]$center,arbuscular.mycorrhizae.soil.pcoaellipse[[g]]$scale))) ,State=g))}
+
+#Plot PCoA in ggplot
+library(ggplot2)
+arbuscular.mycorrhizae.soil.pcoa<-ggplot(arbuscular.mycorrhizae.soil.pcoagraph, aes(PC1,PC2, colour=State))+
+  #geom_text(aes(label=group))+
+  geom_path(data=df_ell.am, aes(x=PC1, y=PC2, colour=State),size=0.5, linetype=1)+
+  geom_point(aes(shape=Clone), size=3.5)+
+  xlab("PC1 (12.7%)")+
+  ylab("PC2 (10.0%)")+
+ theme(axis.title.x=element_text(size=14, face="bold"))+
+  theme(axis.title.y=element_text(size=14, face="bold"))+
+  theme(axis.text.x=element_text(size=12, face="bold"))+
+  theme(axis.text.y=element_text(size=12, face="bold"))+ 
+  scale_color_manual(values=c("#006600","#3399FF","#FF9900"))+
+  scale_shape_manual(values=c(16,10,8,7,0,2))+
+  scale_x_continuous(breaks=c(-0.60,-0.30,0,0.30,0.60),limits=c(-0.60,0.60))+
+  scale_y_continuous(breaks=c(-0.60,-0.30,0,0.30,0.60),limits=c(-.60,.60))+
+  theme(panel.grid.major=element_blank(),
+        panel.grid.minor=element_blank(),
+    panel.border=element_rect(colour="black", size=1, fill=NA))+
+  theme(panel.grid.major=element_blank(),
+       panel.grid.minor=element_blank(),
+       panel.background = element_blank(),
+  panel.border=element_rect(color="black", size=1, fill=NA))+
+  geom_text(data=NULL,aes(x=-0.60,y=0.60,label="Soil: Arbuscular Mycorrhizae"),hjust=0,colour="black")
+arbuscular.mycorrhizae.soil.pcoa
+#ggsave(filename = "ITS2_drillshavings_pcoa.png", plot(its2.ds.pcoa),dpi=300)
+```
+
+### Plant pathogens PERMANOVA 
+To formally test how well state and clone explain differences in drill shaving fungal community composition, I perform a PERMANOVA using the adonis function from vegan.
+```{r Permanovas}
+#Below I perform permanovas by state and clone using the adonis function from vegan. 
+library(vegan)
+arbuscular.mycorrhizae.soil.perm.state.inter<-adonis(arbuscular.mycorrhizae.soil.relabund~its2.soil.met$State*its2.soil.met$Clone, method="bray",permutations=10000)
+arbuscular.mycorrhizae.soil.perm.state.inter
+
+arbuscular.mycorrhizae.soil.perm.state.add<-adonis(arbuscular.mycorrhizae.soil.relabund~its2.soil.met$State+its2.soil.met$Clone, method="bray",permutations=10000)
+arbuscular.mycorrhizae.soil.perm.state.add
+
+arbuscular.mycorrhizae.soil.perm.state.sing<-adonis(arbuscular.mycorrhizae.soil.relabund~its2.soil.met$State, method="bray",permutations=10000)
+arbuscular.mycorrhizae.soil.perm.state.sing
+```
+
+### Arbuscular Richness
+Observed OTU richness is first calculated for each sample. Then due to the unbalanced nature of our study design, we use a type 3 ANOVA.
+```{r Richness}
+#Below I calculate observed species richness using the specnumber function from vegan. I then create a new data frame to include sample metadata. 
+library(vegan)
+arbuscular.mycorrhizae.soil.rich<-specnumber(arbuscular.mycorrhizae.soil)
+arbuscular.mycorrhizae.soil.rich.tabmet<-data.frame(State=its2.soil.met$State, clone=its2.soil.met$Clone, sample=its2.soil.met$Group,Richness=arbuscular.mycorrhizae.soil.rich)
+
+#I first test for a significant interaction between state and clone. Due to the unbalanced design we use a type 3 ANOVA. 
+library(car)
+arbuscular.mycorrhizae.soil.anova.typ3.rich<-aov((Richness)~State*clone, data=arbuscular.mycorrhizae.soil.rich.tabmet)
+arbuscular.mycorrhizae.soil.typ3aov.rich<-Anova(arbuscular.mycorrhizae.soil.anova.typ3.rich,type="III")
+arbuscular.mycorrhizae.soil.typ3aov.rich
+kable(arbuscular.mycorrhizae.soil.typ3aov.rich)
+
+#The next line generates plots to evaluate regression assumptions. 
+par(mfrow=c(2,2))
+plot(arbuscular.mycorrhizae.soil.anova.typ3.rich)
+
+#There was no significant interaction between state and clone and thus we drop the interaction term.  
+arbuscular.mycorrhizae.soil.anova.add.rich<-aov((Richness)~State+clone, data=arbuscular.mycorrhizae.soil.rich.tabmet)
+arbuscular.mycorrhizae.soil.add.aov.rich<-Anova(arbuscular.mycorrhizae.soil.anova.add.rich,type="III")
+arbuscular.mycorrhizae.soil.add.aov.rich
+kable(arbuscular.mycorrhizae.soil.add.aov.rich)
+
+#Perform tukey test
+arbuscular.mycorrhizae.soil.add.aov.rich.tukey<-TukeyHSD(arbuscular.mycorrhizae.soil.anova.add.rich)
+arbuscular.mycorrhizae.soil.add.aov.rich.tukey
+arbuscular.mycorrhizae.soil.add.aov.rich.tukey.table<-rbind(arbuscular.mycorrhizae.soil.add.aov.rich.tukey$State,arbuscular.mycorrhizae.soil.add.aov.rich.tukey$clone)
+kable(arbuscular.mycorrhizae.soil.add.aov.rich.tukey.table)
+
+#The below two lines generate plots to evaluate regression assumptions. 
+par(mfrow=c(2,2))
+plot(arbuscular.mycorrhizae.soil.anova.add.rich)
+
+#There was no significant interaction between state and clone and thus we drop the interaction term.  
+arbuscular.mycorrhizae.soil.anova.sing.rich<-aov((Richness)~State, data=arbuscular.mycorrhizae.soil.rich.tabmet)
+arbuscular.mycorrhizae.soil.sing.aov.rich<-Anova(arbuscular.mycorrhizae.soil.anova.sing.rich,type="III")
+arbuscular.mycorrhizae.soil.sing.aov.rich
+kable(arbuscular.mycorrhizae.soil.sing.aov.rich)
+
+#Perform Tukey test
+arbuscular.mycorrhizae.soil.anova.sing.rich.tukey<-TukeyHSD(arbuscular.mycorrhizae.soil.anova.sing.rich)
+arbuscular.mycorrhizae.soil.anova.sing.rich.tukey
+arbuscular.mycorrhizae.soil.anova.sing.rich.tukey.table<-rbind(arbuscular.mycorrhizae.soil.anova.sing.rich.tukey$State)
+kable(arbuscular.mycorrhizae.soil.anova.sing.rich.tukey.table)
+
+#The below two lines generate plots to evaluate regression assumptions. 
+par(mfrow=c(2,2))
+plot(arbuscular.mycorrhizae.soil.anova.sing.rich)
+
+#I then create a box plot for the richness data by state using ggplot. 
+
+library(ggplot2)
+library(ggpubr)
+#Below I create a boxplot for richness values.
+arbuscular.mycorrhizae.soil.rich.plot<-ggboxplot(arbuscular.mycorrhizae.soil.rich.tabmet, x="State", y="Richness", outlier.shape=NA)+
+  geom_jitter(data=arbuscular.mycorrhizae.soil.rich.tabmet,position=position_jitter(0.2), aes(shape=clone),size=3)+
+  scale_shape_manual(values=c(16,10,8,7,0,2))+
+  #geom_text(data=richness.summarized, aes(x=State, y = 25 + Richness, label=Group, fontface="bold"))+
+  geom_text(data=NULL,aes(x=1, y=85, label="A"))+
+  geom_text(data=NULL,aes(x=2, y=85, label="A"))+
+  geom_text(data=NULL,aes(x=3, y=60, label="B"))+
+  geom_text(data=NULL,aes(x=0.5,y=90,label="Soil: Arbuscular Mycorrhizae"),hjust=0)+
+  theme(axis.line.x=element_blank(), 
+        axis.text.x=element_blank(),
+        axis.title.x=element_blank(),
+        axis.ticks.x=element_blank())
+arbuscular.mycorrhizae.soil.rich.plot
+```
+
+## Mycoparasite
+
+#### Subset for Mycoparasite and PCOA
+I then reformat the OTU table for use in PCoA and funguild richness analyses. 
+```{r Funguild Table Reformatting}
+# First subset the funguild table to include only the fungal parasites
+t.mycoparasite.soil<-subset(t.otutab.guild.div.sep.soil,t.otutab.guild.div.sep.soil$Guilds=="Fungal Parasite")
+
+# Then change the row names and then transpose the table so that sites are the row names.
+row.names(t.mycoparasite.soil)<-make.names(t.mycoparasite.soil$Guilds,unique = TRUE)
+t.mycoparasite.soil<-t.mycoparasite.soil[,-1]
+mycoparasite.soil<-as.data.frame((t(t.mycoparasite.soil)))
+
+# Calculate relative abundance using the decostand function from vegan
+mycoparasite.soil.relabund<-decostand(mycoparasite.soil,method="total")
+
+# Create distance matrix using the bray method with the vegdist function from vegan
+mycoparasite.soil.dist<-vegdist(mycoparasite.soil,method="bray")
+
+#Perform PCOA with pcoa function from ape package
+mycoparasite.soil.pcoa.results<-pcoa(mycoparasite.soil.dist)
+```
+
+### Plotting of mycoparasite Principal Coordinate Analysis
+Then to plot the PCoA, I use the ggplot function. To use ggplot I need to first pull out the site scores for each sample and generate ellipses. 
+```{r PCoA}
+#Next I import the metadata for the particular habitat of interest. In this case I am working with drill shavings. I will use this metadata to subset the larger OTU file above. 
+its2.soil.met<-read.table("/Volumes/AaronOnufrakMac/researchprojects_2019.2022_ajo/j.nigra_microbiome_2017_ajo_gmw/soilits2statistics_jnigra17_su19_ajo/soilits2metadata_jnigra17_su19_ajo.txt",header=TRUE,sep="\t",fill=TRUE,strip.white=TRUE)
+
+#Then we extract PCoA site scores (these will be the x and y coordinates for each sample)
+mycoparasite.soil.pcoavec<-as.data.frame(mycoparasite.soil.pcoa.results$vectors)
+mycoparasite.soil.pcoasitescores<-data.frame(PC1=mycoparasite.soil.pcoavec$Axis.1, PC2=mycoparasite.soil.pcoavec$Axis.2)
+
+#Create a new dataframe that includes the site scores from above with metadata from your study. 
+mycoparasite.soil.pcoagraph<-data.frame(mycoparasite.soil.pcoasitescores,PC1=mycoparasite.soil.pcoasitescores$PC1, PC2=mycoparasite.soil.pcoasitescores$PC2, State=its2.soil.met$State, Clone=its2.soil.met$Clone,group=its2.soil.met$Group)
+
+#This is where you make confidence ellipses. I don't know what all the code means. Just know where to plug in my objects. 
+mycoparasite.soil.pcoaellipse<-ordiellipse(mycoparasite.soil.pcoasitescores,mycoparasite.soil.pcoagraph$State, display="sites", kind="sd", draw="none")
+
+df_ell.soil.mycop <- data.frame()
+for(g in levels(mycoparasite.soil.pcoagraph$State)){
+df_ell.soil.mycop <- rbind(df_ell.soil.mycop, cbind(as.data.frame(with(mycoparasite.soil.pcoagraph[mycoparasite.soil.pcoagraph$State==g,],                                                vegan:::veganCovEllipse(mycoparasite.soil.pcoaellipse[[g]]$cov,mycoparasite.soil.pcoaellipse[[g]]$center,mycoparasite.soil.pcoaellipse[[g]]$scale))) ,State=g))}
+
+#Plot PCoA in ggplot
+library(ggplot2)
+mycoparasite.soil.pcoa<-ggplot(mycoparasite.soil.pcoagraph, aes(PC1,PC2, colour=State))+
+  #geom_text(aes(label=group))+
+  geom_path(data=df_ell.soil.mycop, aes(x=PC1, y=PC2, colour=State),size=0.5, linetype=1)+
+  geom_point(aes(shape=Clone), size=3.5)+
+  xlab("PC1 (29.3%)")+
+  ylab("PC2 (14.1%)")+
+ theme(axis.title.x=element_text(size=14, face="bold"))+
+  theme(axis.title.y=element_text(size=14, face="bold"))+
+  theme(axis.text.x=element_text(size=12, face="bold"))+
+  theme(axis.text.y=element_text(size=12, face="bold"))+ 
+  scale_color_manual(values=c("#006600","#3399FF","#FF9900"))+
+  scale_shape_manual(values=c(16,10,8,7,0,2))+
+  scale_x_continuous(breaks=c(-0.60,-0.30,0,0.30,0.60),limits=c(-0.60,0.60))+
+  scale_y_continuous(breaks=c(-0.60,-0.30,0,0.30,0.60),limits=c(-.60,.60))+
+  theme(panel.grid.major=element_blank(),
+        panel.grid.minor=element_blank(),
+    panel.border=element_rect(colour="black", size=1, fill=NA))+
+  theme(panel.grid.major=element_blank(),
+       panel.grid.minor=element_blank(),
+       panel.background = element_blank(),
+  panel.border=element_rect(color="black", size=1, fill=NA))+
+  geom_text(data=NULL,aes(x=-0.60,y=0.60,label="Soil: Mycoparasite"),hjust=0,colour="black")
+mycoparasite.soil.pcoa
+#ggsave(filename = "ITS2_drillshavings_pcoa.png", plot(its2.ds.pcoa),dpi=300)
+```
+
+### Plant pathogens PERMANOVA 
+To formally test how well state and clone explain differences in drill shaving fungal community composition, I perform a PERMANOVA using the adonis function from vegan.
+```{r Permanovas}
+#Below I perform permanovas by state and clone using the adonis function from vegan. 
+library(vegan)
+mycoparasite.soil.perm.state.inter<-adonis(mycoparasite.soil.relabund~its2.soil.met$State*its2.soil.met$Clone, method="bray",permutations=10000)
+mycoparasite.soil.perm.state.inter
+
+mycoparasite.soil.perm.state.add<-adonis(mycoparasite.soil.relabund~its2.soil.met$State+its2.soil.met$Clone, method="bray",permutations=10000)
+mycoparasite.soil.perm.state.add
+
+mycoparasite.soil.perm.state.sing<-adonis(mycoparasite.soil.relabund~its2.soil.met$State, method="bray",permutations=10000)
+mycoparasite.soil.perm.state.sing
+```
+
+### Mycoparasite Richness
+Observed OTU richness is first calculated for each sample. Then due to the unbalanced nature of our study design, we use a type 3 ANOVA.
+```{r Richness}
+#Below I calculate observed species richness using the specnumber function from vegan. I then create a new data frame to include sample metadata. 
+library(vegan)
+mycoparasite.soil.rich<-specnumber(mycoparasite.soil)
+mycoparasite.soil.rich.tabmet<-data.frame(State=its2.soil.met$State, clone=its2.soil.met$Clone, sample=its2.soil.met$Group,Richness=mycoparasite.soil.rich)
+
+#I first test for a significant interaction between state and clone. Due to the unbalanced design we use a type 3 ANOVA. 
+library(car)
+mycoparasite.soil.anova.typ3.rich<-aov((Richness)~State*clone, data=mycoparasite.soil.rich.tabmet)
+mycoparasite.soil.typ3aov.rich<-Anova(mycoparasite.soil.anova.typ3.rich,type="III")
+mycoparasite.soil.typ3aov.rich
+kable(mycoparasite.soil.typ3aov.rich)
+
+#The next line generates plots to evaluate regression assumptions. 
+par(mfrow=c(2,2))
+plot(mycoparasite.soil.anova.typ3.rich)
+
+#There was no significant interaction between state and clone and thus we drop the interaction term.  
+mycoparasite.soil.anova.add.rich<-aov((Richness)~State+clone, data=mycoparasite.soil.rich.tabmet)
+mycoparasite.soil.add.aov.rich<-Anova(mycoparasite.soil.anova.add.rich,type="III")
+mycoparasite.soil.add.aov.rich
+
+#Create a kable
+mycoparasite.soil.add.aov.rich.tukey<-TukeyHSD(mycoparasite.soil.anova.add.rich)
+mycoparasite.soil.add.aov.rich.tukey
+mycoparasite.soil.add.aov.rich.tukey.table<-rbind(mycoparasite.soil.add.aov.rich.tukey$State,mycoparasite.soil.add.aov.rich.tukey$clone)
+kable(mycoparasite.soil.add.aov.rich.tukey.table)
+
+#The below two lines generate plots to evaluate regression assumptions. 
+par(mfrow=c(2,2))
+plot(mycoparasite.soil.anova.add.rich)
+
+#There was no significant interaction between state and clone and thus we drop the interaction term.  
+mycoparasite.soil.anova.sing.rich<-aov((Richness)~State, data=mycoparasite.soil.rich.tabmet)
+mycoparasite.soil.sing.aov.rich<-Anova(mycoparasite.soil.anova.sing.rich,type="III")
+mycoparasite.soil.sing.aov.rich
+kable(mycoparasite.soil.sing.aov.rich)
+
+#Perform Tukey test
+mycoparasite.soil.anova.sing.rich.tukey<-TukeyHSD(mycoparasite.soil.anova.sing.rich)
+mycoparasite.soil.anova.sing.rich.tukey
+mycoparasite.soil.anova.sing.rich.tukey.table<-rbind(mycoparasite.soil.anova.sing.rich.tukey$State)
+kable(mycoparasite.soil.anova.sing.rich.tukey.table)
+
+#The below two lines generate plots to evaluate regression assumptions. 
+par(mfrow=c(2,2))
+plot(mycoparasite.soil.anova.sing.rich)
+
+#I then create a box plot for the richness data by state using ggplot. 
+
+library(ggplot2)
+library(ggpubr)
+#Below I create a boxplot for richness values.
+mycoparasite.soil.rich.plot<-ggboxplot(mycoparasite.soil.rich.tabmet, x="State", y="Richness", outlier.shape=NA)+
+  geom_jitter(data=mycoparasite.soil.rich.tabmet,position=position_jitter(0.2), aes(shape=clone),size=3)+
+  scale_shape_manual(values=c(16,10,8,7,0,2))+
+  #geom_text(data=richness.summarized, aes(x=State, y = 25 + Richness, label=Group, fontface="bold"))+
+  geom_text(data=NULL,aes(x=1, y=90, label="A"))+
+  geom_text(data=NULL,aes(x=2, y=65, label="AB"))+
+  geom_text(data=NULL,aes(x=3, y=65, label="B"))+
+  geom_text(data=NULL,aes(x=0.5,y=100,label="Soil: Mycoparasite"),hjust=0)+
+  theme(axis.line.x=element_blank(), 
+        axis.text.x=element_blank(),
+        axis.title.x=element_blank(),
+        axis.ticks.x=element_blank())
+mycoparasite.soil.rich.plot
+```
+
