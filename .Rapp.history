@@ -1,491 +1,915 @@
-lines(x,y=dnorm(x,mean=0,sd=0.75),lwd=2,col="goldenrod")#
-text(x=0,y=0.57,labels="SD = .75")#
-text(x=0,y=0.32,labels="SD = 1")
-qnorm(p=c(.025,.05,.95,.975), mean=0, sd=1)
-abline(qnorm(p=c(.025,.05,.95,.975), mean=0, sd=1))
-abline(a=qnorm(p=c(.025,.05,.95,.975), mean=0, sd=1))
-abline(b=qnorm(p=c(.025,.05,.95,.975), mean=0, sd=1))
-abline(a=qnorm(p=c(.025,.05,.95,.975), mean=0, sd=1), b=0)
-?abline
-abline(v=qnorm(p=c(.025,.05,.95,.975), mean=0, sd=1))
-x <- rnorm(n=10000, mean=0, sd=1)#
-hist(x)
-hist(x, freq=FALSE)
-mean(x); sd(x)
-quantile(x, probs=c(.025,.05,.95,.975))
-x <- seq(from=-1,to=3,by=.001)#
-plot(x,y=dunif(x,min=-1,max=3),type="n",xlim=c(-1,3),ylim=c(0,.4),ylab="density",#
-     main="Uniform probability distribution")
-lines(x,y=dunif(x,min=-1,max=3),lwd=2)
-lines(x=c(-1,-1),y=c(0,dunif(-1,min=-1,max=3)),lwd=2,col="red")
-dunif(x, min=-1, max=3)
-lines(x=c(3, 3), y=c(0, dunif(3, min=-1, max=3)), lwd=2, col="red")
-text(x=1, y=0.32, labels="f(x) = 1/(max - min)", cex=1.3)
-x <- runif(n=100000, min=0, max=1)
-x
-x <- sort(x)
-quantile(x, probs=c(.01,.05,.5,.95,.99))  # True values are simply the quantiles (why?)
-x <- runif(n=100000, min=0, max=1)
-quantile(x, probs=c(.01,.05,.5,.95,.99))  # True values are simply the quantiles (why?)
-x <- sort(x) # sorts the random values#
-quantile(x, probs=c(.01,.05,.5,.95,.99))  # True values are simply the quantiles (why?)
-round(quantile(x, probs=c(.01,.05,.5,.95,.99)), 4)
-1/1000
-dbinom(x=c(0,1), size=1, prob=.25)
-pr <- dbinom(x=c(0:10), size=10, prob=.25)
-.25^x * (1-.25)^(1-1)
-dbinom(x=c(0,1), size=1, prob=.25)
-.25^1 * (1-.25)^(1-1)
-pr <- dbinom(x=c(0:10), size=10, prob=.25) # pr(success) = .25
-pr
-sum(pr)
-par(mfrow=c(2,2))  # This sets the plotting space for 2 rows and 2 columns of figures
-plot(x=seq(0,1,1), dbinom(x=seq(0,1,1),size=1,prob=.25), xlab="Number of Successes", ylab="Density",#
-     main="Binomial for 1 trial, p=.25", ylim=c(0,.8), col="red", pch=16, cex=1.3)
-plot(x=seq(0,10,1), dbinom(x=seq(0,10,1), size=10, prob=.25), xlab="Number of Successes", ylab="Density",#
-     main="Binomial for 10 trials, p=.25",ylim=c(0,.3),col="red",pch=16,cex=1.3)
-plot(x=seq(0,50,1), dbinom(x=seq(0,50,1),size=50,prob=.25), xlab="Number of Successes", ylab="Density",#
-     main="Binomial for 50 trials, p=.25", ylim=c(0,.15), col="red", pch=16, cex=1.3)
-plot(x=seq(0,1000,1),d binom(x=seq(0,1000,1), size=1000,prob=.25), xlab="Number of Successes", ylab="Density",#
-      main="Binomial for 1000 trials, p=.25", ylim=c(0,.03), xlim=c(100,400), col="red", pch=16, cex=1.3)
-plot(x=seq(0,1000,1),d binom(x=seq(0,1000,1), size=1000,prob=.25), xlab="Number of Successes", ylab="Density", main="Binomial for 1000 trials, p=.25", ylim=c(0,.03), xlim=c(100,400), col="red", pch=16, cex=1.3)
-plot(x=seq(0,1000,1), dbinom(x=seq(0,1000,1), size=1000,prob=.25), xlab="Number of Successes", ylab="Density", main="Binomial for 1000 trials, p=.25", ylim=c(0,.03), xlim=c(100,400), col="red", pch=16, cex=1.3)
-par(mfrow=c(1,1))
-x <- rbinom(n=1000, size=100, prob=.25)
-quantile(sort(x), probs=c(.5))
-quantile(x, probs=c(.5))
-par(mfrow=c(2,2))#
-hist(rpois(n=10000, lambda=1), main="Poisson, lambda=1", xlab="Counts", breaks=seq(-.5,8.5,1),#
-     freq=FALSE, vcol="red", border="black", ylim=c(0, .4))#
-lines(0:60, y=dpois(0:60, 1)) # theoretical density#
-hist(rpois(n=10000, lambda=2), main="Poisson, lambda=2", xlab="Counts", breaks=seq(-.5,10.5,1),#
-     freq=FALSE, col="red", border="black", ylim=c(0, .3))#
-lines(0:60, y=dpois(0:60, 2))#
-hist(rpois(n=10000, lambda=10), main="Poisson, lambda=10", xlab="Counts", breaks=seq(-.5,25.5,1),#
-     freq=FALSE, col="red", border="black", ylim=c(0,.14))#
-lines(0:60, y=dpois(0:60, 10))#
-hist(rpois(n=10000, lambda=25), main="Poisson, lambda=25", xlab="Counts", breaks=seq(-.5,48.5,1),#
-     freq=FALSE, col="red", border="black", ylim=c(0,.085))#
-lines(0:60, y=dpois(0:60, 25))#
-par(mfrow=c(1, 1))  # always reset the plotting parameters to support 1 figure at a time
-par(mfrow=c(2,2))#
-hist(rpois(n=10000, lambda=1), main="Poisson, lambda=1", xlab="Counts", breaks=seq(-.5,8.5,1),#
-     freq=FALSE, col="red", border="black", ylim=c(0,.4))#
-lines(0:60, y=dpois(0:60, 1)) # theoretical density#
-hist(rpois(n=10000, lambda=2), main="Poisson, lambda=2", xlab="Counts", breaks=seq(-.5,10.5,1),#
-     freq=FALSE, col="red", border="black", ylim=c(0,.3))#
-lines(0:60, y=dpois(0:60, 2))#
-hist(rpois(n=10000,lambda=10), main="Poisson, lambda=10", xlab="Counts", breaks=seq(-.5,25.5,1),#
-     freq=FALSE, col="red", border="black", ylim=c(0,.14))#
-lines(0:60, y=dpois(0:60,10))#
-hist(rpois(n=10000,lambda=25), main="Poisson, lambda=25", xlab="Counts", breaks=seq(-.5,48.5,1),#
-     freq=FALSE,col="red", border="black", ylim=c(0,.085))#
-lines(0:60, y=dpois(0:60,25))#
-par(mfrow=c(1, 1))  # always reset the plotting parameters to support 1 figure at a time
-?sample  # Note that sampling can be done with or without replacement. Without is default.#
-#      Let's do a simple sampling experiment. Imagine that we are selecting from among 3 fruits:#
-x <- c("apple", "orange", "mango") # Categorical (character) data#
-sample(x, size=3) # Sample at random from x three times, without replacement of sampled fruit.#
-                  # Run the command again. Do you get the same ordered outcome?#
-sample(x, size=3, replace=TRUE) # Now let's sample at random from x 3 times but w/replacement.#
-#      Suppose we had 2 apples in our fruit basket. To randomly sample from the 4 fruits, we#
-#      can either define a new vector x with two "apple" elements, or we can use the#
-#      prob argument in the sample function.#
-sample(x, size=3, replace=TRUE, prob=c(.5,.25,.25)) # The prob vector weights each type of fruit #
-                                      # by its relative frequency
-library(asbio)  # We'll use some of the functions from asbio #
-library(tcltk)
-install.packages('asbio')
-library(asbio)  # We'll use some of the functions from asbio #
-library(tcltk)
-samp.dist.snap(parent=expression(rexp(s.size)), stat=mean, s.size = c(1,5,10,50), R = 1000)
-samp.dist.snap(rexp(5), stat=mean, s.size = 5, R = 1000)
-samp.dist.snap(parent=rexp(5), stat=mean, s.size = 5, R = 1000)
-samp.dist.snap(parent=elxpression(rexp(5)), stat=mean, s.size = 5, R = 1000)
-samp.dist.snap(parent=e\xpression(rexp(5)), stat=mean, s.size = 5, R = 1000)
-samp.dist.snap(parent=expression(rexp(5)), stat=mean, s.size = 5, R = 1000)
-randthing<-samp.dist.snap(parent=expression(rexp(5)), stat=mean, s.size = 5, R = 1000)
-randthing
-samp.dist.snap(rexp(5), stat=mean, s.size = 5, R = 20)
-samp.dist.snap(parent=expression(rexp(5)), stat=mean, s.size = 5, R = 20)
-samp.dist.snap(parent=expression(rexp(5)), stat=mean, s.size = 5, R = 40)
-par(mfrow=c(2,1)) # plotting frame with 2 rows and 1 column#
-x <- rnorm(n=10000, mean=50, sd=8)  # Sample from a normal distribution with mean=50 and sd=8#
-mean(x); sd(x)#
-hist(x, breaks=30, main="Original")
-z <- scale(x=x, center=TRUE, scale=TRUE)#
-mean(z); sd(z)#
-hist(z, breaks=30, main="Standardized") # Shape does NOT change#
-par(mfrow=c(1,1))
-x <- seq(from=-4,to=4,by=.001)#
-plot(x,y=dt(x,df=1),type="n",ylim=c(0,.6),ylab="density",main="Student's t distribution")#
-lines(x,y=dt(x,df=1),lwd=2)#
-lines(x,y=dt(x,df=5),lwd=2,col="goldenrod")#
-lines(x,y=dt(x,df=25),lwd=2,col="green")
-legend("topright",col=c("black","goldenrod","green"),lty=1,legend=c("df = 1", "df = 5", "df = 25"))
-qt(p=c(.025,.975), df=1) # Critical values, alpha = .025 (or .05 if two-tailed test)#
-qt(p=c(.025,.975), df=100) # Critical values with df=100#
-qt(p=c(.025,.975), df=1000000) # Critical values with df=1 million. Do these numbers look familiar?
-x <- c(4.6,4,3.2,3.5,3.4,4.8,4.1,4,4.9,2.5) # values from sample of 10 subjects in population#
-x.bar <- mean(x)#
-x.sd <- sd(x)#
-t.crit <- qt(p=.975, df=9) # 9 b/c n - 1 d.f. and we have 10 observations#
-lower.ci <- x.bar - t.crit*x.sd/sqrt(10) # lower bound of 95% C.I.#
-upper.ci <- x.bar + t.crit*x.sd/sqrt(10) # upper bound of 95% C.I.#
-c(x.bar, lower.ci, upper.ci)
-ci.mu.t(x, conf=.95)
-x <- c(25,30,42,7,100)#
-z <- scale(x)#
-x#
-z#
-mean(z); sd(z) # check to verify that standardization resulted in mean=0 and sd=1.#
-#          b. Compute in R the 95% confidence interval for the mean from the sample#
-#             x in this question. Paste code and answer into Word.#
-# Long way:#
-x.bar <- mean(x)#
-x.sd <- sd(x)#
-t.crit <- qt(p=.975, df=4) # 4 b/c n - 1 d.f. and we have 5 observations#
-lower.ci <- x.bar - t.crit*x.sd/sqrt(5) # lower bound of 95% C.I.#
-upper.ci <- x.bar + t.crit*x.sd/sqrt(5) # upper bound of 95% C.I.#
-c(x.bar, lower.ci, upper.ci)#
-# Short way: ci.mu.t() function in asbio#
-# library(asbio)#
-ci.mu.t(x, conf=.95) # Do the results match?
-x <- c(25,30,42,7,100)#
-z <- scale(x)#
-x#
-z#
-mean(z); sd(z)
-?scale
-x <- c(25,30,42,7,100)#
-z <- scale(x, center=TRUE)#
-x#
-z#
-mean(z); sd(z)
-x.bar <- mean(x)#
-x.sd <- sd(x)#
-t.crit <- qt(p=.975, df=4) # 4 b/c n - 1 d.f. and we have 5 observations#
-lower.ci <- x.bar - t.crit*x.sd/sqrt(5) # lower bound of 95% C.I.#
-upper.ci <- x.bar + t.crit*x.sd/sqrt(5) # upper bound of 95% C.I.#
-c(x.bar, lower.ci, upper.ci)
-ci.mu.t(x, conf=.95) # Do the results match?
-x <- c(4.6,4,3.2,3.5,3.4,4.8,4.1,4,4.9,2.5) # values from sample of 10 subjects in population
-lci.sigma <- (length(x)-1)*(x.sd^2)/qchisq(p=.975, df=9)#
-uci.sigma <- (length(x)-1)*(x.sd^2)/qchisq(p=.025, df=9)#
-c(x.sd^2, lci.sigma, uci.sigma)
-x.bar <- mean(x)#
-x.sd <- sd(x)
-lci.sigma <- (length(x)-1)*(x.sd^2)/qchisq(p=.975, df=9)#
-uci.sigma <- (length(x)-1)*(x.sd^2)/qchisq(p=.025, df=9)#
-c(x.sd^2, lci.sigma, uci.sigma)
-ci.sigma(x, conf=.95)#
-#       A quick look at the Chi-square distribution with 1 d.f.#
-q <- seq(.01,5,.01)#
-plot(x=q,y=dchisq(q, df=1), type="l") # The type arguments specifies a line (points is default)
-library(asbio)
-?Venn
-Venn(.1,.2,.05)
-?Venn
-Venn(.1,.2,.05, labA='small', labB='big')
-library(ape)
-clustal()
-install.packages('ape')
-n <- 3	# number of rows#
-p <- 2	# number of columns#
+tn.clust.2.otus
+wa.clust.1.otus
+wa.clust.2.otus
+hm.melt%>% ggplot(., aes(x=variable, y=OTU, fill=value)) + geom_tile()+scale_fill_gradient(low="white", high="black") + theme(axis.text.x = element_text(angle=90, size=6), legend.position = "none", axis.text.y = element_text(hjust=0))
+axislabels <- with(hm, paste(rownames(.), gsub("[sgfocp]__","",Genus,perl=T) %>% gsub("_"," ",.,perl=T) %>% gsub("[\\s]?(unclassified|ge)[\\s]?","",.,perl=T)))
+axislabels <- with(hm, paste(rownames(hm), gsub("[sgfocp]__","",Genus,perl=T) %>% gsub("_"," ",.,perl=T) %>% gsub("[\\s]?(unclassified|ge)[\\s]?","",.,perl=T)))
+names(axislabels) <- rownames(hm)
+i <- grep("(uncultured$)|([01234567890-]+$)|(group$)", axislabels, perl=T)#
+axislabels[i]<-paste(names(axislabels)[i], hm$Family[i])#
+j <- grep("(uncultured$)|([01234567890-]+$)|(group$)|([01234567890-]+_fa$)", axislabels, perl=T)#
+axislabels[j]<-paste(names(axislabels)[j], hm$Order[j])#
+k <- grep("(uncultured_fa$)|([01234567890-]+_or$)", axislabels, perl=T)#
+axislabels[k]<-paste(names(axislabels)[k], hm$Phylum[k])#
+l <- grep("[01234567890-]+$", axislabels, perl=T)#
+axislabels[l]<-paste(names(axislabels)[l], hm$Class[l])
+axislabels
+hm.melt %>% ggplot(., aes(x=variable, y=OTU, fill=value)) + geom_tile()+scale_fill_gradient(low="white", high="black") + theme(axis.text.x = element_text(angle=90, size=6), legend.position = "none", axis.text.y = element_text(hjust=0))+ scale_y_discrete(labels=axislabels)
+hm.melt <-hm[,-c(1:7)] %>% decostand(.,method="max", MARGIN=1) %>% decostand(method="log") %>% cbind(data.frame(OTU=rownames(hm), Cluster = c(rep(1,length(tn.clust.1.otus)),rep(2,length(tn.clust.2.otus)),rep(3,length(wa.clust.1.otus)),rep(4,length(wa.clust.2.otus))))) %>% melt()
+hm.melt$variable <- factor(hm.melt$variable, c(indian,tn.neg,tn.tcd,wa.neg,wa.gm))#
 #
-# The matrix() function enables creation of a matrix:#
-A <- matrix((c(1,2,3,4,5,6)),nrow=n,ncol=p,byrow=TRUE)  # A is a 3 x 2 matrix#
-A#
-c <- matrix((c(10,20,30)),nrow=3,ncol=1,byrow=TRUE)	    # c is a 3 x 1 column vector#
-c#
-r <- t(c)			# the transpose of c, t(c), is a 1 x 3 row vector#
-r#
-##
-# diag() creates a square matrix with ones (or other values) on diagonal#
-I <- diag(x=1,nrow=3,ncol=3) # 3x3 Identity matrix has ones on diagonal#
-I#
-##
-#  Matrix
-B <- matrix((c(5,6,7,8,9,10)),nrow=n, ncol=p,byrow=TRUE)  # B is a 3 x 2 matrix
-A; B  # Let's look at matrix A and matrix B
-C <- A+B  # corresponding elements of A and B are added together#
-C
-s <- 2#
-s*C
-r/10; c/10#
-(r/10)%*%(c/10)  # the %*% around the * operator stipulates #
-#                  element-by-element multiplication
-r
-c
-I; c#
-I%*%c # 3x3 * 3x1 = 3x1 vector for solution (3 inner products)
-c%*%I  # Error! 3x1 * 3x3 is not conformable; can't multiply
-I; A#
-I%*%A
-I[2,2] <- 2		# change value of element [2,2] in I; note square brackets#
-I; A#
-A%*%I     # Get error message: non-conformable arguments (b/c [3x2] x [3x3] not possible)#
-I%*%A
-crossprod(I,A) # try crossprod(A, I), where A*I is not conformable#
-##
-#  Inverse of a matrix#
-A <- matrix(c(3,-6,2,-5),2,2,byrow=TRUE)#
-A#
-solve(A)		# solves for the inverse of A (elements are multiples)#
-            # check - does the inverse multiplied by the original yield an identity matrix?#
-solve(A) %*% A
-install.packages('lawn')
-library("lawn")#
-lawn_bbox_polygon(c(-122.2047, 47.5204, -122.1065, 47.6139)) %>% view
-install.packages('leaflet')
-library('leaflet')
-lawn_bbox_polygon(c(-122.2047, 47.5204, -122.1065, 47.6139)) %>% view
-lawn_bbox_polygon(c(46.591169, -118.535378, 45.741266, -116.686558)) %>% view
-lawn_bbox_polygon(c(-118.535378, 46.591169, -116.686558, 45.741266)) %>% view
-lawn_bbox_polygon(c(-119, 46.591169, -116.686558, 45.741266)) %>% view
-lawn_bbox_polygon(c(-118.535378, 47, -116.686558, 45.741266)) %>% view
-lawn_bbox_polygon(c(-119, 47, -116.686558, 45.741266)) %>% view
-ncdc_stations(extent =c(-119, 47, -116.686558, 45.741266))
-library('rnoaa')
-ncdc_stations(extent =c(-119, 47, -116.686558, 45.741266))
-?token
-?rnoaa
-ncdc_stations(extent =c(-119, 47, -116.686558, 45.741266))
-?ncdc_stations
-ncdc_stations(extent =c(-119, 47, -116.686558, 45.741266), token='wTFkCIjQSaRynGTPpQQGGjZqnTwZlIxJ')
-ncdc_stations(extent = c(47.5204, -122.2047, 47.6139, -122.1065), token='wTFkCIjQSaRynGTPpQQGGjZqnTwZlIxJ')
-ncdc_stations(extent = c(45.741266, -119, 45.741266, -116.686558), token='wTFkCIjQSaRynGTPpQQGGjZqnTwZlIxJ')
-ncdc_stations(extent = c(45.741266, -119, 47, -116.686558), token='wTFkCIjQSaRynGTPpQQGGjZqnTwZlIxJ')47
-ncdc_stations(extent = c(45.741266, -119, 47, -116.686558), token='wTFkCIjQSaRynGTPpQQGGjZqnTwZlIxJ')
-homr(state = 'WA')
-stati <- data(ncdc_stations(extent = c(45.741266, -119, 47, -116.686558), token='wTFkCIjQSaRynGTPpQQGGjZqnTwZlIxJ'), limit=100)
-stati <- data(ncdc_stations(extent = c(45.741266, -119, 47, -116.686558), token='wTFkCIjQSaRynGTPpQQGGjZqnTwZlIxJ', limit=100))
-stati <- ncdc_stations(extent = c(45.741266, -119, 47, -116.686558), token='wTFkCIjQSaRynGTPpQQGGjZqnTwZlIxJ', limit=100)
-stati
-stati$id
-stati$data$id
-?ncdc
-get_GSOD()
-library(GSODR)
-install.packages('GSODR')
-install.packages('gsod')
-install.packages("gsod", repos="http://R-Forge.R-project.org")
-library(gsod)
-help(gsod)
-data(stations)
-stations
-library(ggplot)
-library(ggplot2)
-library(tidyr)#
-library(vegan)#
+hm.melt$OTU <- factor(hm.melt$OTU, rev(c(tn.clust.1.otus,tn.clust.2.otus,wa.clust.1.otus,wa.clust.2.otus)))
+?scale_fill_gradient
+hm.melt %>% ggplot(., aes(x=variable, y=OTU, fill=value)) + geom_tile() + scale_alpha(, range=c0,1) + theme(axis.text.x = element_text(angle=90, size=6), legend.position = "none", axis.text.y = element_text(hjust=0))+ scale_y_discrete(labels=axislabels)
+hm.melt %>% ggplot(., aes(x=variable, y=OTU, fill=value)) + geom_tile() + scale_alpha(, range=c(0,1) )+ theme(axis.text.x = element_text(angle=90, size=6), legend.position = "none", axis.text.y = element_text(hjust=0))+ scale_y_discrete(labels=axislabels)
+hm.melt %>% ggplot(., aes(x=variable, y=OTU, fill=value)) + geom_tile() + scale_alpha(, range=c(1,0) )+ theme(axis.text.x = element_text(angle=90, size=6), legend.position = "none", axis.text.y = element_text(hjust=0))+ scale_y_discrete(labels=axislabels)
+hm.melt %>% ggplot(., aes(x=variable, y=OTU, fill=value)) + geom_tile() + scale_alpha(, range=c(1,0), trans=reverse)+ theme(axis.text.x = element_text(angle=90, size=6), legend.position = "none", axis.text.y = element_text(hjust=0))+ scale_y_discrete(labels=axislabels)
+hm.melt %>% ggplot(., aes(x=variable, y=OTU, fill=value)) + geom_tile() + scale_alpha(, range=c(1,0), trans='reverse')+ theme(axis.text.x = element_text(angle=90, size=6), legend.position = "none", axis.text.y = element_text(hjust=0))+ scale_y_discrete(labels=axislabels)
+hm.melt %>% ggplot(., aes(x=variable, y=OTU, fill=value)) + geom_tile() + scale_alpha(trans="reverse")+ theme(axis.text.x = element_text(angle=90, size=6), legend.position = "none", axis.text.y = element_text(hjust=0))+ scale_y_discrete(labels=axislabels)
+hm.melt %>% ggplot(., aes(x=variable, y=OTU, fill=Cluster, alpha=value)) + geom_tile() + scale_alpha_continuous(trans="reverse") + theme(axis.text.x = element_text(angle=90, size=6), legend.position = "none", axis.text.y = element_text(hjust=0))+ scale_y_discrete(labels=axislabels)
+hm.melt <-hm[,-c(1:7)] %>% decostand(.,method="max", MARGIN=1) %>% decostand(method="log") %>% cbind(data.frame(OTU=rownames(hm), Cluster = c(rep(1,length(tn.clust.1.otus)),rep(2,length(tn.clust.2.otus)),rep(3,length(wa.clust.1.otus)),rep(4,length(wa.clust.2.otus))))) %>% melt()
+head(hm.melt)
+data.frame(OTU=rownames(hm), Cluster = c(rep(1,length(tn.clust.1.otus)),rep(2,length(tn.clust.2.otus)),rep(3,length(wa.clust.1.otus)),rep(4,length(wa.clust.2.otus))))
+hm.melt <-hm[,-c(1:7)] %>% decostand(.,method="max", MARGIN=1) %>% decostand(method="log") %>% cbind(data.frame(OTU=rownames(hm), Cluster = c(rep(1,length(tn.clust.1.otus)),rep(2,length(tn.clust.2.otus)),rep(3,length(wa.clust.1.otus)),rep(4,length(wa.clust.2.otus))))) %>% melt()
+data.frame(OTU=rownames(hm), Cluster = c(rep(1,length(tn.clust.1.otus)),rep(2,length(tn.clust.2.otus)),rep(3,length(wa.clust.1.otus)),rep(4,length(wa.clust.2.otus))))
+head(hm.melt)
+hm[,-c(1:7)] %>% decostand(.,method="max", MARGIN=1) %>% decostand(method="log") %>% cbind(data.frame(OTU=rownames(hm), Cluster = c(rep(1,length(tn.clust.1.otus)),rep(2,length(tn.clust.2.otus)),rep(3,length(wa.clust.1.otus)),rep(4,length(wa.clust.2.otus)))))
+hm.melt <-hm[,-c(1:7)] %>% decostand(.,method="max", MARGIN=1) %>% decostand(method="log") %>% cbind(data.frame(OTU=rownames(hm), Cluster = c(rep(1,length(tn.clust.1.otus)),rep(2,length(tn.clust.2.otus)),rep(3,length(wa.clust.1.otus)),rep(4,length(wa.clust.2.otus))))) %>% melt()
+?melt
+hm.melt <-hm[,-c(1:7)] %>% decostand(.,method="max", MARGIN=1) %>% decostand(method="log") %>% cbind(data.frame(OTU=rownames(hm), Cluster = c(rep(1,length(tn.clust.1.otus)),rep(2,length(tn.clust.2.otus)),rep(3,length(wa.clust.1.otus)),rep(4,length(wa.clust.2.otus))))) %>% melt(id.vars=c("OTU","Cluster"),variable.name="Sample")
+head(hm.melt)
+hm.melt$Sample <- factor(hm.melt$Sample, c(indian,tn.neg,tn.tcd,wa.neg,wa.gm))
+hm.melt$OTU <- factor(hm.melt$OTU, rev(c(tn.clust.1.otus,tn.clust.2.otus,wa.clust.1.otus,wa.clust.2.otus)))
+axislabels <- with(hm, paste(rownames(hm), gsub("[sgfocp]__","",Genus,perl=T) %>% gsub("_"," ",.,perl=T) %>% gsub("[\\s]?(unclassified|ge)[\\s]?","",.,perl=T)))#
+names(axislabels) <- rownames(hm)#
 #
-#First I import the whole OTU table I recieved from Mothur. Note at this point taxonomy is not included, it is just raw OTU counts (columns) by sample or group (rows). Below I indicate that the row.names are in column 2 of the imported file. #
-bigfile.sample<-read.table("/Users/will1809/OneDrive - purdue.edu/TCD microbiome spring 2017/Results.sep.2019/Caulo.ITS/Spr2017OTU.Jan2018.opti_mcc.branch.shared",header=TRUE,sep="\t",fill=TRUE,strip.white=TRUE, row.names=2)#
+i <- grep("(uncultured$)|([01234567890-]+$)|(group$)", axislabels, perl=T)#
+axislabels[i]<-paste(names(axislabels)[i], hm$Family[i])#
+j <- grep("(uncultured$)|([01234567890-]+$)|(group$)|([01234567890-]+_fa$)", axislabels, perl=T)#
+axislabels[j]<-paste(names(axislabels)[j], hm$Order[j])#
+k <- grep("(uncultured_fa$)|([01234567890-]+_or$)", axislabels, perl=T)#
+axislabels[k]<-paste(names(axislabels)[k], hm$Phylum[k])#
+l <- grep("[01234567890-]+$", axislabels, perl=T)#
+axislabels[l]<-paste(names(axislabels)[l], hm$Class[l])
+hm.melt %>% ggplot(., aes(x=Sample, y=OTU, fill=value)) + geom_tile() + scale_fill_gradient(low="white", high="black") + theme(axis.text.x = element_text(angle=90, size=6), legend.position = "none", axis.text.y = element_text(hjust=0))+ scale_y_discrete(labels=axislabels)
+hm.melt %>% ggplot(., aes(x=Sample, y=OTU, fill=Cluster, alpha=value)) + geom_tile() + scale_alpha_continuous(trans="reverse") + theme(axis.text.x = element_text(angle=90, size=6), legend.position = "none", axis.text.y = element_text(hjust=0))+ scale_y_discrete(labels=axislabels)
+?scale_fill_discrete
+?Scale_fill_manual
+?scale_fill_manual
+hm.melt %>% ggplot(., aes(x=Sample, y=OTU, fill=Cluster, alpha=value)) + geom_tile() + scale_alpha_continuous(trans="reverse") + scale_fill_manual(values=c("red",'orange','blue','purlple')) + theme(axis.text.x = element_text(angle=90, size=6), legend.position = "none", axis.text.y = element_text(hjust=0))+ scale_y_discrete(labels=axislabels, color=Cluster)
+hm.melt %>% ggplot(., aes(x=Sample, y=OTU, fill=Cluster, alpha=value)) + geom_tile() + scale_alpha_continuous(trans="reverse") + scale_fill_manual(values=c("red",'orange','blue','purlple')) + theme(axis.text.x = element_text(angle=90, size=6), legend.position = "none", axis.text.y = element_text(hjust=0))+ scale_y_discrete(labels=axislabels)
+hm.melt %>% ggplot(., aes(x=Sample, y=OTU, fill=Cluster, alpha=value)) + geom_tile() + scale_alpha_continuous(trans="reverse") + scale_fill_discrete(values=c("red",'orange','blue','purlple')) + theme(axis.text.x = element_text(angle=90, size=6), legend.position = "none", axis.text.y = element_text(hjust=0))+ scale_y_discrete(labels=axislabels)
+?scale_fill_discrete
+hm.melt %>% ggplot(., aes(x=Sample, y=OTU, fill=Cluster, alpha=value)) + geom_tile() + scale_alpha_continuous(trans="reverse") + scale_fill_discrete(palette=rainbow(4)) + theme(axis.text.x = element_text(angle=90, size=6), legend.position = "none", axis.text.y = element_text(hjust=0))+ scale_y_discrete(labels=axislabels)
+rainbow(4)
+hm.melt %>% ggplot(., aes(x=Sample, y=OTU, fill=Cluster, alpha=value)) + geom_tile() + scale_alpha_continuous(trans="reverse") + scale_fill_discrete(rainbow(4)) + theme(axis.text.x = element_text(angle=90, size=6), legend.position = "none", axis.text.y = element_text(hjust=0))+ scale_y_discrete(labels=axislabels)
+hm.melt %>% ggplot(., aes(x=Sample, y=OTU, fill=Cluster, alpha=value)) + geom_tile() + scale_alpha_continuous(trans="reverse") + scale_fill_manual(rainbow(4)) + theme(axis.text.x = element_text(angle=90, size=6), legend.position = "none", axis.text.y = element_text(hjust=0))+ scale_y_discrete(labels=axislabels)
+?scale_fill
+scale_fill_brewer
+?scale_fill_brewer
+hm.melt %>% ggplot(., aes(x=Sample, y=OTU, fill=Cluster, alpha=value)) + geom_tile() + scale_alpha_continuous(trans="reverse") + scale_fill_brewer() + theme(axis.text.x = element_text(angle=90, size=6), legend.position = "none", axis.text.y = element_text(hjust=0))+ scale_y_discrete(labels=axislabels)
+hm.melt %>% ggplot(., aes(x=Sample, y=OTU, fill=Cluster, alpha=value)) + geom_tile() + scale_alpha_continuous(trans="reverse") + scale_fill_distiller() + theme(axis.text.x = element_text(angle=90, size=6), legend.position = "none", axis.text.y = element_text(hjust=0))+ scale_y_discrete(labels=axislabels)
+?scale_alpha_continuous
+?decostand
+hm[,-c(1:7)] %>% decostand(.,method="max", MARGIN=1)
+hm[,-c(1:7)] %>% decostand(method="log") %>% decostand(.,method="max", MARGIN=1)
+(hm[,-c(1:7)] %>% decostand(method="log") %>% decostand(.,method="max", MARGIN=1))*-1+1
+hm.melt <-1-(hm[,-c(1:7)] %>% decostand(method="log") %>% decostand(.,method="max", MARGIN=1)) %>% cbind(data.frame(OTU=rownames(hm), Cluster = c(rep(1,length(tn.clust.1.otus)),rep(2,length(tn.clust.2.otus)),rep(3,length(wa.clust.1.otus)),rep(4,length(wa.clust.2.otus))))) %>% melt(id.vars=c("OTU","Cluster"),variable.name="Sample")
+hm.melt <(hm[,-c(1:7)] %>% decostand(method="log") %>% decostand(.,method="max", MARGIN=1))*-1+1 %>% cbind(data.frame(OTU=rownames(hm), Cluster = c(rep(1,length(tn.clust.1.otus)),rep(2,length(tn.clust.2.otus)),rep(3,length(wa.clust.1.otus)),rep(4,length(wa.clust.2.otus))))) %>% melt(id.vars=c("OTU","Cluster"),variable.name="Sample")
+hm.melt <- (hm[,-c(1:7)] %>% decostand(method="log") %>% decostand(.,method="max", MARGIN=1))*-1+1 %>% cbind(data.frame(OTU=rownames(hm), Cluster = c(rep(1,length(tn.clust.1.otus)),rep(2,length(tn.clust.2.otus)),rep(3,length(wa.clust.1.otus)),rep(4,length(wa.clust.2.otus))))) %>% melt(id.vars=c("OTU","Cluster"),variable.name="Sample")
+hm.melt <- (1-(hm[,-c(1:7)] %>% decostand(method="log") %>% decostand(.,method="max", MARGIN=1))) %>% cbind(data.frame(OTU=rownames(hm), Cluster = c(rep(1,length(tn.clust.1.otus)),rep(2,length(tn.clust.2.otus)),rep(3,length(wa.clust.1.otus)),rep(4,length(wa.clust.2.otus))))) %>% melt(id.vars=c("OTU","Cluster"),variable.name="Sample")
+hm.melt$Sample <- factor(hm.melt$Sample, c(indian,tn.neg,tn.tcd,wa.neg,wa.gm))#
 #
-rownames(bigfile.sample) <- rownames(bigfile.sample) %>% sub('s_S.+', '', ., perl=T)#
-#Next I import the metadata for the particular habitat of interest. In this case I am working with drill shavings. I will use this metadata to subset the larger OTU file above. #
-source('/Users/will1809/OneDrive - purdue.edu/TCD microbiome spring 2017/Results.sep.2019/Caulo.ITS/baxter.sept2019.R')#
-ds.met<- get_metadata()#
-#Next I import the taxonomy file. This contains the taxonomy assignments for all OTUs in the study and not just the ones for the particuluar habitat of interest. This will get subset as well. #
-taxonomy<-read.table("/Users/will1809/OneDrive - purdue.edu/TCD microbiome spring 2017/Results.sep.2019/Caulo.ITS/jnits.trim.contigs.good.unique.precluster.pick.pick.opti_mcc.0.02.cons.taxonomy",header=TRUE,sep="\t",fill=TRUE,strip.white=TRUE,row.names=1)#
-ds.names<-ds.met$Group[ds.met$Type=='BranchBark'] %>% sub('s$', '', ., perl=T)#
+hm.melt$OTU <- factor(hm.melt$OTU, rev(c(tn.clust.1.otus,tn.clust.2.otus,wa.clust.1.otus,wa.clust.2.otus)))
+hm.melt %>% ggplot(., aes(x=Sample, y=OTU, fill=Cluster, alpha=value)) + geom_tile() + scale_fill_distiller() + theme(axis.text.x = element_text(angle=90, size=6), legend.position = "none", axis.text.y = element_text(hjust=0))+ scale_y_discrete(labels=axislabels)
+hm.melt <- (1-(hm[,-c(1:7)] %>% decostand(method="log") %>% decostand(.,method="max", MARGIN=1))) %>% cbind(data.frame(OTU=rownames(hm), Cluster = c(rep(1,length(tn.clust.1.otus)),rep(2,length(tn.clust.2.otus)),rep(3,length(wa.clust.1.otus)),rep(4,length(wa.clust.2.otus))))) %>% melt(id.vars=c("OTU","Cluster"),variable.name="Sample")
+hm.melt
+hm.melt$Sample <- factor(hm.melt$Sample, c(indian,tn.neg,tn.tcd,wa.neg,wa.gm))#
 #
-# added this to deal with sample name issue#
-# its confusing but it works#
-ds.met2 <- ds.met[ds.met$Type=='BranchBark',]#
+hm.melt$OTU <- factor(hm.melt$OTU, rev(c(tn.clust.1.otus,tn.clust.2.otus,wa.clust.1.otus,wa.clust.2.otus)))
+head (hm.melt)
+hm.melt %>% ggplot(., aes(x=Sample, y=OTU, fill=Cluster, alpha=value)) + geom_tile() + scale_fill_distiller() + theme(axis.text.x = element_text(angle=90, size=6), legend.position = "none", axis.text.y = element_text(hjust=0))+ scale_y_discrete(labels=axislabels)
+(hm[,-c(1:7)] %>% decostand(method="log") %>% decostand(.,method="max", MARGIN=1))
+?scale_alpha
+hm.melt %>% ggplot(., aes(x=Sample, y=OTU, fill=Cluster, alpha=value)) + geom_tile() + scale_alpha_continuous(ranve=c(0,1)) +scale_fill_distiller() + theme(axis.text.x = element_text(angle=90, size=6), legend.position = "none", axis.text.y = element_text(hjust=0))+ scale_y_discrete(labels=axislabels)
+hm.melt %>% ggplot(., aes(x=Sample, y=OTU, fill=Cluster, alpha=value)) + geom_tile() + scale_alpha_continuous(range=c(0,1)) +scale_fill_distiller() + theme(axis.text.x = element_text(angle=90, size=6), legend.position = "none", axis.text.y = element_text(hjust=0))+ scale_y_discrete(labels=axislabels)
+hm.melt <- hm[,-c(1:7)] %>% decostand(method="log") %>% decostand(.,method="max", MARGIN=1) %>% cbind(data.frame(OTU=rownames(hm), Cluster = c(rep(1,length(tn.clust.1.otus)),rep(2,length(tn.clust.2.otus)),rep(3,length(wa.clust.1.otus)),rep(4,length(wa.clust.2.otus))))) %>% melt(id.vars=c("OTU","Cluster"),variable.name="Sample")
+hm.melt$Sample <- factor(hm.melt$Sample, c(indian,tn.neg,tn.tcd,wa.neg,wa.gm))#
 #
-cbind(ds.met2$Group, ds.names)#
+hm.melt$OTU <- factor(hm.melt$OTU, rev(c(tn.clust.1.otus,tn.clust.2.otus,wa.clust.1.otus,wa.clust.2.otus)))
+hm.melt %>% ggplot(., aes(x=Sample, y=OTU, fill=Cluster, alpha=value)) + geom_tile() + scale_alpha_continuous(range=c(0,1)) +scale_fill_distiller() + theme(axis.text.x = element_text(angle=90, size=6), legend.position = "none", axis.text.y = element_text(hjust=0))+ scale_y_discrete(labels=axislabels)
+hm.melt %>% ggplot(., aes(x=Sample, y=OTU, fill=value)) + geom_tile() + scale_fill_gradient(low="white", high="black") + theme(axis.text.x = element_text(angle=90, size=6), legend.position = "none", axis.text.y = element_text(hjust=0))+ scale_y_discrete(labels=axislabels)
+?scale_fill_distiller()
+hm.melt %>% ggplot(., aes(x=Sample, y=OTU, fill=Cluster, alpha=value)) + geom_tile() + scale_alpha_continuous(range=c(0,1)) +scale_fill_distiller(palette=rainbow(4)) + theme(axis.text.x = element_text(angle=90, size=6), legend.position = "none", axis.text.y = element_text(hjust=0))+ scale_y_discrete(labels=axislabels)
+hm.melt %>% ggplot(., aes(x=Sample, y=OTU, fill=Cluster, alpha=value)) + geom_tile() + scale_alpha_continuous(range=c(0,1))  + theme(axis.text.x = element_text(angle=90, size=6), legend.position = "none", axis.text.y = element_text(hjust=0))+ scale_y_discrete(labels=axislabels, palette=rainbow(4))
+?scale_y_discrete
+?discrete_scale
+hm.melt %>% ggplot(., aes(x=Sample, y=OTU, fill=Cluster, alpha=value)) + geom_tile() + scale_alpha_continuous(range=c(0,1))  + theme(axis.text.x = element_text(angle=90, size=6), legend.position = "none", axis.text.y = element_text(hjust=0))+ scale_y_discrete(labels=axislabels)
+?Scale_fill
+?scale_fill
+?scale_fill_brewer
+hm.melt <- hm[,-c(1:7)] %>% decostand(method="log") %>% decostand(.,method="max", MARGIN=1) %>% cbind(data.frame(OTU=rownames(hm), Cluster = as.factor(c(rep(1,length(tn.clust.1.otus)),rep(2,length(tn.clust.2.otus)),rep(3,length(wa.clust.1.otus)),rep(4,length(wa.clust.2.otus)))))) %>% melt(id.vars=c("OTU","Cluster"),variable.name="Sample")
+hm.melt$Sample <- factor(hm.melt$Sample, c(indian,tn.neg,tn.tcd,wa.neg,wa.gm))#
 #
-ds.met2$sample.name.2 <- ds.names#
+hm.melt$OTU <- factor(hm.melt$OTU, rev(c(tn.clust.1.otus,tn.clust.2.otus,wa.clust.1.otus,wa.clust.2.otus)))
+hm.melt %>% ggplot(., aes(x=Sample, y=OTU, fill=Cluster, alpha=value)) + geom_tile() + scale_alpha_continuous(range=c(0,1))  + theme(axis.text.x = element_text(angle=90, size=6), legend.position = "none", axis.text.y = element_text(hjust=0))+ scale_y_discrete(labels=axislabels)
+panel.background = element_blank())
+hm.melt %>% ggplot(., aes(x=Sample, y=OTU, fill=Cluster, alpha=value)) + geom_tile() + scale_alpha_continuous(range=c(0,1))  + theme(axis.text.x = element_text(angle=90, size=6), legend.position = "none", axis.text.y = element_text(hjust=0))+ scale_y_discrete(labels=axislabels)  theme_bw() +
+theme(axis.text.x = element_text(angle=90, size=6), legend.position = "none", axis.text.y = element_text(hjust=0),axis.line = element_line(colour = "black"),
+hm.melt %>% ggplot(., aes(x=Sample, y=OTU, fill=Cluster, alpha=value)) + geom_tile() + scale_alpha_continuous(range=c(0,1)) + scale_y_discrete(labels=axislabels)  theme_bw() +#
+  theme(axis.text.x = element_text(angle=90, size=6), legend.position = "none", axis.text.y = element_text(hjust=0),axis.line = element_line(colour = "black"),#
+    panel.grid.major = element_blank(),#
+    panel.grid.minor = element_blank(),#
+    panel.border = element_blank(),#
+    panel.background = element_blank())
+hm.melt %>% ggplot(., aes(x=Sample, y=OTU, fill=Cluster, alpha=value)) + geom_tile() + scale_alpha_continuous(range=c(0,1)) + scale_y_discrete(labels=axislabels) + theme_bw() +
+hm.melt %>% ggplot(., aes(x=Sample, y=OTU, fill=Cluster, alpha=value)) + geom_tile() + scale_alpha_continuous(range=c(0,1)) + scale_y_discrete(labels=axislabels) + theme_bw() +#
+  theme(axis.text.x = element_text(angle=90, size=6), legend.position = "none", axis.text.y = element_text(hjust=0),axis.line = element_line(colour = "black"),#
+    panel.grid.major = element_blank(),#
+    panel.grid.minor = element_blank(),#
+    panel.border = element_blank(),#
+    panel.background = element_blank())
+hm.melt %>% ggplot(., aes(x=Sample, y=OTU, fill=Cluster, alpha=value)) + geom_tile() + scale_alpha_continuous(range=c(0,1)) + scale_y_discrete(labels=axislabels)+#
+  theme_bw() +#
+  theme(axis.text.x = element_text(angle=90, size=6),#
+  legend.position = "none",#
+  axis.text.y = element_text(hjust=0),#
+  axis.line = element_line(colour = "black"),#
+    panel.grid.major = element_blank(),#
+    panel.grid.minor = element_blank(),#
+    panel.border = element_blank(),#
+    panel.background = element_blank())
+axislabels <- with(hm, paste(rownames(hm), gsub("[sgfocp]__","",Genus,perl=T) %>% gsub("_"," ",.,perl=T) %>% gsub("[\\s]?(unclassified|ge)[\\s]?","",.,perl=T)%>% gsub("(\([A-Za-z1234567890 ]\))+"," ",.,perl=T)))
+axislabels <- with(hm, paste(rownames(hm), gsub("[sgfocp]__","",Genus,perl=T) %>% gsub("_"," ",.,perl=T) %>% gsub("[\\s]?(unclassified|ge)[\\s]?","",.,perl=T)%>% gsub("(\\([A-Za-z1234567890 ]\\))+"," ",.,perl=T)))
+axislabels
+axislabels <- with(hm, paste(rownames(hm), gsub("[sgfocp]__","",Genus,perl=T) %>% gsub("_"," ",.,perl=T) %>% gsub("[\\s]?(unclassified|ge)[\\s]?","",.,perl=T)%>% gsub("\\([A-Za-z0-9 _]*\\)"," ",.,perl=T)))
+axislabels
+i <- grep("(uncultured$)|([01234567890-]+$)|(group$)", axislabels, perl=T)#
+axislabels[i]<-paste(names(axislabels)[i], hm$Family[i])#
+j <- grep("(uncultured$)|([01234567890-]+$)|(group$)|([01234567890-]+_fa$)", axislabels, perl=T)#
+axislabels[j]<-paste(names(axislabels)[j], hm$Order[j])#
+k <- grep("(uncultured_fa$)|([01234567890-]+_or$)", axislabels, perl=T)#
+axislabels[k]<-paste(names(axislabels)[k], hm$Phylum[k])#
+l <- grep("[01234567890-]+$", axislabels, perl=T)#
+axislabels[l]<-paste(names(axislabels)[l], hm$Class[l])
+hm.melt$SGroup <-1*(hm.melt$Sample %in% indian)+2*(hm.melt$Sample %in% tn.neg)+3*(hm.melt$Sample %in% tn.tcd)+4*(hm.melt$Sample %in% wa.neg)+5*(hm.melt$Sample %in% wa.gm)
+hm.melt$Sample <- factor(hm.melt$Sample, c(indian,tn.neg,tn.tcd,wa.neg,wa.gm))
+hm.melt$SGroup <-1*(hm.melt$Sample %in% indian)+2*(hm.melt$Sample %in% tn.neg)+3*(hm.melt$Sample %in% tn.tcd)+4*(hm.melt$Sample %in% wa.neg)+5*(hm.melt$Sample %in% wa.gm)
+hm.melt <- hm[,-c(1:7)] %>% decostand(method="log") %>% decostand(.,method="max", MARGIN=1) %>% cbind(data.frame(OTU=rownames(hm), Cluster = as.factor(c(rep(1,length(tn.clust.1.otus)),rep(2,length(tn.clust.2.otus)),rep(3,length(wa.clust.1.otus)),rep(4,length(wa.clust.2.otus)))))) %>% melt(id.vars=c("OTU","Cluster"),variable.name="Sample") #
 #
-ds.met2[,c('sample.name.2','Group')]#
-#Here I use the subset function to pull out just the samples belonging to drill shavings. #
-ds<-subset(bigfile.sample, rownames(bigfile.sample) %in% ds.names)#
-dim(ds)#
-dspure<- ds[,colSums(ds)>0]#
-#Here I am further subsetting the data. I am removing some MOTHUR metadata that is useless.  #
-dim(dspure)#
+hm.melt$Sample <- factor(hm.melt$Sample, c(indian,tn.neg,tn.tcd,wa.neg,wa.gm))#
+hm.melt$SGroup <-1*(hm.melt$Sample %in% indian)+2*(hm.melt$Sample %in% tn.neg)+3*(hm.melt$Sample %in% tn.tcd)+4*(hm.melt$Sample %in% wa.neg)+5*(hm.melt$Sample %in% wa.gm)
+levels(hm.melt$SGroup)
+hm.melt <- hm[,-c(1:7)] %>% decostand(method="log") %>% decostand(.,method="max", MARGIN=1) %>% cbind(data.frame(OTU=rownames(hm), Cluster = as.factor(c(rep(1,length(tn.clust.1.otus)),rep(2,length(tn.clust.2.otus)),rep(3,length(wa.clust.1.otus)),rep(4,length(wa.clust.2.otus)))))) %>% melt(id.vars=c("OTU","Cluster"),variable.name="Sample")
+hm.melt$Sample <- factor(hm.melt$Sample, c(indian,tn.neg,tn.tcd,wa.neg,wa.gm))
+hm.melt$Sample
+hm.melt$SGroup <-1*(hm.melt$Sample %in% indian) + 2*(hm.melt$Sample %in% tn.neg) + 3*(hm.melt$Sample %in% tn.tcd) + 4*(hm.melt$Sample %in% wa.neg) + 5*(hm.melt$Sample %in% wa.gm)
+hm.melt$SGroup <-1*(hm.melt$Sample %in% indian) + 2*(hm.melt$Sample %in% tn.neg) + 3*(hm.melt$Sample %in% tn.tcd) + 4*(hm.melt$Sample %in% wa.neg) + 5*(hm.melt$Sample %in% wa.gm) %>% as.factor()
+hm.melt$SGroup <- (1*(hm.melt$Sample %in% indian) + 2*(hm.melt$Sample %in% tn.neg) + 3*(hm.melt$Sample %in% tn.tcd) + 4*(hm.melt$Sample %in% wa.neg) + 5*(hm.melt$Sample %in% wa.gm)) %>% as.factor()
+levels(hm.melt$SGroup)
+hm.melt$SGroup <- (1*(hm.melt$Sample %in% indian) + 2*(hm.melt$Sample %in% tn.neg) + 3*(hm.melt$Sample %in% tn.tcd[1:9]) + 4*(hm.melt$Sample %in% tn.tcd[10:12]) + 5*(hm.melt$Sample %in% wa.neg) + 6*(hm.melt$Sample %in% wa.gm)) %>% as.factor()
+levels(hm.melt$SGroup)
+levels(hm.melt$SGroup)<-c("Indiana","TN Polk Co. Clones","TN Polk Co. Bedrun","TN Knox Co. Wild","WA TCD-negative","WA TCD-positive")
+levels(hm.melt$SGroup)
+stre(hm.melt$SGroup)
+str(hm.melt$SGroup)
+hm.melt$OTU <- factor(hm.melt$OTU, rev(c(tn.clust.1.otus,tn.clust.2.otus,wa.clust.1.otus,wa.clust.2.otus)))
+axislabels <- with(hm, paste(rownames(hm), gsub("[sgfocp]__","",Genus,perl=T) %>% gsub("_"," ",.,perl=T) %>% gsub("[\\s]?(unclassified|ge)[\\s]?","",.,perl=T)%>% gsub("\\([A-Za-z0-9 _]*\\)"," ",.,perl=T)))#
+names(axislabels) <- rownames(hm)#
 #
-dspure[1:4,1:4]#
-dspure[1:4,7829:7831]#
-dspureotu<-dspure[,3:7831]#
+i <- grep("(uncultured$)|([01234567890-]+$)|(group$)", axislabels, perl=T)#
+axislabels[i]<-paste(names(axislabels)[i], hm$Family[i])#
+j <- grep("(uncultured$)|([01234567890-]+$)|(group$)|([01234567890-]+_fa$)", axislabels, perl=T)#
+axislabels[j]<-paste(names(axislabels)[j], hm$Order[j])#
+k <- grep("(uncultured_fa$)|([01234567890-]+_or$)", axislabels, perl=T)#
+axislabels[k]<-paste(names(axislabels)[k], hm$Phylum[k])#
+l <- grep("[01234567890-]+$", axislabels, perl=T)#
+axislabels[l]<-paste(names(axislabels)[l], hm$Class[l])
+hm.melt %>% ggplot(., aes(x=Sample, y=OTU, fill=Cluster, alpha=value)) + geom_tile() + scale_alpha_continuous(range=c(0,1)) + scale_y_discrete(labels=axislabels)+scale_x_discrete(labels=Group)
+hm.melt %>% ggplot(., aes(x=Sample, y=OTU, fill=Cluster, alpha=value)) + geom_tile() + scale_alpha_continuous(range=c(0,1)) + scale_y_discrete(labels=axislabels)+scale_x_discrete(labels=SGroup)#
+  theme_bw() +#
+  theme(axis.text.x = element_text(angle=90, size=6),#
+  legend.position = "none",#
+  axis.text.y = element_text(hjust=0),#
+  axis.line = element_line(colour = "black"),#
+    panel.grid.major = element_blank(),#
+    panel.grid.minor = element_blank(),#
+    panel.border = element_blank(),#
+    panel.background = element_blank())
+hm.melt %>% ggplot(., aes(x=Sample, y=OTU, fill=Cluster, alpha=value)) + geom_tile() + scale_alpha_continuous(range=c(0,1)) + scale_y_discrete(labels=axislabels)+scale_x_discrete(labels=SGroup)+#
+  theme_bw() +#
+  theme(axis.text.x = element_text(angle=90, size=6),#
+  legend.position = "none",#
+  axis.text.y = element_text(hjust=0),#
+  axis.line = element_line(colour = "black"),#
+    panel.grid.major = element_blank(),#
+    panel.grid.minor = element_blank(),#
+    panel.border = element_blank(),#
+    panel.background = element_blank())
+samplelabels<-c(rep("Indiana", length(indian)),rep("TN Polk Co. Clones", length(tn.neg)-3),rep("TN Polk Co. Bedrun", 3),rep("TN Knox Co. Wild", length(tn.tcd)),rep("WA TCD-negative", length(wa.neg)),rep("WA TCD-positive", length(wa.gm)))
+samplelabels
+hm.melt %>% ggplot(., aes(x=Sample, y=OTU, fill=Cluster, alpha=value)) + geom_tile() + scale_alpha_continuous(range=c(0,1)) + scale_y_discrete(labels=axislabels)+scale_x_discrete(labels=samplelabels)+#
+  theme_bw() +#
+  theme(axis.text.x = element_text(angle=90, size=6),#
+  legend.position = "none",#
+  axis.text.y = element_text(hjust=0),#
+  axis.line = element_line(colour = "black"),#
+    panel.grid.major = element_blank(),#
+    panel.grid.minor = element_blank(),#
+    panel.border = element_blank(),#
+    panel.background = element_blank())
+hm.melt %>% ggplot(., aes(x=Sample, y=OTU, fill=Cluster, alpha=value)) + geom_tile() + scale_alpha_continuous(range=c(0,1)) + scale_y_discrete(labels=axislabels)+scale_x_discrete(labels=samplelabels)+#
+  theme_bw() +#
+  theme(axis.text.x = element_text(angle=90, size=6),#
+  legend.position = "none",#
+  axis.text.y = element_text(hjust=0),#
+  axis.line = element_line(colour = "black"),#
+    panel.grid.major = element_blank(),#
+    panel.grid.minor = element_blank(),#
+    panel.border = element_blank(),#
+    panel.background = element_blank(),#
+    axis.labels = element_blank())
+heatmap.plot <- hm.melt %>% ggplot(., aes(x=Sample, y=OTU, fill=Cluster, alpha=value)) + geom_tile() + scale_alpha_continuous(range=c(0,1)) + scale_y_discrete(labels=axislabels)+scale_x_discrete(labels=samplelabels)+#
+  theme_bw() +#
+  theme(axis.text.x = element_text(angle=90, size=6),#
+  legend.position = "none",#
+  axis.text.y = element_text(hjust=0),#
+  axis.line = element_line(colour = "black"),#
+    panel.grid.major = element_blank(),#
+    panel.grid.minor = element_blank(),#
+    panel.border = element_blank(),#
+    panel.background = element_blank(),#
+    axis.title = element_blank())
+hm.melt %>% ggplot(., aes(x=Sample, y=OTU, fill=Cluster, alpha=value)) + geom_tile() + scale_alpha_continuous(range=c(0,1)) + scale_y_discrete(labels=axislabels)+scale_x_discrete(labels=samplelabels)+#
+  theme_bw() +#
+  theme(axis.text.x = element_text(angle=90, size=6),#
+  legend.position = "none",#
+  axis.text.y = element_text(hjust=0),#
+  axis.line = element_line(colour = "black"),#
+    panel.grid.major = element_blank(),#
+    panel.grid.minor = element_blank(),#
+    panel.border = element_blank(),#
+    panel.background = element_blank(),#
+    axis.title.x = element_blank(),#
+    axis.title.y = element_blank())
+hm.melt %>% ggplot(., aes(x=Sample, y=OTU, fill=Cluster, alpha=value)) + geom_tile() + scale_fill_brewer() + scale_alpha_continuous(range=c(0,1)) + scale_y_discrete(labels=axislabels) + scale_x_discrete(labels=samplelabels)+#
+  theme_bw() +#
+  theme(axis.text.x = element_text(angle=90, size=6),#
+  legend.position = "none",#
+  axis.text.y = element_text(hjust=0),#
+  axis.line = element_line(colour = "black"),#
+    panel.grid.major = element_blank(),#
+    panel.grid.minor = element_blank(),#
+    panel.border = element_blank(),#
+    panel.background = element_blank(),#
+    axis.title.x = element_blank(),#
+    axis.title.y = element_blank())
+library(tanagR)
+tanagr_palette("tangara_parzudakii")
+colors.subnetworks<-tanagr_palette("tangara_parzudakii")[1:4]
+hm.melt %>% ggplot(., aes(x=Sample, y=OTU, fill=Cluster, alpha=value)) + geom_tile() + scale_fill_manual(values=colors.subnetworks) + scale_alpha_continuous(range=c(0,1)) + scale_y_discrete(labels=axislabels) + scale_x_discrete(labels=samplelabels)+#
+  theme_bw() +#
+  theme(axis.text.x = element_text(angle=90, size=6),#
+  legend.position = "none",#
+  axis.text.y = element_text(hjust=0),#
+  axis.line = element_line(colour = "black"),#
+    panel.grid.major = element_blank(),#
+    panel.grid.minor = element_blank(),#
+    panel.border = element_blank(),#
+    panel.background = element_blank(),#
+    axis.title.x = element_blank(),#
+    axis.title.y = element_blank())
+colors.subnetworks<-tanagr_palette("chlorochrysa_nitidissima")[1:4]
+hm.melt %>% ggplot(., aes(x=Sample, y=OTU, fill=Cluster, alpha=value)) + geom_tile() + scale_fill_manual(values=colors.subnetworks) + scale_alpha_continuous(range=c(0,1)) + scale_y_discrete(labels=axislabels) + scale_x_discrete(labels=samplelabels)+#
+  theme_bw() +#
+  theme(axis.text.x = element_text(angle=90, size=6),#
+  legend.position = "none",#
+  axis.text.y = element_text(hjust=0),#
+  axis.line = element_line(colour = "black"),#
+    panel.grid.major = element_blank(),#
+    panel.grid.minor = element_blank(),#
+    panel.border = element_blank(),#
+    panel.background = element_blank(),#
+    axis.title.x = element_blank(),#
+    axis.title.y = element_blank())
+colors.subnetworks<-tanagr_palette("tangara_chilensis")[1:4]
+hm.melt %>% ggplot(., aes(x=Sample, y=OTU, fill=Cluster, alpha=value)) + geom_tile() + scale_fill_manual(values=colors.subnetworks) + scale_alpha_continuous(range=c(0,1)) + scale_y_discrete(labels=axislabels) + scale_x_discrete(labels=samplelabels)+#
+  theme_bw() +#
+  theme(axis.text.x = element_text(angle=90, size=6),#
+  legend.position = "none",#
+  axis.text.y = element_text(hjust=0),#
+  axis.line = element_line(colour = "black"),#
+    panel.grid.major = element_blank(),#
+    panel.grid.minor = element_blank(),#
+    panel.border = element_blank(),#
+    panel.background = element_blank(),#
+    axis.title.x = element_blank(),#
+    axis.title.y = element_blank())
+colors.subnetworks<-tanagr_palette("dacnis_berlepschi")[1:4]
+hm.melt %>% ggplot(., aes(x=Sample, y=OTU, fill=Cluster, alpha=value)) + geom_tile() + scale_fill_manual(values=colors.subnetworks) + scale_alpha_continuous(range=c(0,1)) + scale_y_discrete(labels=axislabels) + scale_x_discrete(labels=samplelabels)+#
+  theme_bw() +#
+  theme(axis.text.x = element_text(angle=90, size=6),#
+  legend.position = "none",#
+  axis.text.y = element_text(hjust=0),#
+  axis.line = element_line(colour = "black"),#
+    panel.grid.major = element_blank(),#
+    panel.grid.minor = element_blank(),#
+    panel.border = element_blank(),#
+    panel.background = element_blank(),#
+    axis.title.x = element_blank(),#
+    axis.title.y = element_blank())
+tn12$cluster.1
+edge(tn.subs)
+get_edges
+get_edges(tn.subs)
+edges(tn.subs)
+tn.subs <- make.network.graph("0.01", "0.8", "TN")
+wa.subs <- make.network.graph("0.01", "0.8", "WA")
+edges(tn.subs)
+edge(igraph)
+igraph::edges(tn.subs)
+igraph::edges(tn12$cluster.1)
+igraph::edges(tn.subs) %in% igraph::edges(tn12$cluster.1)
+igraph::edges(tn.subs)[[1]]
+igraph::edges(tn.subs)[[1]] %in% igraph::edges(tn12$cluster.1)[[1]]
+clusters(tn.subs)
+g.r0.8.p0.01<-tn.subs
+negs<-edge_attr(g.r0.8.p0.01, name= 'r.sign') == 1
+gr.r8p01.pos <-delete_edges(g.r0.8.p0.01, which(negs))
+dec.subrs.r8p01 <- decompose.graph(gr.r8p01.pos)
+dec.subrs.r8p01
+clusters(gr.r8p01.pos)
+vertex_attr(g.r0.8.p0.01, "Cluster") <- (0 + 1*(clusters(gr.r8p01.pos) == twobiggest[1]) + 2*(clusters(gr.r8p01.pos) == twobiggest[2])) %>% as.factor()
+twobiggest[1]
+vertex_attr(g.r0.8.p0.01, "Cluster") <- (0 + 1*(clusters(gr.r8p01.pos)$membership == twobiggest[1]) + 2*(clusters(gr.r8p01.pos)$membership == twobiggest[2])) %>% as.factor()
+vertex_attr(g.r0.8.p0.01, "Cluster")
+g.r0.8.p0.01
+vertices(cluster.1)
+get.edge.ids(g.r0.8.p0.01, vertices(cluster.1))
+nodes(cluster.1)
+edge_attr(g.r0.8.p0.01, "name")
+as.edgelist(g.r0.8.p0.01)
+igraph::as.edgelist(g.r0.8.p0.01)
+as.ids(g.r0.8.p0.01)
+citation(igraph)
+citation('igraph')
+E(g.r0.8.p0.01)
+E(cluster.1)
+E(g.r0.8.p0.01) %in% E(cluster.1)
+as.character(E(g.r0.8.p0.01))
+names(E(g.r0.8.p0.01))
+str(E(g.r0.8.p0.01))
+attr(E(g.r0.8.p0.01),"vnames")
+attr(E(g.r0.8.p0.01),"vnames") %in% attr(E(cluster.1),"vnames")
+edge_attr(g.r0.8.p0.01, "ClusterEdge") <- (0 + 1*(attr(E(g.r0.8.p0.01),"vnames") %in% attr(E(cluster.1),"vnames")) + 2*(attr(E(g.r0.8.p0.01),"vnames") %in% attr(E(cluster.2),"vnames"))) %>% as.factor()
+edge_attr(g.r0.8.p0.01, "ClusterEdge")
+top.clusters <- function (p='0.01', r='0.8', state) {#
+	g.r0.8.p0.01 <- make.network.graph(p, r, state)#
 #
-dim(dspureotu)#
-#Below I am reformatting the OTU table so that I can begin to filter and merge the taxonomy information. #
-transdspure<-as.data.frame(t(dspureotu))#
-#The below function is asking specifically for the OTU IDs. These are the row names. I will use these to subset the taxonomy file. #
-transdspurelabs<-labels(transdspure)#
-taxds<-subset(taxonomy, rownames(taxonomy) %in% transdspurelabs[[1]])#
-taxdspure<-(taxds[,2])#
-#Below I am using the separate function from tidyr to split the taxonomy strings into columns by semi-colon so that I can rename the OTUs to give them more meaning for downstream analyses.#
-taxonomylabs<-c("kingdom","phylum","class","order","family","genus","species")#
-otutabtaxds<-data.frame(taxonomy=taxdspure,transdspure)#
-otutabtaxdssep<-separate(otutabtaxds,into=taxonomylabs,col=taxonomy,sep=";")#
-head(otutabtaxdssep)#
-#Here I am renaming the OTUs using the make.names function. This will make the OTU name something more informative. I am using genus to do this. #
-rownames(otutabtaxdssep)<-make.names(otutabtaxdssep$genus,unique=TRUE)#
-rownames(otutabtaxdssep)#
-head(otutabtaxdssep)#
+	# remove negative connections#
+	# as.factor(sign(c(1,-8)))#
 #
-dim(otutabtaxdssep)#
-otutabtaxds<-otutabtaxdssep[,8:54] ### missing a sample#
-renamotutabtaxds<-as.data.frame(t(otutabtaxds))#
-#Rarefaction#
-sort(rowSums(renamotutabtaxds[,1:7829]))#
-#Here we are rarefying the data using the rrarefy function from vegan. I use the sort function above to determine the lowest number of sequences in a sample. #
-## stopped here 7:33 pm July 25. 2019#
+	negs<-edge_attr(g.r0.8.p0.01, name= 'r.sign') == 1#
+	gr.r8p01.pos <-delete_edges(g.r0.8.p0.01, which(negs))#
 #
-rareotuds<-as.data.frame(rrarefy(renamotutabtaxds, sample=3500))#
-rareotuds<-as.data.frame(subset(rareotuds,rowSums(rareotuds)>3499))#
-samples<-row.names(rareotuds)#
-# Lost 1 sample#
-#Relabundance calculation#
-#relabundds <- rareotuds / 38000#
+	# pull out major subnetworks#
 #
-dim(rareotuds)#
-rareotutabtaxds<-as.data.frame(rareotuds, total=rowSums(rareotuds[,1:7829]))#
-rareotutabtaxds#
+	dec.subrs.r8p01 <- decompose.graph(gr.r8p01.pos)#
+	clusters(gr.r8p01.pos)#
+	twobiggest <- rev(order(clusters(gr.r8p01.pos)$csize))[1:2]#
+	cluster.1 <- dec.subrs.r8p01[[twobiggest[1]]]#
+	cluster.2 <- dec.subrs.r8p01[[twobiggest[2]]]#
+	vertex_attr(g.r0.8.p0.01, "Cluster") <- (0 + 1*(clusters(gr.r8p01.pos)$membership == twobiggest[1]) + 2*(clusters(gr.r8p01.pos)$membership == twobiggest[2])) %>% as.factor()#
+	get.edge.ids(g.r0.8.p0.01, nodes(cluster.1))#
+	edge_attr(g.r0.8.p0.01, "ClusterEdge") <- (0 + 1*(attr(E(g.r0.8.p0.01),"vnames") %in% attr(E(cluster.1),"vnames")) + 2*(attr(E(g.r0.8.p0.01),"vnames") %in% attr(E(cluster.2),"vnames"))) %>% as.factor()#
+	list(cluster.1=cluster.1, cluster.2=cluster.2, net.annot=g.r0.8.p0.01)#
 #
-relabundds<-decostand(rareotutabtaxds, method="total")
-pairs(relabundds)
-pairs(relabundds[1:10,1:10])
-relabundds[1:10,1:10]
-pairs(relabundds[,1:10])
-pairs(relabundds[,1:10], col=as.numeric(row.names(relabundds)))
-row.names(relabundds)
-as.numeric(row.names(relabundds))
-pairs(relabundds[,1:10], col=as.numeric(as.vector(row.names(relabundds)))
-pairs(relabundds[,1:10], col=as.numeric(as.vector(row.names(relabundds))))
-pairs(relabundds[,1:10], col=as.numeric(row.names(relabundds[,1:10])))
-pairs(relabundds[,1:10], col=as.numeric(row.names(relabundds)[,1:10]))
-pairs(relabundds[,1:10], col=as.numeric(row.names(relabundds)))
-iris<-cbind(row.names(relabundds),relabundds[,1:10])
-iris
-pairs(iris[,2:11], col=as.numeric(iris[,1]))
-iris.dist<-vegdist(relabundds, method="euclid")
-ds
-ds.met
-adonis(iris.dist ~ ds.met)
-dim(iris.dist)
-iris.dist<-vegdist(relabundds, method="euclid")
-dim(iris.dist)
-iris.dist
-dims(iris.dist)
-dim(iris.dist)
-str(iris.dist)
-ds.met
-adonis(iris.dist ~ ds.met$Clone)
-adonis(t(iris.dist) ~ ds.met$Clone)
-hclust(iris.dist)
-hplot(clust(iris.dist))
-plot(hclust(iris.dist))
-adonis(relabundds ~ ds.met$Clone)
-dim(relabundds)
-dim(ds.met)
-ds.met2
-dim(ds.met2)
-ds.met2[,c('sample.name.2','Group')]
-rownames(bigfile.sample) %in% ds.names
-adonis(relabundds ~ ds.met2$Clone)
-adonis(relabundds ~ ds.met2$Clone[-1])
-ds.met2$sample.name2
-ds.met2$sample.name.2
-setideff(ds.met2$sample.name.2, row.names(relabundds))
-setdiff(ds.met2$sample.name.2, row.names(relabundds))
-relabundds <- relabunnds[-which(row.names(relabundds) == setdiff(ds.met2$sample.name.2, row.names(relabundds))),]
-relabundds <- relabundds[-which(row.names(relabundds) == setdiff(ds.met2$sample.name.2, row.names(relabundds))),]
-adonis(relabundds ~ ds.met2$Clone[-1])
-adonis(relabundds ~ ds.met2$Clone)
-dim(relabundds)
-dim(ds.met2)
-which(row.names(relabundds) == setdiff(ds.met2$sample.name.2, row.names(relabundds)))
-relabundds<-decostand(rareotutabtaxds, method="total")
-setdiff(ds.met2$sample.name.2, row.names(relabundds))
-which(row.names(relabundds) == setdiff(ds.met2$sample.name.2, row.names(relabundds)))
-row.names(relabundds)
-ds.met2$sample.name.2
-row.names(relabundds) == setdiff(ds.met2$sample.name.2, row.names(relabundds)))
-which(row.names(relabundds) == setdiff(ds.met2$sample.name.2, row.names(relabundds)))
-row.names(relabundds) == setdiff(ds.met2$sample.name.2, row.names(relabundds))
-row.names(relabundds) %in% setdiff(ds.met2$sample.name.2, row.names(relabundds))
-setdiff(ds.met2$sample.name.2, row.names(relabundds))
-missing<-setdiff(ds.met2$sample.name.2, row.names(relabundds))
-which(row.names(relabundds) == missing)
-row.names(relabundds)
-ds.met3 <- ds.met2[-which(ds.met2$sample.name.2 == missing),]
-adonis(relabundds ~ ds.met3$Clone)
-adonis(relabundds ~ ds.met3$Group)
-ds.met3$Group
-adonis(relabundds ~ ds.met3$State)
-plot(hclust(relabundds))
-hclust(relabundds)
-relabundds
-iris.nmds <- metaMDS(relabundds)
-mds.pts <- iris.nmds$points
-iris.xy <- scores(mds.pts, display="sites")
-plot(mds.pts)
-points(iris.xy, col=as.numeric(ds.met3))
-points(iris.xy, col=as.numeric(ds.met3$State))
-iris.xy
-points(iris.xy, col=as.numeric(ds.met3$State))
-ds.met3$State
-plot(mds.pts, col=as.numeric(ds.met3$State))
-as.numeric(ds.met3$State)
-ds.met3$State
-as.numeric(ds.met3$State)
-plot(mds.pts, col=as.numeric(as.factor(ds.met3$State)))
-update
-install.packages('knitr')
-install.packages('rmarkdown')
-readline()
-words <- readline()
-words
-subject <- readline()
-verb <- readline()
-object <- readling()
-object <- readline()
-paste(subject, verb, object)
-# The purpose of this script is to provide tools to explore OTU relationships and abundance of individual taxa in the dataset#
+}
+figure.network <- function (p, r, s, subs=F, subcolors=NULL) {#
+#
+  gr <- make.network.graph(p, r, s, subs=F, subcolors=subcolors)#
+  layout <- layout_with_kk(gr, weights=2-as.numeric(edge_attr(gr, 'r')))#
+  if(is.null(subcolor))#
+	ggraph(gr, layout) + #
+    geom_edge_link(aes(width=.1, alpha=r.abs, color=as.factor(r.sign))) + #
+    scale_edge_color_manual(values=c('grey','blue')) + #
+    scale_edge_width(range=c(0.2,1)) + #
+    geom_node_point(aes(size=deg, shape=as.factor(hub), color=as.factor(fu.ba))) + #
+    scale_size(range = c(.2,2.5)) + scale_color_manual(values=c('red','black','green')) +#
+    scale_shape_manual(values=c(1,19,8)) + #
+    theme_graph() + #
+    theme(legend.position='none')#
+  else#
+	ggraph(gr, layout) + #
+    geom_edge_link(aes(width=.1, color=as.factor(ClusterEdge))) + #
+    scale_edge_color_manual(values=c('grey',subcolors)) + #
+    scale_edge_width(range=c(0.2,1)) + #
+    geom_node_point(aes(size=deg, shape=as.factor(hub), color=as.factor(Cluster))) + #
+    scale_size(range = c(.2,2.5)) + scale_color_manual(values=c('grey',subcolors)) +#
+    scale_shape_manual(values=c(1,19,8)) + #
+    theme_graph() + #
+    theme(legend.position='none')#
+}
+figure.network <- function (p, r, s, subs=F, subcolors=NULL, annot.obj=NULL) {#
+#
+  if (is.null(annot.obj) gr <- make.network.graph(p, r, s, subs=F, subcolors=subcolors)#
+  else gr <- annot.obj#
+  layout <- layout_with_kk(gr, weights=2-as.numeric(edge_attr(gr, 'r')))#
+  if(is.null(subcolor))#
+	ggraph(gr, layout) + #
+    geom_edge_link(aes(width=.1, alpha=r.abs, color=as.factor(r.sign))) + #
+    scale_edge_color_manual(values=c('grey','blue')) + #
+    scale_edge_width(range=c(0.2,1)) + #
+    geom_node_point(aes(size=deg, shape=as.factor(hub), color=as.factor(fu.ba))) + #
+    scale_size(range = c(.2,2.5)) + scale_color_manual(values=c('red','black','green')) +#
+    scale_shape_manual(values=c(1,19,8)) + #
+    theme_graph() + #
+    theme(legend.position='none')#
+  else#
+	ggraph(gr, layout) + #
+    geom_edge_link(aes(width=.1, color=as.factor(ClusterEdge))) + #
+    scale_edge_color_manual(values=c('grey',subcolors)) + #
+    scale_edge_width(range=c(0.2,1)) + #
+    geom_node_point(aes(size=deg, shape=as.factor(hub), color=as.factor(Cluster))) + #
+    scale_size(range = c(.2,2.5)) + scale_color_manual(values=c('grey',subcolors)) +#
+    scale_shape_manual(values=c(1,19,8)) + #
+    theme_graph() + #
+    theme(legend.position='none')#
+}
+figure.network(subcolors = colors.subnetworks[1:2], annot.obj=tn12$net.annot)
+figure.network <- function (p, r, s, subs=F, subcolors=NULL, annot.obj=NULL) {#
+#
+  if (is.null(annot.obj) gr <- make.network.graph(p, r, s, subs=F, subcolors=subcolors)#
+  else gr <- annot.obj#
+  layout <- layout_with_kk(gr, weights=2-as.numeric(edge_attr(gr, 'r')))#
+  if(is.null(subcolor))#
+	ggraph(gr, layout) + #
+    geom_edge_link(aes(width=.1, alpha=r.abs, color=as.factor(r.sign))) + #
+    scale_edge_color_manual(values=c('grey','blue')) + #
+    scale_edge_width(range=c(0.2,1)) + #
+    geom_node_point(aes(size=deg, shape=as.factor(hub), color=as.factor(fu.ba))) + #
+    scale_size(range = c(.2,2.5)) + scale_color_manual(values=c('red','black','green')) +#
+    scale_shape_manual(values=c(1,19,8)) + #
+    theme_graph() + #
+    theme(legend.position='none')#
+  else#
+	ggraph(gr, layout) + #
+    geom_edge_link(aes(width=.1, color=as.factor(ClusterEdge))) + #
+    scale_edge_color_manual(values=c('grey',subcolors)) + #
+    scale_edge_width(range=c(0.2,1)) + #
+    geom_node_point(aes(size=deg, shape=as.factor(hub), color=as.factor(Cluster))) + #
+    scale_size(range = c(.2,2.5)) + scale_color_manual(values=c('grey',subcolors)) +#
+    scale_shape_manual(values=c(1,19,8)) + #
+    theme_graph() + #
+    theme(legend.position='none')#
+}
+figure.network <- function (p, r, s, subs=F, subcolors=NULL, annot.obj=NULL) {#
+#
+  if (is.null(annot.obj)) gr <- make.network.graph(p, r, s, subs=F, subcolors=subcolors)#
+  else gr <- annot.obj#
+  layout <- layout_with_kk(gr, weights=2-as.numeric(edge_attr(gr, 'r')))#
+  if(is.null(subcolor))#
+	ggraph(gr, layout) + #
+    geom_edge_link(aes(width=.1, alpha=r.abs, color=as.factor(r.sign))) + #
+    scale_edge_color_manual(values=c('grey','blue')) + #
+    scale_edge_width(range=c(0.2,1)) + #
+    geom_node_point(aes(size=deg, shape=as.factor(hub), color=as.factor(fu.ba))) + #
+    scale_size(range = c(.2,2.5)) + scale_color_manual(values=c('red','black','green')) +#
+    scale_shape_manual(values=c(1,19,8)) + #
+    theme_graph() + #
+    theme(legend.position='none')#
+  else#
+	ggraph(gr, layout) + #
+    geom_edge_link(aes(width=.1, color=as.factor(ClusterEdge))) + #
+    scale_edge_color_manual(values=c('grey',subcolors)) + #
+    scale_edge_width(range=c(0.2,1)) + #
+    geom_node_point(aes(size=deg, shape=as.factor(hub), color=as.factor(Cluster))) + #
+    scale_size(range = c(.2,2.5)) + scale_color_manual(values=c('grey',subcolors)) +#
+    scale_shape_manual(values=c(1,19,8)) + #
+    theme_graph() + #
+    theme(legend.position='none')#
+}
+figure.network(subcolors = colors.subnetworks[1:2], annot.obj=tn12$net.annot)
+figure.network <- function (p, r, s, subs=F, subcolors=NULL, annot.obj=NULL) {#
+#
+  if (is.null(annot.obj)) gr <- make.network.graph(p, r, s, subs=F, subcolors=subcolors)#
+  else gr <- annot.obj#
+  layout <- layout_with_kk(gr, weights=2-as.numeric(edge_attr(gr, 'r')))#
+  if(is.null(subcolor))#
+	ggraph(gr, layout) + #
+    geom_edge_link(aes(width=.1, alpha=r.abs, color=as.factor(r.sign))) + #
+    scale_edge_color_manual(values=c('grey','blue')) + #
+    scale_edge_width(range=c(0.2,1)) + #
+    geom_node_point(aes(size=deg, shape=as.factor(hub), color=as.factor(fu.ba))) + #
+    scale_size(range = c(.2,2.5)) + scale_color_manual(values=c('red','black','green')) +#
+    scale_shape_manual(values=c(1,19,8)) + #
+    theme_graph() + #
+    theme(legend.position='none')#
+  else#
+	ggraph(gr, layout) + #
+    geom_edge_link(aes(width=.1, color=as.factor(ClusterEdge))) + #
+    scale_edge_color_manual(values=c('grey',subcolors)) + #
+    scale_edge_width(range=c(0.2,1)) + #
+    geom_node_point(aes(size=deg, shape=as.factor(hub), color=as.factor(Cluster))) + #
+    scale_size(range = c(.2,2.5)) + scale_color_manual(values=c('grey',subcolors)) +#
+    scale_shape_manual(values=c(1,19,8)) + #
+    theme_graph() + #
+    theme(legend.position='none')#
+}
+figure.network(subcolors = colors.subnetworks[1:2], annot.obj=tn12$net.annot)
+figure.network <- function (p, r, s, subs=F, subcolors=NULL, annot.obj=NULL) {#
+print(annot.obj)#
+  if (is.null(annot.obj)) gr <- make.network.graph(p, r, s, subs=F, subcolors=subcolors)#
+  else gr <- annot.obj#
+  layout <- layout_with_kk(gr, weights=2-as.numeric(edge_attr(gr, 'r')))#
+  if(is.null(subcolor))#
+	ggraph(gr, layout) + #
+    geom_edge_link(aes(width=.1, alpha=r.abs, color=as.factor(r.sign))) + #
+    scale_edge_color_manual(values=c('grey','blue')) + #
+    scale_edge_width(range=c(0.2,1)) + #
+    geom_node_point(aes(size=deg, shape=as.factor(hub), color=as.factor(fu.ba))) + #
+    scale_size(range = c(.2,2.5)) + scale_color_manual(values=c('red','black','green')) +#
+    scale_shape_manual(values=c(1,19,8)) + #
+    theme_graph() + #
+    theme(legend.position='none')#
+  else#
+	ggraph(gr, layout) + #
+    geom_edge_link(aes(width=.1, color=as.factor(ClusterEdge))) + #
+    scale_edge_color_manual(values=c('grey',subcolors)) + #
+    scale_edge_width(range=c(0.2,1)) + #
+    geom_node_point(aes(size=deg, shape=as.factor(hub), color=as.factor(Cluster))) + #
+    scale_size(range = c(.2,2.5)) + scale_color_manual(values=c('grey',subcolors)) +#
+    scale_shape_manual(values=c(1,19,8)) + #
+    theme_graph() + #
+    theme(legend.position='none')#
+}
+figure.network(subcolors = colors.subnetworks[1:2], annot.obj=tn12$net.annot)
+is.null(annot.obj)
+mmmm<-NULL
+figure.network <- function (p, r, s, subs=F, subcolors=NULL, annot.obj=NULL) {#
+#
+  if (is.null(annot.obj)) {gr <- make.network.graph(p, r, s, subs=F, subcolors=subcolors)}#
+  else {gr <- annot.obj}#
+  layout <- layout_with_kk(gr, weights=2-as.numeric(edge_attr(gr, 'r')))#
+  if(is.null(subcolor)){#
+	ggraph(gr, layout) + #
+    geom_edge_link(aes(width=.1, alpha=r.abs, color=as.factor(r.sign))) + #
+    scale_edge_color_manual(values=c('grey','blue')) + #
+    scale_edge_width(range=c(0.2,1)) + #
+    geom_node_point(aes(size=deg, shape=as.factor(hub), color=as.factor(fu.ba))) + #
+    scale_size(range = c(.2,2.5)) + scale_color_manual(values=c('red','black','green')) +#
+    scale_shape_manual(values=c(1,19,8)) + #
+    theme_graph() + #
+    theme(legend.position='none')#
+  }else{#
+	ggraph(gr, layout) + #
+    geom_edge_link(aes(width=.1, color=as.factor(ClusterEdge))) + #
+    scale_edge_color_manual(values=c('grey',subcolors)) + #
+    scale_edge_width(range=c(0.2,1)) + #
+    geom_node_point(aes(size=deg, shape=as.factor(hub), color=as.factor(Cluster))) + #
+    scale_size(range = c(.2,2.5)) + scale_color_manual(values=c('grey',subcolors)) +#
+    scale_shape_manual(values=c(1,19,8)) + #
+    theme_graph() + #
+    theme(legend.position='none')#
+  }#
+}
+colors.subnetworks[1:2]
+colors.subnetworks
+figure.network
+tn12$net.annot
+wa12 <- top.clusters(state='WA')#
+tn12 <- top.clusters(state='TN')
+tn12$net.annot
+top.clusters <- function (p='0.01', r='0.8', state) {#
+	g.r0.8.p0.01 <- make.network.graph(p, r, state)#
+#
+	# remove negative connections#
+	# as.factor(sign(c(1,-8)))#
+#
+	negs<-edge_attr(g.r0.8.p0.01, name= 'r.sign') == 1#
+	gr.r8p01.pos <-delete_edges(g.r0.8.p0.01, which(negs))#
+#
+	# pull out major subnetworks#
+#
+	dec.subrs.r8p01 <- decompose.graph(gr.r8p01.pos)#
+	clusters(gr.r8p01.pos)#
+	twobiggest <- rev(order(clusters(gr.r8p01.pos)$csize))[1:2]#
+	cluster.1 <- dec.subrs.r8p01[[twobiggest[1]]]#
+	cluster.2 <- dec.subrs.r8p01[[twobiggest[2]]]#
+	vertex_attr(g.r0.8.p0.01, "Cluster") <- (0 + 1*(clusters(gr.r8p01.pos)$membership == twobiggest[1]) + 2*(clusters(gr.r8p01.pos)$membership == twobiggest[2])) %>% as.factor()#
+	get.edge.ids(g.r0.8.p0.01, nodes(cluster.1))#
+	edge_attr(g.r0.8.p0.01, "ClusterEdge") <- (0 + 1*(attr(E(g.r0.8.p0.01),"vnames") %in% attr(E(cluster.1),"vnames")) + 2*(attr(E(g.r0.8.p0.01),"vnames") %in% attr(E(cluster.2),"vnames"))) %>% as.factor()#
+	list(cluster.1=cluster.1, cluster.2=cluster.2, net.annot=g.r0.8.p0.01)#
+#
+}
+wa12 <- top.clusters(state='WA')
+tn12 <- top.clusters(state='TN')
+top.clusters <- function (p='0.01', r='0.8', state) {#
+	g.r0.8.p0.01 <- make.network.graph(p, r, state)#
+#
+	# remove negative connections#
+	# as.factor(sign(c(1,-8)))#
+#
+	negs<-edge_attr(g.r0.8.p0.01, name= 'r.sign') == 1#
+	gr.r8p01.pos <-delete_edges(g.r0.8.p0.01, which(negs))#
+#
+	# pull out major subnetworks#
+#
+	dec.subrs.r8p01 <- decompose.graph(gr.r8p01.pos)#
+	clusters(gr.r8p01.pos)#
+	twobiggest <- rev(order(clusters(gr.r8p01.pos)$csize))[1:2]#
+	cluster.1 <- dec.subrs.r8p01[[twobiggest[1]]]#
+	cluster.2 <- dec.subrs.r8p01[[twobiggest[2]]]#
+	vertex_attr(g.r0.8.p0.01, "Cluster") <- (0 + 1*(clusters(gr.r8p01.pos)$membership == twobiggest[1]) + 2*(clusters(gr.r8p01.pos)$membership == twobiggest[2])) %>% as.factor()#
+#
+	edge_attr(g.r0.8.p0.01, "ClusterEdge") <- (0 + 1*(attr(E(g.r0.8.p0.01),"vnames") %in% attr(E(cluster.1),"vnames")) + 2*(attr(E(g.r0.8.p0.01),"vnames") %in% attr(E(cluster.2),"vnames"))) %>% as.factor()#
+	list(cluster.1=cluster.1, cluster.2=cluster.2, net.annot=g.r0.8.p0.01)#
+#
+}#
+#
+wa12 <- top.clusters(state='WA')#
+tn12 <- top.clusters(state='TN')
+figure.network <- function (p, r, s, subs=F, subcolors=NULL, annot.obj=NULL) {#
+#
+  if (is.null(annot.obj)) gr <- make.network.graph(p, r, s, subs=F, subcolors=subcolors)#
+  else gr <- annot.obj#
+  layout <- layout_with_kk(gr, weights=2-as.numeric(edge_attr(gr, 'r')))#
+  if(is.null(subcolor))#
+	ggraph(gr, layout) + #
+    geom_edge_link(aes(width=.1, alpha=r.abs, color=as.factor(r.sign))) + #
+    scale_edge_color_manual(values=c('grey','blue')) + #
+    scale_edge_width(range=c(0.2,1)) + #
+    geom_node_point(aes(size=deg, shape=as.factor(hub), color=as.factor(fu.ba))) + #
+    scale_size(range = c(.2,2.5)) + scale_color_manual(values=c('red','black','green')) +#
+    scale_shape_manual(values=c(1,19,8)) + #
+    theme_graph() + #
+    theme(legend.position='none')#
+  else#
+	ggraph(gr, layout) + #
+    geom_edge_link(aes(width=.1, color=as.factor(ClusterEdge))) + #
+    scale_edge_color_manual(values=c('grey',subcolors)) + #
+    scale_edge_width(range=c(0.2,1)) + #
+    geom_node_point(aes(size=deg, shape=as.factor(hub), color=as.factor(Cluster))) + #
+    scale_size(range = c(.2,2.5)) + scale_color_manual(values=c('grey',subcolors)) +#
+    scale_shape_manual(values=c(1,19,8)) + #
+    theme_graph() + #
+    theme(legend.position='none')#
+}
+figure.network(subcolors = colors.subnetworks[1:2], annot.obj=tn12$net.annot)
+figure.network <- function (p, r, s, subs=F, subcolors=NULL, annot.obj=NULL) {#
+#
+  if (is.null(annot.obj)) gr <- make.network.graph(p, r, s, subs=F, subcolors=subcolors)#
+  else gr <- annot.obj#
+  layout <- layout_with_kk(gr, weights=2-as.numeric(edge_attr(gr, 'r')))#
+  if(is.null(subcolors))#
+	ggraph(gr, layout) + #
+    geom_edge_link(aes(width=.1, alpha=r.abs, color=as.factor(r.sign))) + #
+    scale_edge_color_manual(values=c('grey','blue')) + #
+    scale_edge_width(range=c(0.2,1)) + #
+    geom_node_point(aes(size=deg, shape=as.factor(hub), color=as.factor(fu.ba))) + #
+    scale_size(range = c(.2,2.5)) + scale_color_manual(values=c('red','black','green')) +#
+    scale_shape_manual(values=c(1,19,8)) + #
+    theme_graph() + #
+    theme(legend.position='none')#
+  else#
+	ggraph(gr, layout) + #
+    geom_edge_link(aes(width=.1, color=as.factor(ClusterEdge))) + #
+    scale_edge_color_manual(values=c('grey',subcolors)) + #
+    scale_edge_width(range=c(0.2,1)) + #
+    geom_node_point(aes(size=deg, shape=as.factor(hub), color=as.factor(Cluster))) + #
+    scale_size(range = c(.2,2.5)) + scale_color_manual(values=c('grey',subcolors)) +#
+    scale_shape_manual(values=c(1,19,8)) + #
+    theme_graph() + #
+    theme(legend.position='none')#
+}
+figure.network(subcolors = colors.subnetworks[1:2], annot.obj=tn12$net.annot)
+figure.network(subcolors = colors.subnetworks[1:2], annot.obj=wa12$net.annot)
+figure.network(subcolors = colors.subnetworks[1:2], annot.obj=tn12$net.annot)
+figure.network(subcolors = colors.subnetworks[3:4], annot.obj=wa12$net.annot)
+heatmap.plot <- hm.melt %>% ggplot(., aes(x=Sample, y=OTU, fill=Cluster, alpha=value)) + geom_tile() + scale_fill_manual(values=colors.subnetworks) + scale_alpha_continuous(range=c(0,1)) + scale_y_discrete(labels=axislabels) + scale_x_discrete(labels=samplelabels)+#
+  theme_bw() +#
+  theme(axis.text.x = element_text(angle=90, size=6),#
+  legend.position = "none",#
+  axis.text.y = element_text(hjust=0),#
+  axis.line = element_line(colour = "black"),#
+    panel.grid.major = element_blank(),#
+    panel.grid.minor = element_blank(),#
+    panel.border = element_blank(),#
+    panel.background = element_blank(),#
+    axis.title.x = element_blank(),#
+    axis.title.y = element_blank())
+heatmap.plot
+wa.nets.plot.annot <- figure.network(subcolors = colors.subnetworks[1:2], annot.obj=tn12$net.annot)#
+tn.nets.plot.annot <- figure.network(subcolors = colors.subnetworks[3:4], annot.obj=wa12$net.annot)
+lay <- rbind(c(1,2),c(1,3))
+lay <- rbind(c(1,1,2),c(1,1,3))
+grid.arrange(heatmap.plot,wa.nets.plot.annot,tn.nets.plot.annot)
+grid.arrange(heatmap.plot,wa.nets.plot.annot,tn.nets.plot.annot, layout=lay)
+grid.arrange(heatmap.plot,wa.nets.plot.annot,tn.nets.plot.annot, layout_matrix=lay)
+wa.nets.plot.annot <- figure.network(subcolors = colors.subnetworks[1:2], annot.obj=tn12$net.annot)+labs(title="Tennessee")#
+tn.nets.plot.annot <- figure.network(subcolors = colors.subnetworks[3:4], annot.obj=wa12$net.annot)+labs(titles="Washington")#
+ lay <- rbind(c(1,1,2),c(1,1,3))#
+grid.arrange(heatmap.plot,wa.nets.plot.annot,tn.nets.plot.annot, layout_matrix=lay)
+capitalize
+capitalize("shavings")
+grid.arrange(#
+      figure.network("0.01", "0.8", "IN"),#
+      figure.network("0.01", "0.8", "TN"),#
+      figure.network("0.01", "0.8", "WA"),#
+      figure.network("0.00001", "0.8", "IN", tissue="soils"),#
+      figure.network("0.00001", "0.8", tissue="soils"),#
+      figure.network("0.00001", "0.8", tissue="soils"),#
+      nrow=2#
+    )
+source("Net.complex.functions.R")
+grid.arrange(#
+      figure.network("0.01", "0.8", "IN"),#
+      figure.network("0.01", "0.8", "TN"),#
+      figure.network("0.01", "0.8", "WA"),#
+      figure.network("0.00001", "0.8", "IN", tissue="soils"),#
+      figure.network("0.00001", "0.8", tissue="soils"),#
+      figure.network("0.00001", "0.8", tissue="soils"),#
+      nrow=2#
+    )
+grid.arrange(#
+      figure.network("0.01", "0.8", "IN"),#
+      figure.network("0.01", "0.8", "TN"),#
+      figure.network("0.01", "0.8", "WA"),#
+      figure.network("0.00001", "0.8", "IN", tissue="soils"),#
+      figure.network("0.00001", "0.8", "TN", tissue="soils"),#
+      figure.network("0.00001", "0.8", "WA", tissue="soils"),#
+      nrow=2#
+    )
+setwd(".")#
 #
 library(tidyverse)#
+library(Hmisc)#
+library(MASS)#
+library(igraph)#
+library(tidygraph)#
+library(ggraph)#
+library(gridExtra)#
+library(phyloseq)#
+#
+source("Net.complex.functions.R")#
+#
+load("R_Environments/Jnigra.microbiome.merged.WilliamsOnufrak.RData")#
+#
+soils.merge.df <- otu_table(soils.merge) %>% t() %>% as.data.frame()
+out <- read.csv("Results/Network.complexity.soil.csv")[,-1]
+net.complex.multipanel (out)
+source("Net.complex.functions.R")
+warnings()
+net.complex.multipanel (out, which.leg="first")
+net.complex.multipanel (out[out$P<0.00005,], which.leg="first")
+out <- read.csv("Results/Network.complexity.caulosphere.csv")[,-1]
+net.complex.multipanel (out)
+net.complex.multipanel (out[out$P<0.05,])
+net.complex.multipanel (out[out$P<0.05,],which.leg="first")
+setwd(".")#
+#
+library(tidyr)#
+library(Hmisc)#
+library(MASS)#
+library(igraph)#
+library(tidygraph)#
+library(ggraph)#
+library(gridExtra)#
+library(QuACN)#
+library(acss)#
 library(phyloseq)#
 library(vegan)#
+library(reshape2)#
+library(tanagR)#
 #
-# This function queries a subset of the merged bacterial/fungal dataset by a chosen#
-# taxonomic level (taxlevel) and the name of the taxon of interest (taxstring).#
-# It also takes a phyloseq object (pseq).#
+source("Net.complex.functions.R")#
 #
-custom.otu.tax.tbl <- function(pseq, taxlevel, taxstring) {#
+load("R_Environments/Jnigra.microbiome.merged.WilliamsOnufrak.RData")#
 #
-  onames <- tax_table(pseq)[,taxlevel] %in% taxstring#
+shavings.merge.df <- otu_table(shavings.merge) %>% t() %>% as.data.frame()
+grid.arrange(#
+      figure.network("0.01", "0.8", "IN")+labs(title="A"),#
+      figure.network("0.01", "0.8", "TN")+labs(title="B"),#
+      figure.network("0.01", "0.8", "WA")+labs(title="C"),#
+      figure.network("0.00001", "0.8", "IN", tissue="soils")+labs(title="D"),#
+      figure.network("0.00001", "0.8", "TN", tissue="soils")+labs(title="E"),#
+      figure.network("0.00001", "0.8", "WA", tissue="soils")+labs(title="F"),#
+      nrow=2#
+    )
+source("Net.complex.functions.R")
+grid.arrange(#
+      figure.network("0.01", "0.8", "IN")+labs(title="A. IN Caulosphere"),#
+      figure.network("0.01", "0.8", "TN")+labs(title="B. TN Caulosphere"),#
+      figure.network("0.01", "0.8", "WA")+labs(title="C. WN Caulosphere"),#
+      figure.network("0.00001", "0.8", "IN", tissue="soils")+labs(title="D. IN Soil"),#
+      figure.network("0.00001", "0.8", "TN", tissue="soils")+labs(title="E. TN Soil"),#
+      figure.network("0.00001", "0.8", "WA", tissue="soils")+labs(title="F. WA Soil"),#
+      nrow=2#
+    )
+grid.arrange(#
+      figure.network("0.01", "0.8", "IN")+labs(title="A", subtitle="IN Caulosphere"),#
+      figure.network("0.01", "0.8", "TN")+labs(title="B", subtitle="TN Caulosphere"),#
+      figure.network("0.01", "0.8", "WA")+labs(title="C", subtitle="WA Caulosphere"),#
+      figure.network("0.00001", "0.8", "IN", tissue="soils")+labs(title="D", subtitle="IN Soil"),#
+      figure.network("0.00001", "0.8", "TN", tissue="soils")+labs(title="E", subtitle="TN Soil"),#
+      figure.network("0.00001", "0.8", "WA", tissue="soils")+labs(title="F", subtitle="WA Soil"),#
+      nrow=2#
+    )
+wa12 <- top.clusters(state='WA')#
+tn12 <- top.clusters(state='TN')#
 #
-  rs <- rownames(tax_table(pseq))[onames]#
+# just hub OTUs from the two clusters #
+wa.clust.1.otus <- with(wa12,vertex_attr(cluster.1,"name")[as.logical(vertex_attr(cluster.1,"hub"))])#
+wa.clust.2.otus <- with(wa12,vertex_attr(cluster.2,"name")[as.logical(vertex_attr(cluster.2,"hub"))])#
 #
-  if (length(rs) < 1) {#
-    return(NULL)#
-  } else {#
-    mtable <- otu_table(pseq)[onames] %>% cbind (tax_table(pseq)[onames], .) %>% t()#
-    return(mtable)#
-  }#
-}#
+tn.clust.1.otus <- with(tn12,vertex_attr(cluster.1,"name")[as.logical(vertex_attr(cluster.1,"hub"))])#
+tn.clust.2.otus <- with(tn12,vertex_attr(cluster.2,"name")[as.logical(vertex_attr(cluster.2,"hub"))])#
 #
-# This function queries the network analysis results for a specified p and r#
-# cutoff for which a correlation table was generated and gives the taxonomic#
-# identity of OTUs with significant spearman correlations to G. morbida.#
+# Trees that tested positive for GM with the probe were WA55RN1, WA130RN4, and WA132RN9. There were five other trees that only tested positive once. Those include the WA132 (the remaining two), WA272RN10, and WAWTBNL22, WAWTBNL23#
+# rownames(shavings.merge.df[,clust.1.otus])#
 #
-gm.correlations <- function(pseq, pcut, rcut) {#
-  correlation.network <- read.csv(paste("Net.analysis/CorrNetworks.WA/cyto.shavings.merged.p.", pcut, ".r.", rcut,".txt", sep = ''), sep='\t')#
-  head(correlation.network)#
-  v2 <- correlation.network[correlation.network$Var1 == "Otu0115",c('Var2','r','p')]#
-  v1 <- correlation.network[correlation.network$Var2 == "Otu0115",c('Var1','r','p')]#
-  return(rbind(tax_table(pseq)[as.character(v2$Var2)] %>% cbind (v2[,2:3]), tax_table(pseq)[as.character(v1$Var1)] %>% cbind (v1[,2:3])))#
-}#
+wa.gm <- c("WA_RN1_55s_S44","WA_RN4_130s_S21","WA_RN9_132s_S61","WA_RN8_132s_S53","WA_RN7_132s_S37","WA_BNL23_WTs_S6","WA_BNL22_WTs_S45")#
+wa.neg<- c("WA_BNL18_272s_S85","WA_BNL19_55s_S13","WA_BNL21_WTs_S93")#
 #
-load("R_Environments/Jnigra.microbiome.merged.WilliamsOnufrak.RData")
-load("R_Environments/Jnigra.microbiome.merged.WilliamsOnufrak.RData")
-custom.otu.tax.tbl(soils.merge, 'Genus', 'g__Fusarium')[,1:10]
-custom.otu.tax.tbl(shavings.merge, 'Genus', 'g__Fusarium')
-custom.otu.tax.tbl(soils.merge, 'Genus', 'g__Fusarium')
-custom.otu.tax.tbl(soils.merge, 'Genus', 'g__Neocosmospora')
-custom.otu.tax.tbl(shavings.merge, 'Order', 'o__Ophiostomatales')
-custom.otu.tax.tbl(soils.merge, 'Family', 'f__Xylariaceae')
+# Trees in TCD positive and negative location in TN#
+#
+tn.tcd <- rownames(shavings.merge.df)[regexpr("TN_LS",rownames(shavings.merge.df),perl=T)==1]#
+tn.neg <- rownames(shavings.merge.df)[regexpr("TN",rownames(shavings.merge.df),perl=T)==1] %>% setdiff(tn.tcd)#
+#
+indian <- rownames(shavings.merge.df)[regexpr("IN_",rownames(shavings.merge.df),perl=T)==1] %>% setdiff(tn.tcd)#
+#
+intersect(wa.clust.1.otus,tn.clust.1.otus)#
+intersect(wa.clust.1.otus,tn.clust.2.otus)#
+intersect(wa.clust.2.otus,tn.clust.1.otus)#
+intersect(wa.clust.2.otus,tn.clust.2.otus)#
+#
+shavings.merge.df[] <- lapply(shavings.merge.df, function(x) as.numeric(as.character(x)))#
+#
+# cluster 1 and 2 for gm#
+shavings.merge.df[wa.gm,wa.clust.1.otus] %>% t() %>% cbind(tax_table(shavings.merge)[wa.clust.1.otus],.) %>% as.data.frame()#
+shavings.merge.df[wa.gm,wa.clust.2.otus] %>% t() %>% cbind(tax_table(shavings.merge)[wa.clust.2.otus],.) %>% as.data.frame()#
+#
+# cluster 1 and 2 for neg trees#
+shavings.merge.df[wa.neg,wa.clust.1.otus] %>% t() %>% cbind(tax_table(shavings.merge)[wa.clust.1.otus],.) %>% as.data.frame()#
+shavings.merge.df[wa.neg,wa.clust.2.otus] %>% t() %>% cbind(tax_table(shavings.merge)[wa.clust.2.otus],.) %>% as.data.frame()#
+#
+# cluster 1  for tn knox and tn polk#
+shavings.merge.df[tn.tcd,tn.clust.1.otus] %>% t() %>% cbind(tax_table(shavings.merge)[tn.clust.1.otus],.) %>% as.data.frame()#
+shavings.merge.df[tn.neg,tn.clust.1.otus] %>% t() %>% cbind(tax_table(shavings.merge)[tn.clust.1.otus],.) %>% as.data.frame()#
+#
+# cluster 2 for tn tn knox and tn polk#
+shavings.merge.df[tn.tcd,tn.clust.2.otus] %>% t() %>% cbind(tax_table(shavings.merge)[tn.clust.2.otus],.) %>% as.data.frame()#
+shavings.merge.df[tn.neg,tn.clust.2.otus] %>% t() %>% cbind(tax_table(shavings.merge)[tn.clust.2.otus],.) %>% as.data.frame()#
+#
+# combine wa cluster 1 and 2, tn cluster 1 and 2#
+#
+hm <- shavings.merge.df[c(indian,tn.neg,tn.tcd,wa.neg,wa.gm),c(tn.clust.1.otus,tn.clust.2.otus,wa.clust.1.otus,wa.clust.2.otus)] %>% t() %>% cbind(tax_table(shavings.merge)[c(tn.clust.1.otus,tn.clust.2.otus,wa.clust.1.otus,wa.clust.2.otus)],.) %>% as.data.frame()#
+#
+hm[,-c(1:7)] <- lapply(hm[,-c(1:7)], function(x) as.numeric(as.character(x)))#
+#
+#hm.melt <- (1-(hm[,-c(1:7)] %>% decostand(method="log") %>% decostand(.,method="max", MARGIN=1))) %>% cbind(data.frame(OTU=rownames(hm), Cluster = c(rep(1,length(tn.clust.1.otus)),rep(2,length(tn.clust.2.otus)),rep(3,length(wa.clust.1.otus)),rep(4,length(wa.clust.2.otus))))) %>% melt(id.vars=c("OTU","Cluster"),variable.name="Sample") #
+#
+hm.melt <- hm[,-c(1:7)] %>% decostand(method="log") %>% decostand(.,method="max", MARGIN=1) %>% cbind(data.frame(OTU=rownames(hm), Cluster = as.factor(c(rep(1,length(tn.clust.1.otus)),rep(2,length(tn.clust.2.otus)),rep(3,length(wa.clust.1.otus)),rep(4,length(wa.clust.2.otus)))))) %>% melt(id.vars=c("OTU","Cluster"),variable.name="Sample") #
+#
+hm.melt$Sample <- factor(hm.melt$Sample, c(indian,tn.neg,tn.tcd,wa.neg,wa.gm))#
+#
+hm.melt$OTU <- factor(hm.melt$OTU, rev(c(tn.clust.1.otus,tn.clust.2.otus,wa.clust.1.otus,wa.clust.2.otus)))#
+#
+axislabels <- with(hm, paste(rownames(hm), gsub("[sgfocp]__","",Genus,perl=T) %>% gsub("_"," ",.,perl=T) %>% gsub("[\\s]?(unclassified|ge)[\\s]?","",.,perl=T)%>% gsub("\\([A-Za-z0-9 _]*\\)"," ",.,perl=T)))#
+names(axislabels) <- rownames(hm)#
+#
+i <- grep("(uncultured$)|([01234567890-]+$)|(group$)", axislabels, perl=T)#
+axislabels[i]<-paste(names(axislabels)[i], hm$Family[i])#
+j <- grep("(uncultured$)|([01234567890-]+$)|(group$)|([01234567890-]+_fa$)", axislabels, perl=T)#
+axislabels[j]<-paste(names(axislabels)[j], hm$Order[j])#
+k <- grep("(uncultured_fa$)|([01234567890-]+_or$)", axislabels, perl=T)#
+axislabels[k]<-paste(names(axislabels)[k], hm$Phylum[k])#
+l <- grep("[01234567890-]+$", axislabels, perl=T)#
+axislabels[l]<-paste(names(axislabels)[l], hm$Class[l])#
+#
+samplelabels<-c(rep("Indiana", length(indian)),rep("TN Polk Co. Clones", length(tn.neg)-3),rep("TN Polk Co. Bedrun", 3),rep("TN Knox Co. Wild", length(tn.tcd)),rep("WA TCD-negative", length(wa.neg)),rep("WA TCD-positive", length(wa.gm)))#
+#
+colors.subnetworks<-tanagr_palette("dacnis_berlepschi")[1:4]#
+#
+hm.melt %>% ggplot(., aes(x=Sample, y=OTU, fill=value)) + geom_tile() + scale_fill_gradient(low="white", high="black") + theme(axis.text.x = element_text(angle=90, size=6), legend.position = "none", axis.text.y = element_text(hjust=0))+ scale_y_discrete(labels=axislabels)#
+#
+heatmap.plot <- hm.melt %>% ggplot(., aes(x=Sample, y=OTU, fill=Cluster, alpha=value)) + geom_tile() + scale_fill_manual(values=colors.subnetworks) + scale_alpha_continuous(range=c(0,1)) + scale_y_discrete(labels=axislabels) + scale_x_discrete(labels=samplelabels)+#
+  theme_bw() +#
+  theme(axis.text.x = element_text(angle=90, size=6),#
+  legend.position = "none",#
+  axis.text.y = element_text(hjust=0),#
+  axis.line = element_line(colour = "black"),#
+    panel.grid.major = element_blank(),#
+    panel.grid.minor = element_blank(),#
+    panel.border = element_blank(),#
+    panel.background = element_blank(),#
+    axis.title.x = element_blank(),#
+    axis.title.y = element_blank()) #
+#
+## function to create netwrok graph object#
+## make side networks as a legend#
+#
+wa.nets.plot.annot <- figure.network(subcolors = colors.subnetworks[1:2], annot.obj=tn12$net.annot)+labs(title="Tennessee")#
+tn.nets.plot.annot <- figure.network(subcolors = colors.subnetworks[3:4], annot.obj=wa12$net.annot)+labs(titles="Washington")#
+ lay <- rbind(c(1,1,2),c(1,1,3))
+grid.arrange(heatmap.plot,wa.nets.plot.annot,tn.nets.plot.annot, layout_matrix=lay)

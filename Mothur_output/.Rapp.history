@@ -1,50 +1,3 @@
-r
-c
-I; c#
-I%*%c # 3x3 * 3x1 = 3x1 vector for solution (3 inner products)
-c%*%I  # Error! 3x1 * 3x3 is not conformable; can't multiply
-I; A#
-I%*%A
-I[2,2] <- 2		# change value of element [2,2] in I; note square brackets#
-I; A#
-A%*%I     # Get error message: non-conformable arguments (b/c [3x2] x [3x3] not possible)#
-I%*%A
-crossprod(I,A) # try crossprod(A, I), where A*I is not conformable#
-##
-#  Inverse of a matrix#
-A <- matrix(c(3,-6,2,-5),2,2,byrow=TRUE)#
-A#
-solve(A)		# solves for the inverse of A (elements are multiples)#
-            # check - does the inverse multiplied by the original yield an identity matrix?#
-solve(A) %*% A
-install.packages('lawn')
-library("lawn")#
-lawn_bbox_polygon(c(-122.2047, 47.5204, -122.1065, 47.6139)) %>% view
-install.packages('leaflet')
-library('leaflet')
-lawn_bbox_polygon(c(-122.2047, 47.5204, -122.1065, 47.6139)) %>% view
-lawn_bbox_polygon(c(46.591169, -118.535378, 45.741266, -116.686558)) %>% view
-lawn_bbox_polygon(c(-118.535378, 46.591169, -116.686558, 45.741266)) %>% view
-lawn_bbox_polygon(c(-119, 46.591169, -116.686558, 45.741266)) %>% view
-lawn_bbox_polygon(c(-118.535378, 47, -116.686558, 45.741266)) %>% view
-lawn_bbox_polygon(c(-119, 47, -116.686558, 45.741266)) %>% view
-ncdc_stations(extent =c(-119, 47, -116.686558, 45.741266))
-library('rnoaa')
-ncdc_stations(extent =c(-119, 47, -116.686558, 45.741266))
-?token
-?rnoaa
-ncdc_stations(extent =c(-119, 47, -116.686558, 45.741266))
-?ncdc_stations
-ncdc_stations(extent =c(-119, 47, -116.686558, 45.741266), token='wTFkCIjQSaRynGTPpQQGGjZqnTwZlIxJ')
-ncdc_stations(extent = c(47.5204, -122.2047, 47.6139, -122.1065), token='wTFkCIjQSaRynGTPpQQGGjZqnTwZlIxJ')
-ncdc_stations(extent = c(45.741266, -119, 45.741266, -116.686558), token='wTFkCIjQSaRynGTPpQQGGjZqnTwZlIxJ')
-ncdc_stations(extent = c(45.741266, -119, 47, -116.686558), token='wTFkCIjQSaRynGTPpQQGGjZqnTwZlIxJ')47
-ncdc_stations(extent = c(45.741266, -119, 47, -116.686558), token='wTFkCIjQSaRynGTPpQQGGjZqnTwZlIxJ')
-homr(state = 'WA')
-stati <- data(ncdc_stations(extent = c(45.741266, -119, 47, -116.686558), token='wTFkCIjQSaRynGTPpQQGGjZqnTwZlIxJ'), limit=100)
-stati <- data(ncdc_stations(extent = c(45.741266, -119, 47, -116.686558), token='wTFkCIjQSaRynGTPpQQGGjZqnTwZlIxJ', limit=100))
-stati <- ncdc_stations(extent = c(45.741266, -119, 47, -116.686558), token='wTFkCIjQSaRynGTPpQQGGjZqnTwZlIxJ', limit=100)
-stati
 stati$id
 stati$data$id
 ?ncdc
@@ -228,233 +181,143 @@ verb <- readline()
 object <- readling()
 object <- readline()
 paste(subject, verb, object)
-# The purpose of this script is to provide tools to explore OTU relationships and abundance of individual taxa in the dataset#
+-3.3 + 0.164*30
+library(asbio)#
+library(car)#
+library(MuMIn)#
+library(effects)#
+library(ROCR)
+data(crabs)  # Load the crabs data frame from asbio#
 #
+head(crabs)  # Look at a few lines   Let's look at the response values:   xtabs() creates a contingency table from designated factors#
+tab <- xtabs(~ satell, data=crabs)  #
+tab   # Frequency for satellite counts;#
+#
+x <- as.numeric(names(tab))  # convert the distinct levels of satell to #
+x                            # numeric#
+#
+freq <- as.numeric(tab)      # frequency for each value of satell   The "h" argument below gives histogram-like vertical bars#
+plot(x=x, y=freq, type="h", xlab="Number of Satellites", ylab="Frequency")#
+#
+points(x, tab, pch=16)  # puts a black circle on top of bars
+data(crabs)#
+crab.glm <- glm(satell ~ width, family = poisson(link="log"), data=crabs)
+exp(-3.3 + .164*31) / exp(-3.3 + .164*30)
+exp(coef(crab.glm))
+.037+1.178(30)=
+.037+1.178(30)
+.037+1.178*30
+exp(as.numeric(coef(crab.glm)[1] + coef(crab.glm)[2]*30))
+exp(as.numeric(coef(crab.glm)[1] + coef(crab.glm)[2]*31))
 library(tidyverse)#
-library(phyloseq)#
+library(RColorBrewer)#
 library(vegan)#
-#
-# This function queries a subset of the merged bacterial/fungal dataset by a chosen#
-# taxonomic level (taxlevel) and the name of the taxon of interest (taxstring).#
-# It also takes a phyloseq object (pseq).#
-#
-custom.otu.tax.tbl <- function(pseq, taxlevel, taxstring) {#
-#
-  onames <- tax_table(pseq)[,taxlevel] %in% taxstring#
-#
-  rs <- rownames(tax_table(pseq))[onames]#
-#
-  if (length(rs) < 1) {#
-    return(NULL)#
-  } else {#
-    mtable <- otu_table(pseq)[onames] %>% cbind (tax_table(pseq)[onames], .) %>% t()#
-    return(mtable)#
-  }#
+library(rcompanion)#
+library(car)#
+library(agricolae)#
+library(extrafont)
+analyze.necrosis <- function(treat, necr, trans = function (x) x, remove.0s=FALSE) {#
+	if (remove.0s) {#
+		treat <- treat[necr > 0]#
+		necr <- necr[necr > 0]#
+	}#
+	n <- trans(necr)#
+	model <- lm(n ~ treat)#
+	anv <- aov(n ~ treat)#
+	t3 <- Anova(model, type=3)#
+	tuk <- TukeyHSD(anv, ordered=TRUE)#
+	hsd <- HSD.test(anv, "treat")#
+	list(Regression=model, ANOVA=t3, Tukey=hsd, HSD.p=tuk)#
 }#
 #
-# This function queries the network analysis results for a specified p and r#
-# cutoff for which a correlation table was generated and gives the taxonomic#
-# identity of OTUs with significant spearman correlations to G. morbida.#
+analyze.necrosis.bc.outliers <- function(treat, necr) {#
 #
-gm.correlations <- function(pseq, pcut, rcut) {#
-  correlation.network <- read.csv(paste("Net.analysis/CorrNetworks.WA/cyto.shavings.merged.p.", pcut, ".r.", rcut,".txt", sep = ''), sep='\t')#
-  head(correlation.network)#
-  v2 <- correlation.network[correlation.network$Var1 == "Otu0115",c('Var2','r','p')]#
-  v1 <- correlation.network[correlation.network$Var2 == "Otu0115",c('Var1','r','p')]#
-  return(rbind(tax_table(pseq)[as.character(v2$Var2)] %>% cbind (v2[,2:3]), tax_table(pseq)[as.character(v1$Var1)] %>% cbind (v1[,2:3])))#
-}#
+	# start out by fitting model of gm-inoculated#
+	model <- lm(necr ~ treat)#
 #
-load("R_Environments/Jnigra.microbiome.merged.WilliamsOnufrak.RData")
-load("R_Environments/Jnigra.microbiome.merged.WilliamsOnufrak.RData")
-custom.otu.tax.tbl(soils.merge, 'Genus', 'g__Fusarium')[,1:10]
-custom.otu.tax.tbl(shavings.merge, 'Genus', 'g__Fusarium')
-custom.otu.tax.tbl(soils.merge, 'Genus', 'g__Fusarium')
-custom.otu.tax.tbl(soils.merge, 'Genus', 'g__Neocosmospora')
-custom.otu.tax.tbl(shavings.merge, 'Order', 'o__Ophiostomatales')
-custom.otu.tax.tbl(soils.merge, 'Family', 'f__Xylariaceae')
+	# refit with box cox transformation#
+	lambda<- with(boxCox(model, plotit=FALSE), x[which.max(y)])#
+	model2<- lm(necr^lambda ~ treat)#
+	summary(model2); Anova(model2)#
+#
+	# identify outliers#
+	outliers <- cooks.distance(model2) > 4 / length(necr)#
+#
+	# refit model and refit with boxcox transformation#
+	# and perform Tukey test with analyze.necrosis#
+	c(analyze.necrosis(treat[-outliers], necr[-outliers], function(x) x^lambda), list(outliers=which(as.vector(outliers))))#
+}
+analyze.necrosis.bc.outliers(treat=c("A","A","B","B"), necr=c(1,2,3,4))
+analyze.necrosis2 <- function(treat, necr) {#
+#
+	# start out by fitting model of gm-inoculated#
+	model <- lm(necr ~ treat)#
+#
+	# refit with box cox transformation#
+	lambda<- with(boxCox(model, plotit=FALSE), x[which.max(y)])#
+	model2<- lm(necr^lambda ~ treat)#
+	summary(model2); Anova(model2)#
+#
+	# identify outliers#
+	outliers <- cooks.distance(model2) > 4 / length(necr)#
+#
+	# refit model and refit with boxcox transformation#
+	# and perform Tukey test with analyze.necrosis#
+	c(analyze.necrosis(treat[-outliers], necr[-outliers], function(x) x^lambda), list(outliers=which(as.vector(outliers))))#
+}
+analyze.necrosis2(treat=c("A","A","B","B"), necr=c(1,2,3,4))
+analyze.necrosis.bc.outliers <- function(treat, necr) {#
+necr#
+	# start out by fitting model of gm-inoculated#
+#	model <- lm(necr ~ treat)#
+#
+	# refit with box cox transformation#
+#	lambda<- with(boxCox(model, plotit=FALSE), x[which.max(y)])#
+#	model2<- lm(necr^lambda ~ treat)#
+#	summary(model2); Anova(model2)#
+#
+	# identify outliers#
+#	outliers <- cooks.distance(model2) > 4 / length(necr)#
+#
+	# refit model and refit with boxcox transformation#
+	# and perform Tukey test with analyze.necrosis#
+#	c(analyze.necrosis(treat[-outliers], necr[-outliers], function(x) x^lambda), list(outliers=which(as.vector(outliers))))#
+}
+analyze.necrosis2(treat=c("A","A","B","B"), necr=c(1,2,3,4))
+analyze.necrosis.bc.outliers <- function(treat, necr) {#
+#
+	# start out by fitting model of gm-inoculated#
+	model <- lm(necr ~ treat)#
+#
+	# refit with box cox transformation#
+	lambda<- with(boxCox(model, plotit=FALSE), x[which.max(y)])#
+	model2<- lm(necr^lambda ~ treat)#
+	summary(model2); Anova(model2)#
+#
+	# identify outliers#
+	outliers <- cooks.distance(model2) > 4 / length(necr)#
+#
+	# refit model and refit with boxcox transformation#
+	# and perform Tukey test with analyze.necrosis#
+	lm(necr[-outliers] ~ treat[-outliers])#
+	#c(analyze.necrosis(treat[-outliers], necr[-outliers], function(x) x^lambda), list(outliers=which(as.vector(outliers))))#
+}
+analyze.necrosis2(treat=c("A","A","B","B"), necr=c(1,2,3,4))
+analyze.necrosis.bc.outliers(treat=c("A","A","B","B"), necr=c(1,2,3,4))
+analyze.necrosis.bc.outliers
 setwd("/Users/will1809/OneDrive - purdue.edu/TCD microbiome spring 2017/Aaron manuscript/Geoff_Final_RFiles/Juglans.microbiome.github/Mothur_output")#
 #
 library(tidyverse)#
 library(readxl)#
 #
-source('baxter.nov2019.R')#
+source('../baxter.nov2019.R')#
 #
-metadata <- get_metadata_soilmb()
-source('../baxter.nov2019.R')
-metadata <- get_metadata_soilmb()
-groups  <- read_tsv('Soil.ITS2.jn.Oct2019.opti_mcc.groups.rarefaction')  %>% select(-contains("lci-"), -contains("hci-")) %>% gather(-numsampled, key=sample, value=sobs) %>% mutate(sample=str_replace_all(sample, pattern="0.03-", replacement=""))  %>% drop_na()
-groups$sample[!(groups$sample == 'NTC_ITS_S96')] <- groups$sample[!(groups$sample == 'NTC_ITS_S96')] %>% sub('_S_ITS.+', '', ., perl=T)
-alpha.soil <- read_tsv(file="Soil.ITS2.jn.Oct2019.opti_mcc.groups.ave-std.summary", col_types=cols(group = col_character())) %>% filter(method=='ave') %>% select(group, sobs, shannon, invsimpson, coverage) %>% gather(-group, key=metric, value=value)
-alpha.soil$sample <- alpha.soil$group %>% sub('_S_ITS.+', '', ., perl=T)
-metadata_soil <- inner_join(metadata, groups)
-missing.sample.groups <- setdiff(groups$sample, metadata$sample)
-missing.sample.meta <- setdiff(metadata$sample, groups$sample)
-setdiff(groups$sample, alpha.soil$sample)
-setdiff(alpha.soil$sample, groups$sample)
-setdiff(metadata$sample, alpha.soil$sample)
-setdiff(alpha.soil$sample, metadata$sample)
-theme(axis.text=element_text(size=20))
-quartz(); ggplot(metadata_soil, aes(x=numsampled, y=sobs, group=sample, color=State)) + geom_line() + labs(main="Branches", x="Sequences Sampled", y="Unique OTUs") + theme(axis.text=element_text(size=14), axis.title=element_text(size=18), legend.text=element_text(size=14), legend.title=element_text(size=14))
-metadata_soil
-groups
-metadata
-metadata_soil <- inner_join(metadata, groups)
-metadata$sample
-groups$sample[!(groups$sample == 'NTC_ITS_S96')] <- groups$sample[!(groups$sample == 'NTC_ITS_S96')] %>% sub('_S_ITS.+', '', ., perl=T) %>% sub('0.02-', '', ., perl=T)
-groups$sample
-missing.sample.groups <- setdiff(groups$sample, metadata$sample)#
-missing.sample.meta <- setdiff(metadata$sample, groups$sample)
-missing.sample.groups
-missing.sample.meta
-setdiff(groups$sample, alpha.soil$sample)#
-setdiff(alpha.soil$sample, groups$sample)#
-#
-setdiff(metadata$sample, alpha.soil$sample)#
-setdiff(alpha.soil$sample, metadata$sample)
-quartz(); ggplot(metadata_soil, aes(x=numsampled, y=sobs, group=sample, color=State)) + geom_line() + labs(main="Branches", x="Sequences Sampled", y="Unique OTUs") + theme(axis.text=element_text(size=14), axis.title=element_text(size=18), legend.text=element_text(size=14), legend.title=element_text(size=14))
-quartz(); ggplot(metadata_soil, aes(x=numsampled, y=sobs, group=sample, color=State)) + geom_line() + labs(main="Branches", x="Sequences Sampled", y="Unique OTUs") + theme(axis.text=element_text(size=14), axis.title=element_text(size=18), legend.text=element_text(size=14), legend.title=element_text(size=14))
-metadata_soil <- inner_join(metadata, groups)
-metadata_soil
-quartz(); ggplot(metadata_soil, aes(x=numsampled, y=sobs, group=sample, color=State)) + geom_line() + labs(main="Branches", x="Sequences Sampled", y="Unique OTUs") + theme(axis.text=element_text(size=14), axis.title=element_text(size=18), legend.text=element_text(size=14), legend.title=element_text(size=14))
-rarefaction.curve <- function (curves) ggplot(curves, aes(x=numsampled, y=sobs, group=sample, color=State)) + geom_line() + labs(main="Branches", x="Sequences Sampled", y="Unique OTUs") + theme(axis.text=element_text(size=14), axis.title=element_text(size=18), legend.text=element_text(size=14), legend.title=element_text(size=14))
-its2.soil <- rarefaction.curve(metadata_soil)
-ggarrange(its2.soil, its2.soil, rows=1)
-its2.soil
 rarefaction.curve <- function (curves) ggplot(curves, aes(x=numsampled, y=sobs, group=sample, color=State)) + geom_line() + labs(main="Branches", x="Sequences Sampled", y="Unique OTUs") + theme(axis.text=element_text(size=14), axis.title=element_text(size=18), legend.text=element_text(size=14), legend.title=element_text(size=14))#
+#
+##### ITS2 SOIL#
 #
 metadata.soil.its2 <- get_metadata_soilmb()#
 #
-groups.soil.its2  <- read_tsv('Soil.ITS2.jn.Oct2019.opti_mcc.groups.rarefaction')  %>% select(-contains("lci-"), -contains("hci-")) %>% gather(-numsampled, key=sample, value=sobs) %>% mutate(sample=str_replace_all(sample, pattern="0.03-", replacement=""))  %>% drop_na()#
-#
-# 'sample' has to match#
-#
-groups.soil.its2$sample[!(groups.soil.its2$sample == 'NTC_ITS_S96')] <- groups.soil.its2$sample[!(groups.soil.its2$sample == 'NTC_ITS_S96')] %>% sub('_S_ITS.+', '', ., perl=T) %>% sub('0.02-', '', ., perl=T)#
-#
-# s[!(s == 'NTC_ITS_S96')] %>% sub('_S_ITS.+', '', ., perl=T)#
-#
-# note drop_na() resulted in 10 fold reduction in number of rows#
-#
-# change organization of data frames so each observation is a row#
-#
-alpha.soil.its2 <- read_tsv(file="Soil.ITS2.jn.Oct2019.opti_mcc.groups.ave-std.summary", col_types=cols(group = col_character())) %>% filter(method=='ave') %>% select(group, sobs, shannon, invsimpson, coverage) %>% gather(-group, key=metric, value=value)#
-#
-alpha.soil.its2$sample <- alpha.soil.its2$group %>% sub('_S_ITS.+', '', ., perl=T)#
-#
-its2.soil.curves <- inner_join(metadata.soil.its2, groups.soil.its2)#
-#
-missing.sample.groups.soil.its2 <- setdiff(groups.soil.its2$sample, metadata.soil.its2$sample)#
-missing.sample.meta <- setdiff(metadata.soil.its2$sample, groups.soil.its2$sample)#
-missing.sample.groups.soil.its2#
-missing.sample.meta#
-#
-setdiff(groups.soil.its2$sample, alpha.soil.its2$sample)#
-setdiff(alpha.soil.its2$sample, groups.soil.its2$sample)#
-#
-setdiff(metadata.soil.its2$sample, alpha.soil.its2$sample)#
-setdiff(alpha.soil.its2$sample, metadata.soil.its2$sample)#
-#
-# one of the Washington trees is missing WA132_RN_9#
-#
-its2.soil <- rarefaction.curve(its2.soil.curves)
-its2.soil
-metadata.branches.its2 <- get_metadata()
-groups.branch.its2 <- read_tsv('Phyllo.ITS2.jn.Oct2019.opti_mcc.branch.groups.rarefaction')  %>% select(-contains("lci-"), -contains("hci-")) %>% gather(-numsampled, key=sample, value=sobs) %>% mutate(sample=str_replace_all(sample, pattern="0.03-", replacement=""))  %>% drop_na()
-groups.branch.its2$sample <- gsub("-", "_", groups.branch.its2$sample) %>% (function (x) gsub("_L001", "", x)) %>% (function (x) gsub("_001", "", x)) %>% (function (x) gsub("_R1", "", x))
-alpha.branch.its2 <- read_tsv(file="Phyllo.ITS2.jn.Oct2019.opti_mcc.branch.groups.ave-std.summary",#
-col_types=cols(group = col_character())) %>%#
-filter(method=='ave') %>%#
-select(group, sobs, shannon, invsimpson, coverage) %>%#
-gather(-group, key=metric, value=value)
-alpha.branch.its2$sample <- gsub("-", "_", alpha.branch.its2$group) %>% (function (x) gsub("_L001", "", x)) %>% (function (x) gsub("_001", "", x)) %>% (function (x) gsub("_R1", "", x))
-its2.branch.curves <- inner_join(metadata.branches.its2, groups.branch.its2)
-its2.branch.curves
-groups.branch.its2$sample <- gsub("-", "_", groups.branch.its2$sample) %>% (function (x) gsub("_L001", "", x)) %>% (function (x) gsub("_001", "", x)) %>% (function (x) gsub("_R1", "", x))%>% sub('0.02-', '', ., perl=T)
-its2.branch.curves <- inner_join(metadata.branches.its2, groups.branch.its2)
-its2.branch.curves
-metadata.branches.its2
-metadata.branches.its2$sample
-groups.branch.its2$sample
-groups.branch.its2$sample <- gsub("-", "_", groups.branch.its2$sample) %>% (function (x) gsub("_L001", "", x)) %>% (function (x) gsub("_001", "", x)) %>% (function (x) gsub("_R1", "", x))%>% sub('0.02_', '', ., perl=T)
-its2.branch.curves <- inner_join(metadata.branches.its2, groups.branch.its2)
-its2.branch.curves
-setdiff(groups.branch.its2$sample, its2.branch.curves$sample)
-setdiff(alpha.branch.its2$sample, its2.branch.curves$sample)
-its2.branches <- rarefaction.curve(its2.branch.curves)
-its2.branches
-groups.soil.16s  <- read_tsv('soil16sotutable_jnigra17_fa19_ajo.groups.rarefaction')  %>% select(-contains("lci-"), -contains("hci-")) %>% gather(-numsampled, key=sample, value=sobs) %>% mutate(sample=str_replace_all(sample, pattern="0.02-", replacement=""))  %>% drop_na()
-groups.soil.16s
-groups.soil.16s  <- read_tsv('soil16sotutable_jnigra17_fa19_ajo.groups.rarefaction')  %>% select(-contains("lci-"), -contains("hci-")) %>% gather(-numsampled, key=sample, value=sobs) %>% mutate(sample=str_replace_all(sample, pattern="0.03-", replacement=""))  %>% drop_na()
-groups.soil.16s
-metadata.soil.its2
-names(metadata.soil.its2)
-metadata.bacteria <- get_metadata_bacteria()
-metadata.bacteria
-metadata.bacteria$Bact.names
-metadata.bacteria$Bact.names2
-metadata.bacteria$Bact.names.2
-groups.soil.16s
-groups.branch.its2 <- read_tsv('Phyllo.ITS2.jn.Oct2019.opti_mcc.branch.groups.rarefaction')  %>% select(-contains("lci-"), -contains("hci-")) %>% gather(-numsampled, key=sample, value=sobs) %>% mutate(sample=str_replace_all(sample, pattern="0.02_", replacement=""))  %>% drop_na()#
-#
-groups.branch.its2$sample <- gsub("-", "_", groups.branch.its2$sample) %>% (function (x) gsub("_L001", "", x)) %>% (function (x) gsub("_001", "", x)) %>% (function (x) gsub("_R1", "", x))#
-#
-alpha.branch.its2 <- read_tsv(file="Phyllo.ITS2.jn.Oct2019.opti_mcc.branch.groups.ave-std.summary",#
-col_types=cols(group = col_character())) %>%#
-filter(method=='ave') %>%#
-select(group, sobs, shannon, invsimpson, coverage) %>%#
-gather(-group, key=metric, value=value)#
-#
-alpha.branch.its2$sample <- gsub("-", "_", alpha.branch.its2$group) %>% (function (x) gsub("_L001", "", x)) %>% (function (x) gsub("_001", "", x)) %>% (function (x) gsub("_R1", "", x))#
-#
-its2.branch.curves <- inner_join(metadata.branches.its2, groups.branch.its2)#
-#
-setdiff(groups.branch.its2$sample, its2.branch.curves$sample)#
-setdiff(alpha.branch.its2$sample, its2.branch.curves$sample)#
-#
-its2.branches <- rarefaction.curve(its2.branch.curves)
-its2.branches
-groups.branch.its2 <- read_tsv('Phyllo.ITS2.jn.Oct2019.opti_mcc.branch.groups.rarefaction')  %>% select(-contains("lci-"), -contains("hci-")) %>% gather(-numsampled, key=sample, value=sobs) %>% mutate(sample=str_replace_all(sample, pattern="0.02_", replacement=""))  %>% drop_na()
-groups.branch.its2
-groups.branch.its2$sample <- gsub("-", "_", groups.branch.its2$sample) %>% (function (x) gsub("_L001", "", x)) %>% (function (x) gsub("_001", "", x)) %>% (function (x) gsub("_R1", "", x))#
-#
-alpha.branch.its2 <- read_tsv(file="Phyllo.ITS2.jn.Oct2019.opti_mcc.branch.groups.ave-std.summary",#
-col_types=cols(group = col_character())) %>%#
-filter(method=='ave') %>%#
-select(group, sobs, shannon, invsimpson, coverage) %>%#
-gather(-group, key=metric, value=value)#
-#
-alpha.branch.its2$sample <- gsub("-", "_", alpha.branch.its2$group) %>% (function (x) gsub("_L001", "", x)) %>% (function (x) gsub("_001", "", x)) %>% (function (x) gsub("_R1", "", x))#
-#
-its2.branch.curves <- inner_join(metadata.branches.its2, groups.branch.its2)#
-#
-setdiff(groups.branch.its2$sample, its2.branch.curves$sample)#
-setdiff(alpha.branch.its2$sample, its2.branch.curves$sample)#
-#
-its2.branches <- rarefaction.curve(its2.branch.curves)
-its2.branches
-alpha.branch.its2$sample
-its2.branch.curves
-metadata.branches.its2
-metadata.branches.its2$sample
-groups.branch.its2$sample
-groups.branch.its2 <- read_tsv('Phyllo.ITS2.jn.Oct2019.opti_mcc.branch.groups.rarefaction')  %>% select(-contains("lci-"), -contains("hci-")) %>% gather(-numsampled, key=sample, value=sobs) %>% mutate(sample=str_replace_all(sample, pattern="0.02_", replacement=""))  %>% drop_na()
-groups.branch.its2
-groups.branch.its2 <- read_tsv('Phyllo.ITS2.jn.Oct2019.opti_mcc.branch.groups.rarefaction')  %>% select(-contains("lci-"), -contains("hci-")) %>% gather(-numsampled, key=sample, value=sobs) %>% mutate(sample=str_replace_all(sample, pattern="0.02-", replacement=""))  %>% drop_na()
-groups.branch.its2$sample <- gsub("-", "_", groups.branch.its2$sample) %>% (function (x) gsub("_L001", "", x)) %>% (function (x) gsub("_001", "", x)) %>% (function (x) gsub("_R1", "", x))
-alpha.branch.its2 <- read_tsv(file="Phyllo.ITS2.jn.Oct2019.opti_mcc.branch.groups.ave-std.summary",#
-col_types=cols(group = col_character())) %>%#
-filter(method=='ave') %>%#
-select(group, sobs, shannon, invsimpson, coverage) %>%#
-gather(-group, key=metric, value=value)#
-#
-alpha.branch.its2$sample <- gsub("-", "_", alpha.branch.its2$group) %>% (function (x) gsub("_L001", "", x)) %>% (function (x) gsub("_001", "", x)) %>% (function (x) gsub("_R1", "", x))#
-#
-its2.branch.curves <- inner_join(metadata.branches.its2, groups.branch.its2)
-its2.branch.curves
-setdiff(groups.branch.its2$sample, its2.branch.curves$sample)#
-setdiff(alpha.branch.its2$sample, its2.branch.curves$sample)#
-#
-its2.branches <- rarefaction.curve(its2.branch.curves)
-its2.branches
 groups.soil.its2  <- read_tsv('Soil.ITS2.jn.Oct2019.opti_mcc.groups.rarefaction')  %>% select(-contains("lci-"), -contains("hci-")) %>% gather(-numsampled, key=sample, value=sobs) %>% mutate(sample=str_replace_all(sample, pattern="0.02-", replacement=""))  %>% drop_na()#
 #
 # 'sample' has to match#
@@ -467,9 +330,9 @@ groups.soil.its2$sample[!(groups.soil.its2$sample == 'NTC_ITS_S96')] <- groups.s
 #
 # change organization of data frames so each observation is a row#
 #
-alpha.soil.its2 <- read_tsv(file="Soil.ITS2.jn.Oct2019.opti_mcc.groups.ave-std.summary", col_types=cols(group = col_character())) %>% filter(method=='ave') %>% select(group, sobs, shannon, invsimpson, coverage) %>% gather(-group, key=metric, value=value)#
+#alpha.soil.its2 <- read_tsv(file="Soil.ITS2.jn.Oct2019.opti_mcc.groups.ave-std.summary", col_types=cols(group = col_character())) %>% filter(method=='ave') %>% select(group, sobs, shannon, invsimpson, coverage) %>% gather(-group, key=metric, value=value)#
 #
-alpha.soil.its2$sample <- alpha.soil.its2$group %>% sub('_S_ITS.+', '', ., perl=T)#
+#alpha.soil.its2$sample <- alpha.soil.its2$group %>% sub('_S_ITS.+', '', ., perl=T)#
 #
 its2.soil.curves <- inner_join(metadata.soil.its2, groups.soil.its2)#
 #
@@ -478,17 +341,329 @@ missing.sample.meta <- setdiff(metadata.soil.its2$sample, groups.soil.its2$sampl
 missing.sample.groups.soil.its2#
 missing.sample.meta#
 #
-setdiff(groups.soil.its2$sample, alpha.soil.its2$sample)#
-setdiff(alpha.soil.its2$sample, groups.soil.its2$sample)#
+#setdiff(groups.soil.its2$sample, alpha.soil.its2$sample)#
+#setdiff(alpha.soil.its2$sample, groups.soil.its2$sample)#
 #
-setdiff(metadata.soil.its2$sample, alpha.soil.its2$sample)#
-setdiff(alpha.soil.its2$sample, metadata.soil.its2$sample)#
+#setdiff(metadata.soil.its2$sample, alpha.soil.its2$sample)#
+#setdiff(alpha.soil.its2$sample, metadata.soil.its2$sample)#
 #
 # one of the Washington trees is missing WA132_RN_9#
 #
 its2.soil <- rarefaction.curve(its2.soil.curves)
 its2.soil
-groups.branch.its2$sample
-groups.branch.16s$sample
+metadata.bacteria <- get_metadata_bacteria()
+metadata.bacteria$Bact.names.2
+groups.soil.16s  <- read_tsv('soil16sotutable_jnigra17_fa19_ajo.groups.rarefaction')  %>% select(-contains("lci-"), -contains("hci-")) %>% gather(-numsampled, key=sample, value=sobs) %>% mutate(sample=str_replace_all(sample, pattern="0.03-", replacement=""))  %>% drop_na()#
 groups.soil.16s$sample
-alpha.soil.16s <- read_tsv(file="soil16sotutable_jnigra17_fa19_ajo.groups.ave-std.summary", col_types=cols(group = col_character())) %>% filter(method=='ave') %>% select(group, sobs, shannon, invsimpson, coverage) %>% gather(-group, key=metric, value=value)
+metadata.bacteria$Bact.names.2
+metadata.bacteria$sample <- metadata.bacteria$Bact.names.2
+B16s.soil.curves <- inner_join(metadata.bacteria, groups.soil.16s )
+B16s.soil.curves
+B16s.branches <- rarefaction.curve(B16s.soil.curves)
+B16s.branches
+rarefaction.curve <- function (curves, legpos='none') ggplot(curves, aes(x=numsampled, y=sobs, group=sample, color=State)) + geom_line() + theme(axis.text=element_text(size=14), axis.title=element_text(size=18), legend.position=legpos)#
+#
+rare.xlab <- function (main) labs(main=main, x="Sequences Sampled", y="")#
+rare.ylab <- function (main) labs(main=main, x="", y="Unique OTUs")#
+rare.corn <- function (main) labs(main=main, x="", y="")#
+rare.main <- function (main) labs(main=main, x="Sequences Sampled", y="Unique OTUs")#
+#
+rare.lgnd <- function () theme(legend.text=element_text(size=14), legend.title=element_text(size=14))
+groups.branches.16s  <- read_tsv('bark16sotutable_jnigra17_fa19_ajo.shared')  %>% select(-contains("lci-"), -contains("hci-")) %>% gather(-numsampled, key=sample, value=sobs) %>% mutate(sample=str_replace_all(sample, pattern="0.03-", replacement=""))  %>% drop_na()#
+#
+B16s.branches.curves <- inner_join(metadata.bacteria, groups.branches.16s )#
+B16s.branches <- rarefaction.curve(B16s.branches.curves)
+groups.branches.16s  <- read_tsv('bark16sotutable_jnigra17_fa19_ajo.shared')  %>% select(-contains("lci-"), -contains("hci-"))
+groups.branches.16s  <- read_tsv('bark16sotutable_jnigra17_fa19_ajo.shared')  %>% select(-contains("lci-"), -contains("hci-")) %>% gather(-numsampled, key=sample, value=sobs)
+groups.branches.16s  <- read_tsv('bark16sotutable_jnigra17_fa19_ajo.shared')  %>% select(-contains("lci-"), -contains("hci-"))
+groups.branches.16s
+read_tsv('soil16sotutable_jnigra17_fa19_ajo.groups.rarefaction')  %>% select(-contains("lci-"), -contains("hci-"))
+groups.branches.16s  <- read_tsv('bark16sotutable_jnigra17_fa19_ajo.groups.rarefaction')  %>% select(-contains("lci-"), -contains("hci-")) %>% gather(-numsampled, key=sample, value=sobs) %>% mutate(sample=str_replace_all(sample, pattern="0.03-", replacement=""))  %>% drop_na()
+B16s.branches.curves <- inner_join(metadata.bacteria, groups.branches.16s )#
+B16s.branches <- rarefaction.curve(B16s.branches.curves)
+B16s.branches
+B16s.branches.curves
+groups.branches.16s
+metadata.bacteria$sample
+metadata.bacteria$sample <- metadata.bacteria$Bact.names
+B16s.branches.curves <- inner_join(metadata.bacteria, groups.branches.16s )
+B16s.branches <- rarefaction.curve(B16s.branches.curves)
+B16s.branches
+B16s.branches+ rare.corn()
+B16s.branches+ rare.corn()
+rare.xlab <- function (main="") labs(main=main, x="Sequences Sampled", y="")#
+rare.ylab <- function (main="") labs(main=main, x="", y="Unique OTUs")#
+rare.corn <- function (main="") labs(main=main, x="", y="")#
+rare.main <- function (main="") labs(main=main, x="Sequences Sampled", y="Unique OTUs")
+B16s.branches+ rare.corn()
+rare.xlab <- function (main="") labs(main=main, x="Sequences Sampled", y="")#
+rare.ylab <- function (main="") labs(main=main, x="", y="Unique OTUs")#
+rare.main <- function (main="") labs(main=main, x="", y="")#
+rare.corn <- function (main="") labs(main=main, x="Sequences Sampled", y="Unique OTUs")
+B16s.branches+ rare.corn()
+rare.xlab <- function (main="") labs(main=main, x="\nSequences Sampled", y="")#
+rare.ylab <- function (main="") labs(main=main, x="", y="OTU Richness\n")#
+rare.main <- function (main="") labs(main=main, x="", y="")#
+rare.corn <- function (main="") labs(main=main, x="\nSequences Sampled", y="OTU Richness\n")
+B16s.soil <- rarefaction.curve(B16s.soil.curves)
+grid.arrange(its2.branches, its2.soil, B16s.branches, B16s.soil, nrow=2, ncol=2)
+library(ggpubr)
+grid.arrange(its2.branches, its2.soil, B16s.branches, B16s.soil, nrow=2, ncol=2)
+library(gridExtra)
+grid.arrange(its2.branches, its2.soil, B16s.branches, B16s.soil, nrow=2, ncol=2)
+setwd("/Users/will1809/OneDrive - purdue.edu/TCD microbiome spring 2017/Aaron manuscript/Geoff_Final_RFiles/Juglans.microbiome.github/Mothur_output")#
+#
+library(tidyverse)#
+library(readxl)#
+library(gridExtra)#
+#
+source('../baxter.nov2019.R')#
+#
+rarefaction.curve <- function (curves, legpos='none') ggplot(curves, aes(x=numsampled, y=sobs, group=sample, color=State)) + geom_line() + theme(axis.text=element_text(size=14), axis.title=element_text(size=18), legend.position=legpos)#
+#
+rare.xlab <- function (main="") labs(main=main, x="\nSequences Sampled", y="")#
+rare.ylab <- function (main="") labs(main=main, x="", y="OTU Richness\n")#
+rare.main <- function (main="") labs(main=main, x="", y="")#
+rare.corn <- function (main="") labs(main=main, x="\nSequences Sampled", y="OTU Richness\n")#
+#
+rare.lgnd <- function () theme(legend.text=element_text(size=14), legend.title=element_text(size=14))#
+#
+##### ITS2 SOIL#
+#
+metadata.soil.its2 <- get_metadata_soilmb()#
+#
+groups.soil.its2  <- read_tsv('Soil.ITS2.jn.Oct2019.opti_mcc.groups.rarefaction')  %>% select(-contains("lci-"), -contains("hci-")) %>% gather(-numsampled, key=sample, value=sobs) %>% mutate(sample=str_replace_all(sample, pattern="0.02-", replacement=""))  %>% drop_na()#
+#
+# 'sample' has to match#
+#
+groups.soil.its2$sample[!(groups.soil.its2$sample == 'NTC_ITS_S96')] <- groups.soil.its2$sample[!(groups.soil.its2$sample == 'NTC_ITS_S96')] %>% sub('_S_ITS.+', '', ., perl=T)#
+#
+# s[!(s == 'NTC_ITS_S96')] %>% sub('_S_ITS.+', '', ., perl=T)#
+#
+# note drop_na() resulted in 10 fold reduction in number of rows#
+#
+# change organization of data frames so each observation is a row#
+#
+its2.soil.curves <- inner_join(metadata.soil.its2, groups.soil.its2)#
+#
+missing.sample.groups.soil.its2 <- setdiff(groups.soil.its2$sample, metadata.soil.its2$sample)#
+missing.sample.meta <- setdiff(metadata.soil.its2$sample, groups.soil.its2$sample)#
+missing.sample.groups.soil.its2#
+missing.sample.meta#
+#
+# one of the Washington trees is missing WA132_RN_9#
+#
+its2.soil <- rarefaction.curve(its2.soil.curves)#
+#
+#### ITS2 BRANCHES#
+#
+metadata.branches.its2 <- get_metadata()#
+#
+groups.branch.its2 <- read_tsv('Phyllo.ITS2.jn.Oct2019.opti_mcc.branch.groups.rarefaction')  %>% select(-contains("lci-"), -contains("hci-")) %>% gather(-numsampled, key=sample, value=sobs) %>% mutate(sample=str_replace_all(sample, pattern="0.02-", replacement=""))  %>% drop_na()#
+#
+groups.branch.its2$sample <- gsub("-", "_", groups.branch.its2$sample) %>% (function (x) gsub("_L001", "", x)) %>% (function (x) gsub("_001", "", x)) %>% (function (x) gsub("_R1", "", x))#
+#
+its2.branch.curves <- inner_join(metadata.branches.its2, groups.branch.its2)#
+#
+setdiff(groups.branch.its2$sample, its2.branch.curves$sample)#
+setdiff(alpha.branch.its2$sample, its2.branch.curves$sample)#
+#
+its2.branches <- rarefaction.curve(its2.branch.curves)#
+#
+##### 16S#
+#
+metadata.bacteria <- get_metadata_bacteria()#
+#
+##### 16S SOIL#
+#
+groups.soil.16s  <- read_tsv('soil16sotutable_jnigra17_fa19_ajo.groups.rarefaction')  %>% select(-contains("lci-"), -contains("hci-")) %>% gather(-numsampled, key=sample, value=sobs) %>% mutate(sample=str_replace_all(sample, pattern="0.03-", replacement=""))  %>% drop_na()#
+#
+metadata.bacteria$sample <- metadata.bacteria$Bact.names.2#
+#
+B16s.soil.curves <- inner_join(metadata.bacteria, groups.soil.16s )#
+B16s.soil <- rarefaction.curve(B16s.soil.curves)#
+#
+##### 16S BRANCHES#
+#
+groups.branches.16s  <- read_tsv('bark16sotutable_jnigra17_fa19_ajo.groups.rarefaction')  %>% select(-contains("lci-"), -contains("hci-")) %>% gather(-numsampled, key=sample, value=sobs) %>% mutate(sample=str_replace_all(sample, pattern="0.03-", replacement=""))  %>% drop_na()#
+#
+metadata.bacteria$sample <- metadata.bacteria$Bact.names#
+#
+B16s.branches.curves <- inner_join(metadata.bacteria, groups.branches.16s )#
+B16s.branches <- rarefaction.curve(B16s.branches.curves)#
+#
+B16s.branches+ rare.corn()#
+#
+grid.arrange(its2.branches, its2.soil, B16s.branches, B16s.soil, nrow=2, ncol=2)
+its2.soil <- rarefaction.curve(its2.soil.curves)#
+its2.branches <- rarefaction.curve(its2.branch.curves)#
+B16s.soil <- rarefaction.curve(B16s.soil.curves)#
+B16s.branches <- rarefaction.curve(B16s.branches.curves)
+its2.soil
+B16s.branches
+grid.arrange(its2.branches + rare.ylab("ITS2 Branches"), its2.soil + rare.main("ITS2 Soil"), B16s.branches + rare.corn("16S Branches"), B16s.soil + rare.xlab("16S Soil"), nrow=2, ncol=2)
+?labs
+rare.xlab <- function (main="") labs(title=main, x="\nSequences Sampled", y="")#
+rare.ylab <- function (main="") labs(title=main, x="", y="OTU Richness\n")#
+rare.main <- function (main="") labs(title=main, x="", y="")#
+rare.corn <- function (main="") labs(title=main, x="\nSequences Sampled", y="OTU Richness\n")
+grid.arrange(its2.branches + rare.ylab("ITS2 Branches"), its2.soil + rare.main("ITS2 Soil"), B16s.branches + rare.corn("16S Branches"), B16s.soil + rare.xlab("16S Soil"), nrow=2, ncol=2)
+legend.position = legpos,
+rarefaction.curve <- function (curves, legpos='none')#
+	ggplot(curves, aes(x=numsampled, y=sobs, group=sample, color=State)) +#
+		geom_line() + #
+		theme_bw() +#
+		theme(#
+			panel.border = element_blank(),#
+			panel.background = element_rect(fill = "transparent"), # bg of the panel#
+    		plot.background = element_rect(fill = "transparent", color = NA), # bg of the plot#
+      	  	legend.position = legpos,#
+			panel.grid = element_blank(),#
+			panel.grid.major = element_blank(),#
+			panel.grid.minor = element_blank(),#
+			axis.line = element_line(colour = "black"),#
+			axis.title = element_text(size = 16),#
+			axis.text = element_text(size = 14))
+rarefaction.curve
+its2.soil <- rarefaction.curve(its2.soil.curves)#
+its2.branches <- rarefaction.curve(its2.branch.curves)#
+B16s.soil <- rarefaction.curve(B16s.soil.curves)#
+B16s.branches <- rarefaction.curve(B16s.branches.curves, legpos="none")#
+#
+grid.arrange(its2.branches + rare.ylab("ITS2 Branches"), its2.soil + rare.main("ITS2 Soil"), B16s.branches + rare.corn("16S Branches"), B16s.soil + rare.xlab("16S Soil"), nrow=2, ncol=2)
+rarefaction.curve <- function (curves, legpos='none')
+ggplot(curves, aes(x=numsampled/1000, y=sobs, group=sample, color=State)) +
+geom_line() + #
+		theme_bw() +#
+		theme(#
+			panel.border = element_blank(),#
+			panel.background = element_rect(fill = "transparent"), # bg of the panel#
+    		plot.background = element_rect(fill = "transparent", color = NA), # bg of the plot#
+      	  	legend.position = legpos,#
+			panel.grid = element_blank(),#
+			panel.grid.major = element_blank(),#
+			panel.grid.minor = element_blank(),#
+			axis.line = element_line(colour = "black"),#
+			axis.title = element_text(size = 16),#
+			axis.text = element_text(size = 14))
+rarefaction.curve <- function (curves, legpos='none') ggplot(curves, aes(x=numsampled/1000, y=sobs, group=sample, color=State)) +
+ggplot(curves, aes(x=numsampled/1000, y=sobs, group=sample, color=State)) +
+geom_line() +
+theme_bw() +
+theme(
+panel.border = element_blank(),#
+			panel.background = element_rect(fill = "transparent"), # bg of the panel#
+    		plot.background = element_rect(fill = "transparent", color = NA), # bg of the plot#
+      	  	legend.position = legpos,#
+			panel.grid = element_blank(),#
+			panel.grid.major = element_blank(),#
+			panel.grid.minor = element_blank(),#
+			axis.line = element_line(colour = "black"),#
+			axis.title = element_text(size = 16),#
+			axis.text = element_text(size = 14))
+its2.soil <- rarefaction.curve(its2.soil.curves)#
+its2.branches <- rarefaction.curve(its2.branch.curves)#
+B16s.soil <- rarefaction.curve(B16s.soil.curves)#
+B16s.branches <- rarefaction.curve(B16s.branches.curves, legpos="none")#
+#
+grid.arrange(its2.branches + rare.ylab("ITS2 Branches"), its2.soil + rare.main("ITS2 Soil"), B16s.branches + rare.corn("16S Branches"), B16s.soil + rare.xlab("16S Soil"), nrow=2, ncol=2)
+rarefaction.curve <- function (curves, legpos='none') {#
+	curves$k <- with(curves, numsampled/1000)#
+	ggplot(curves, aes(x=k, y=sobs, group=sample, color=State)) +#
+		geom_line() + #
+		theme_bw() +#
+		theme(#
+			panel.border = element_blank(),#
+			panel.background = element_rect(fill = "transparent"), # bg of the panel#
+    		plot.background = element_rect(fill = "transparent", color = NA), # bg of the plot#
+      	  	legend.position = legpos,#
+			panel.grid = element_blank(),#
+			panel.grid.major = element_blank(),#
+			panel.grid.minor = element_blank(),#
+			axis.line = element_line(colour = "black"),#
+			axis.title = element_text(size = 16),#
+			axis.text = element_text(size = 14))#
+}
+its2.soil <- rarefaction.curve(its2.soil.curves)#
+its2.branches <- rarefaction.curve(its2.branch.curves)#
+B16s.soil <- rarefaction.curve(B16s.soil.curves)#
+B16s.branches <- rarefaction.curve(B16s.branches.curves, legpos="none")#
+#
+grid.arrange(its2.branches + rare.ylab("ITS2 Branches"), its2.soil + rare.main("ITS2 Soil"), B16s.branches + rare.corn("16S Branches"), B16s.soil + rare.xlab("16S Soil"), nrow=2, ncol=2)
+rare.xlab <- function (main="") labs(title=main, x="\nK Sequences Sampled", y="")#
+rare.ylab <- function (main="") labs(title=main, x="", y="OTU Richness\n")#
+rare.main <- function (main="") labs(title=main, x="", y="")#
+rare.corn <- function (main="") labs(title=main, x="\nK Sequences Sampled", y="OTU Richness\n")
+grid.arrange(its2.branches + rare.ylab("ITS2 Branches"), its2.soil + rare.main("ITS2 Soil"), B16s.branches + rare.corn("16S Branches"), B16s.soil + rare.xlab("16S Soil"), nrow=2, ncol=2)
+g<-grid.arrange(its2.branches + rare.ylab("ITS2 Branches"), its2.soil + rare.main("ITS2 Soil"), B16s.branches + rare.corn("16S Branches"), B16s.soil + rare.xlab("16S Soil"), nrow=2, ncol=2)
+data.frame(B16s.branches.curves, Compart="Soil", Barcode="ITS2"))
+rbind(data.frame(its2.soil.curves, Compart="Soil", Barcode="ITS2"),#
+	data.frame(its2.branch.curves, Compart="Soil", Barcode="ITS2")#
+	data.frame(B16s.soil.curves, Compart="Soil", Barcode="ITS2")#
+	data.frame(B16s.branches.curves, Compart="Soil", Barcode="ITS2"))
+rbind(data.frame(its2.soil.curves, Compart="Soil", Barcode="ITS2"),#
+	data.frame(its2.branch.curves, Compart="Soil", Barcode="ITS2")#
+	data.frame(B16s.soil.curves, Compart="Soil", Barcode="ITS2")#
+	data.frame(B16s.branches.curves, Compart="Soil", Barcode="ITS2"))
+rbind(data.frame(its2.soil.curves, Compart="Soil", Barcode="ITS2"),#
+	data.frame(its2.branch.curves, Compart="Branch", Barcode="ITS2"),#
+	data.frame(B16s.soil.curves, Compart="Soil", Barcode="16S"),#
+	data.frame(B16s.branches.curves, Compart="Branch", Barcode="16S"))
+its2.soil.curves
+combined.curves <-
+rbind(data.frame(its2.soil.curves[,c("sobs","sample","State")], Compart="Soil", Barcode="ITS2"),
+data.frame(it s2.branch.curves[,c("sobs","sample","State")], Compart="Branch", Barcode="ITS2"),
+data.frame(its2.branch.curves[,c("sobs","sample","State")], Compart="Branch", Barcode="ITS2"),
+combined.curves <-#
+	rbind(data.frame(its2.soil.curves[,c("sobs","sample","State")], Compart="Soil", Barcode="ITS2"),#
+	data.frame(its2.branch.curves[,c("sobs","sample","State")], Compart="Branch", Barcode="ITS2"),#
+	data.frame(B16s.soil.curves[,c("sobs","sample","State")], Compart="Soil", Barcode="16S"),#
+	data.frame(B16s.branches.curves[,c("sobs","sample","State")], Compart="Branch", Barcode="16S"))
+combined.curves
+head(combined.curves)
+rarefaction.curve(combined.curves)
+combined.curves <-#
+	rbind(data.frame(its2.soil.curves[,c("numsampled","sobs","sample","State")], Compart="Soil", Barcode="ITS2"),#
+	data.frame(its2.branch.curves[,c("numsampled","sobs","sample","State")], Compart="Branch", Barcode="ITS2"),#
+	data.frame(B16s.soil.curves[,c("numsampled","sobs","sample","State")], Compart="Soil", Barcode="16S"),#
+	data.frame(B16s.branches.curves[,c("numsampled","sobs","sample","State")], Compart="Branch", Barcode="16S"))
+rarefaction.curve(combined.curves)
+rarefaction.curve(combined.curves) + facet_grid(Compart ~ Barcode)
+grid.arrange(its2.branches + rare.ylab("ITS2 Branches"), its2.soil + rare.main("ITS2 Soil"), B16s.branches + rare.corn("16S Branches"), B16s.soil + rare.xlab("16S Soil"), nrow=2, ncol=2)
+?facet_grid
+rarefaction.curve(combined.curves) + facet_grid(Compart ~ Barcode, scales='free')
+ggarrange(its2.branches + rare.ylab("ITS2 Branches"), its2.soil + rare.main("ITS2 Soil"), B16s.branches + rare.corn("16S Branches"), B16s.soil + rare.xlab("16S Soil"), nrow=2, ncol=2)
+ggarrange(its2.branches + rare.ylab("ITS2 Branches"), its2.soil + rare.main("ITS2 Soil"), B16s.branches + rare.corn("16S Branches"), B16s.soil + rare.xlab("16S Soil"), nrow=2, ncol=2, common.legend= TRUE, legend="bottom")
+ggarrange(its2.branches + rare.ylab("ITS2 Branches"), its2.soil + rare.main("ITS2 Soil"), B16s.branches + rare.corn("16S Branches"), B16s.soil + rare.xlab("16S Soil"), nrow=2, ncol=2, common.legend= TRUE, legend="rigt")
+ggarrange(its2.branches + rare.ylab("ITS2 Branches"), its2.soil + rare.main("ITS2 Soil"), B16s.branches + rare.corn("16S Branches"), B16s.soil + rare.xlab("16S Soil"), nrow=2, ncol=2, common.legend= TRUE, legend="right")
+ggarrange(its2.branches + rare.ylab("ITS2 Branches"), its2.soil + rare.main("ITS2 Soil"), B16s.branches + rare.corn("16S Branches"), B16s.soil + rare.xlab("16S Soil"), nrow=2, ncol=2, common.legend= TRUE, legend="right") + rare.lgnd
+ggarrange(its2.branches + rare.ylab("ITS2 Branches"), its2.soil + rare.main("ITS2 Soil"), B16s.branches + rare.corn("16S Branches"), B16s.soil + rare.xlab("16S Soil"), nrow=2, ncol=2, common.legend= TRUE, legend="right") + rare.lgnd()
+ggarrange(its2.branches + rare.ylab("ITS2 Branches"), its2.soil + rare.main("ITS2 Soil"), B16s.branches + rare.corn("16S Branches"), B16s.soil + rare.xlab("16S Soil") + rare.lgnd(), nrow=2, ncol=2, common.legend= TRUE, legend="right")
+rare.lgnd <- function () theme(legend.text=element_text(size=20), legend.title=element_text(size=20))
+ggarrange(its2.branches + rare.ylab("ITS2 Branches"), its2.soil + rare.main("ITS2 Soil"), B16s.branches + rare.corn("16S Branches"), B16s.soil + rare.xlab("16S Soil") + rare.lgnd(), nrow=2, ncol=2, common.legend= TRUE, legend="right")
+ggarrange(its2.branches + rare.ylab("ITS2 Branches"), its2.soil + rare.main("ITS2 Soil"), B16s.branches + rare.corn("16S Branches"), B16s.soil + rare.xlab("16S Soil"), nrow=2, ncol=2, common.legend= TRUE, legend="right") + rare.lgnd()
+rare.lgnd <- function () theme(legend.text=element_text(size=20), legend.title=element_text(size=20))
+ggarrange(its2.branches + rare.ylab("ITS2 Branches"), its2.soil + rare.main("ITS2 Soil"), B16s.branches + rare.corn("16S Branches"), B16s.soil + rare.xlab("16S Soil"), nrow=2, ncol=2, common.legend= TRUE, legend="right") + rare.lgnd()
+?ggarrrange
+?ggarrange
+pdf("../Figures/Figure S1.pdf", 12,10)#
+ggarrange(its2.branches + rare.ylab("ITS2 Branches"), its2.soil + rare.main("ITS2 Soil"), B16s.branches + rare.corn("16S Branches"), B16s.soil + rare.xlab("16S Soil"), nrow=2, ncol=2, common.legend= TRUE, legend="right") + rare.lgnd()#
+dev.off()
+pdf("../Figures/Figure S1.pdf", 12,10)#
+ggarrange(its2.branches + rare.ylab("ITS2 Branches"), its2.soil + rare.main("ITS2 Soil"), B16s.branches + rare.corn("16S Branches"), B16s.soil + rare.xlab("16S Soil"), nrow=2, ncol=2, common.legend= TRUE, legend="right")#
+dev.off()
+?ggexport
+plots<-ggarrange(its2.branches + rare.ylab("ITS2 Branches"), its2.soil + rare.main("ITS2 Soil"), B16s.branches + rare.corn("16S Branches"), B16s.soil + rare.xlab("16S Soil"), nrow=2, ncol=2, common.legend= TRUE, legend="right")
+ggexport(plots,filename="../Figures/Figure S1.pdf")
+ggexport(plots,filename="../Figures/Figure S1.pdf", height=500, width=650)
+ggexport(plots,filename="../Figures/Figure S1.pdf", height=480, width=480)
+ggexport(plots,filename="../Figures/Figure S1.pdf", height=10, width=10)
+ggexport(plots,filename="../Figures/Figure S1.pdf", height=6, width=8)
+ggexport(plots,filename="../Figures/Figure S1.pdf", height=8, width=9)
+rare.xlab <- function (main="") labs(title=main, x="\n1000 Sequences Sampled", y="")#
+rare.ylab <- function (main="") labs(title=main, x="", y="OTU Richness\n")#
+rare.main <- function (main="") labs(title=main, x="", y="")#
+rare.corn <- function (main="") labs(title=main, x="\n1000 Sequences Sampled", y="OTU Richness\n")
+plots<-ggarrange(its2.branches + rare.ylab("ITS2 Branches"), its2.soil + rare.main("ITS2 Soil"), B16s.branches + rare.corn("16S Branches"), B16s.soil + rare.xlab("16S Soil"), nrow=2, ncol=2, common.legend= TRUE, legend="right")
+plots
+ggexport(plots,filename="../Figures/Figure S1.pdf", height=8, width=9)
