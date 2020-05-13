@@ -124,10 +124,10 @@ for (p in c("0.05","0.01","0.005", "0.001")) {
 
 out$P <- out$P %>% as.character() %>% as.numeric()
 
-out %>% write.csv("Results/Network.complexity.caulosphere.csv")
+#out %>% write.csv("Results/Network.complexity.caulosphere.csv")
 
 #out <- read.csv("Results/Network.complexity.caulosphere.csv")[,-1]
-save.image("R_Environments/Caulo.net.stats.RData")
+#save.image("R_Environments/Caulo.net.stats.RData")
 
 #load("R_Environments/Caulo.net.stats.RData")
 
@@ -148,7 +148,7 @@ intersect(wa.hubs$name, in.hubs$name) %>% intersect(tn.hubs$name)
 
 library(VennDiagram)
 
-venn.diagram(x = list(in.hubs$name, wa.hubs$name, tn.hubs$name), category.names=c("IN","WA","TN"), filename="Figures/Shavings.Net.Venn.png", output=T)
+venn.diagram(x = list(in.hubs$name, wa.hubs$name, tn.hubs$name), category.names=c("IN","WA","TN"), filename="Figures/Shavings.Net.Venn.png", output=T, cat.pos=c(12,12,12))
 
 # composite heatmap subnetwork plot
 
@@ -172,8 +172,9 @@ wa.neg<- c("WA_BNL18_272s_S85","WA_BNL19_55s_S13","WA_BNL21_WTs_S93")
 
 tn.tcd <- rownames(shavings.merge.df)[regexpr("TN_LS",rownames(shavings.merge.df),perl=T)==1]
 tn.neg <- rownames(shavings.merge.df)[regexpr("TN",rownames(shavings.merge.df),perl=T)==1] %>% setdiff(tn.tcd)
-
-indian <- rownames(shavings.merge.df)[regexpr("IN_",rownames(shavings.merge.df),perl=T)==1] %>% setdiff(tn.tcd)
+indian.wt <- rownames(shavings.merge.df)[regexpr("IN_[A-Za-z0-9 _]*WT",rownames(shavings.merge.df),perl=T)==1]
+indian <- rownames(shavings.merge.df)[regexpr("IN_",rownames(shavings.merge.df),perl=T)==1]
+indian.clone <- indian %>% setdiff(indian.wt)
 
 intersect(wa.clust.1.otus,tn.clust.1.otus)
 intersect(wa.clust.1.otus,tn.clust.2.otus)
@@ -200,7 +201,7 @@ shavings.merge.df[tn.neg,tn.clust.2.otus] %>% t() %>% cbind(tax_table(shavings.m
 
 # combine wa cluster 1 and 2, tn cluster 1 and 2
 
-hm <- shavings.merge.df[c(indian,tn.neg,tn.tcd,wa.neg,wa.gm),c(tn.clust.1.otus,tn.clust.2.otus,wa.clust.1.otus,wa.clust.2.otus)] %>% t() %>% cbind(tax_table(shavings.merge)[c(tn.clust.1.otus,tn.clust.2.otus,wa.clust.1.otus,wa.clust.2.otus)],.) %>% as.data.frame()
+hm <- shavings.merge.df[c(indian.clone,indian.wt,tn.neg,tn.tcd,wa.neg,wa.gm),c(tn.clust.1.otus,tn.clust.2.otus,wa.clust.1.otus,wa.clust.2.otus)] %>% t() %>% cbind(tax_table(shavings.merge)[c(tn.clust.1.otus,tn.clust.2.otus,wa.clust.1.otus,wa.clust.2.otus)],.) %>% as.data.frame()
 
 hm[,-c(1:7)] <- lapply(hm[,-c(1:7)], function(x) as.numeric(as.character(x)))
 
@@ -224,7 +225,7 @@ axislabels[k]<-paste(names(axislabels)[k], hm$Phylum[k])
 l <- grep("[01234567890-]+$", axislabels, perl=T)
 axislabels[l]<-paste(names(axislabels)[l], hm$Class[l])
 
-samplelabels<-c(rep("Indiana", length(indian)),rep("TN Polk Co. Clones", length(tn.neg)-3),rep("TN Polk Co. Bedrun", 3),rep("TN Knox Co. Wild", length(tn.tcd)),rep("WA TCD-negative", length(wa.neg)),rep("WA TCD-positive", length(wa.gm)))
+samplelabels<-c(rep("IN Clones", length(indian.clone)),rep("IN WT", length(indian.wt)),rep("TN Polk Co. Clones", length(tn.neg)-3),rep("TN Polk Co. WT", 3),rep("TN Knox Co. WT", length(tn.tcd)),rep("WA TCD(-) Clones", length(wa.neg)-1),"WA TCD(-) WT",rep("WA TCD(+) Clones", length(wa.gm)-2),rep("WA TCD(+) WT",2))
 
 colors.subnetworks<-tanagr_palette("dacnis_berlepschi")[1:4]
 
@@ -232,7 +233,7 @@ hm.melt %>% ggplot(., aes(x=Sample, y=OTU, fill=value)) + geom_tile() + scale_fi
 
 heatmap.plot <- hm.melt %>% ggplot(., aes(x=Sample, y=OTU, fill=Cluster, alpha=value)) + geom_tile() + scale_fill_manual(values=colors.subnetworks) + scale_alpha_continuous(range=c(0,1)) + scale_y_discrete(labels=axislabels) + scale_x_discrete(labels=samplelabels)+
   theme_bw() +
-  theme(axis.text.x = element_text(angle=90, size=6),
+  theme(axis.text.x = element_text(angle=90, size=6, hjust=1, vjust=0.5),
   legend.position = "none",
   axis.text.y = element_text(hjust=0),
   axis.line = element_line(colour = "black"),

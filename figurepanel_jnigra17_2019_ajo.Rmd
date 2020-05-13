@@ -14,38 +14,38 @@ knitr::opts_chunk$set(echo = TRUE)
 ```{r}
 alphdiv<-ggarrange(ds.rich,ds.div,soil.rich,soil.div,its2.ds.rich,its2.ds.div,its2.soil.rich,its2.soil.div,ncol=2,nrow=4, align="hv",common.legend = TRUE, labels=c("A","B","C","D","E","F","G","H"))
 
-  ggsave("alphadiversity_microbiome2017_AJO_FA19.jpg",alphdiv,dpi=300,width=10,height=9)
+  ggsave("Figures/alphadiversity_microbiome2017_AJO_FA19.jpg",alphdiv,dpi=300,width=10,height=9)
 ```
 
 ```{r}
 pcoa_2017<-ggarrange(ds.pcoa,soil.pcoa,its2.ds.pcoa,its2.soil.pcoa,ncol=2,nrow=2, align="hv",common.legend = TRUE, labels=c("A","B","C","D"))
 
-ggsave("pcoa_microbiome2017_AJO_FA19.jpg",pcoa_2017,dpi=300,width=10,height=9)
+ggsave("Figures/pcoa_microbiome2017_AJO_FA19.jpg",pcoa_2017,dpi=300,width=10,height=9)
 ```
 
 ```{r}
 phylum_2017<-ggarrange(ds.phyrel,soil.phyrel,its2.ds.phyrel,its2.soil.phyrel,ncol=2,nrow=2, align="hv", labels=c("A","B","C","D"))
 
-ggsave("phylumrelative_microbiome2017_AJO_FA19.jpg",phylum_2017,dpi=300,width=10,height=9)
+ggsave("Figures/phylumrelative_microbiome2017_AJO_FA19.jpg",phylum_2017,dpi=300,width=10,height=9)
 ```
 
 ```{r}
 class_2017<-ggarrange(ds.clsrel,soil.clsrel,its2.ds.clsrel,its2.soil.clsrel,ncol=2,nrow=2, align="hv", labels=c("A","B","C","D"))
 
-ggsave("classrelative_microbiome2017_AJO_FA19.jpg",class_2017,dpi=300,width=15,height=9)
+ggsave("Figures/classrelative_microbiome2017_AJO_FA19.jpg",class_2017,dpi=300,width=15,height=9)
 ```
 
 
 ```{r}
 order_2017<-ggarrange(ds.ordrel,soil.ordrel,its2.ds.ordrel,its2.soil.ordrel,ncol=2,nrow=2, align="hv", labels=c("A","B","C","D"))
 
-ggsave("orderrelative_microbiome2017_AJO_FA19.jpg",order_2017,dpi=300,width=15,height=9)
+ggsave("Figures/orderrelative_microbiome2017_AJO_FA19.jpg",order_2017,dpi=300,width=15,height=9)
 ```
 
 ```{r}
 funguild_2017<-ggarrange(funguild.ds,funguild.soil,ncol=2,nrow=1, align="hv", labels=c("A","B"))
 
-ggsave("funguild_microbiome2017_AJO_FA19.jpg",funguild_2017,dpi=300,width=15,height=9)
+ggsave("Figures/funguild_microbiome2017_AJO_FA19.jpg",funguild_2017,dpi=300,width=15,height=9)
 ```
 
 ```{r}
@@ -55,7 +55,7 @@ funguild2019panel<-ggarrange(funguild.ds,funguild.soil,ncol=2,nrow=1,align="hv",
 
 proposal2019<-ggarrange(pcoafung,funguild2019panel,ncol=1,nrow=2, align="hv")
 
-ggsave("proposal2019_AJO_FA19.jpg",proposal2019,width=15,height=15)
+ggsave("Figures/proposal2019_AJO_FA19.jpg",proposal2019,width=15,height=15)
 ```
 
 ```{r}
@@ -64,19 +64,19 @@ funguild2019panel<-ggarrange(funguild.ds,funguild.soil,ncol=1,nrow=2,align="hv",
 pcoafunguild<-ggarrange(mycoparasite.ds.pcoa,plant.pathogen.ds.pcoa,saprotroph.ds.pcoa,arbuscular.mycorrhizae.soil.pcoa,mycoparasite.soil.pcoa,plant.pathogen.soil.pcoa,ncol=3,nrow=2, align="hv",common.legend = TRUE, labels=c("C","D","E","F","G","H"))
 
 funguild.summary.graphs<-ggarrange(funguild2019panel,pcoafunguild,ncol=2,nrow=1)
-ggsave("funguildsummary_AJO_FA19.jpg",funguild.summary.graphs,width=20,height=15,dpi=300)
+ggsave("Figures/funguildsummary_AJO_FA19.jpg",funguild.summary.graphs,width=20,height=15,dpi=300)
 
 richfunguild<-ggarrange(its2.ds.rich,its2.soil.rich,ncol=2,nrow=1,align="hv",common.legend=TRUE,labels=c("C","D"))
 funguild2019panel<-ggarrange(funguild.ds,funguild.soil,ncol=2,nrow=1,align="hv", labels=c("C","D"))
 
 proposal2019<-ggarrange(pcoafung,funguild2019panel,ncol=1,nrow=2, align="hv")
 
-ggsave("proposal2019_AJO_FA19.jpg",proposal2019,width=15,height=15)
+ggsave("Figures/proposal2019_AJO_FA19.jpg",proposal2019,width=15,height=15)
 ```
 
 ```{r}
 funguildrich<-ggarrange(mycoparasite.ds.rich.plot,arbuscular.mycorrhizae.soil.rich.plot,plant.pathogen.ds.rich.plot,mycoparasite.soil.rich.plot,  saprotroph.ds.rich.plot,plant.pathogen.soil.rich.plot,labels=c("A","B","C","D","E","F"), ncol=2,nrow=3, align="hv",common.legend=TRUE)
 
-ggsave("funguildrich_AJO_FA19.jpg",funguildrich,width=15,height=15)
+ggsave("Figures/funguildrich_AJO_FA19.jpg",funguildrich,width=15,height=15)
 ```
 

@@ -1,0 +1,15 @@
+INFO [2020-05-13 14:22:47] $x
+INFO [2020-05-13 14:22:47] list(in.hubs$name, wa.hubs$name, tn.hubs$name)
+INFO [2020-05-13 14:22:47] 
+INFO [2020-05-13 14:22:47] $category.names
+INFO [2020-05-13 14:22:47] c("IN", "WA", "TN")
+INFO [2020-05-13 14:22:47] 
+INFO [2020-05-13 14:22:47] $filename
+INFO [2020-05-13 14:22:47] [1] "Figures/Shavings.Net.Venn.png"
+INFO [2020-05-13 14:22:47] 
+INFO [2020-05-13 14:22:47] $output
+INFO [2020-05-13 14:22:47] T
+INFO [2020-05-13 14:22:47] 
+INFO [2020-05-13 14:22:47] $cat.pos
+INFO [2020-05-13 14:22:47] c(12, 12, 12)
+INFO [2020-05-13 14:22:47] 

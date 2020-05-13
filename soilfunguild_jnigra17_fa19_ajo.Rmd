@@ -30,9 +30,9 @@ Prior to assigning functional guild with Funguild, the OTU table must first be r
 Below ITS data from bulk soils collected from 47 *Juglans nigra* trees are imported into R. This includes a rarefied OTU table from mothur and the taxonomic classifications for each OTU. Samples were rarefied to 25,000 sequences in mothur prior to import, resulting in the loss of two samples from WA. Taxonomic assignments were made in mothur using the UNITE database.
 ```{r Data Import}
 #Load OTU table (shared file in mothur) and taxonomy files. The first column of the Mothur shared file is titled "label" and is unimportant so
-its2.soil.shared.rare<-read.table("/Volumes/AaronOnufrakMac/researchprojects_2019.2022_ajo/j.nigra_microbiome_2017_ajo_gmw/soilits2statistics_jnigra17_su19_ajo/soilfunguild_jnigra17_2019_ajo/soilits2otutable.rarefied_jnigra17_fa19_gw.shared", header=TRUE, sep="\t", row.names=2)
+its2.soil.shared.rare<-read.table("Mothur_output/soilits2otutable.rarefied_jnigra17_fa19_gw.shared", header=TRUE, sep="\t", row.names=2)
 
-its2.soil.tax<-read.table("/Volumes/AaronOnufrakMac/researchprojects_2019.2022_ajo/j.nigra_microbiome_2017_ajo_gmw/soilits2statistics_jnigra17_su19_ajo/soilfunguild_jnigra17_2019_ajo/soilits2taxonomy_jnigra17_fa19_gw.cons.taxonomy", header=TRUE, sep="\t")
+its2.soil.tax<-read.table("Mothur_output/soilfunguild_jnigra17_2019_ajo/soilits2taxonomy_jnigra17_fa19_gw.cons.taxonomy", header=TRUE, sep="\t")
 ```
 
 
@@ -85,9 +85,9 @@ t.its2.soil.otutab.tax2<-t.its2.soil.otutab.tax[3501:6738,]
 Following functional guild assignment on funguild using the funguild webserver (http://www.stbates.org/guilds/app.php). Funguild assigned 3,836 OTUs out of 6,738 OTUs to a functional guild. Below I import the functional guild assignments into R. 
 ```{r Data Import 2}
 # After running funguild in linux, I then import the funguild output table. 
-  t.funguild.soil.1<-read.delim("/Volumes/AaronOnufrakMac/researchprojects_2019.2022_ajo/j.nigra_microbiome_2017_ajo_gmw/soilits2statistics_jnigra17_su19_ajo/soilfunguild_jnigra17_2019_ajo/soilfunguildoutput.1_jnigra17_fa19.25.11_ajo.guilds.txt",header=TRUE,sep="\t",fill=TRUE,strip.white=TRUE)
+  t.funguild.soil.1<-read.delim("FunGuild/soilfunguildoutput.1_jnigra17_fa19.25.11_ajo.guilds.txt",header=TRUE,sep="\t",fill=TRUE,strip.white=TRUE)
 
-t.funguild.soil.2<-read.delim("/Volumes/AaronOnufrakMac/researchprojects_2019.2022_ajo/j.nigra_microbiome_2017_ajo_gmw/soilits2statistics_jnigra17_su19_ajo/soilfunguild_jnigra17_2019_ajo/soilfunguildoutput.2_jnigra17_fa19.25.11_ajo.guilds.txt",header=TRUE,sep="\t",fill=TRUE,strip.white=TRUE)
+t.funguild.soil.2<-read.delim("FunGuild/soilfunguildoutput.2_jnigra17_fa19.25.11_ajo.guilds.txt",header=TRUE,sep="\t",fill=TRUE,strip.white=TRUE)
 
 
 #When importing the soil funguild outputs, more rows than what was present in the input may be created. This is because some of the text from the funguild citation wraps inappropriately and ends up in its own row. These rows will be removed in the following chunk. 
@@ -238,7 +238,7 @@ plant.pathogen.soil.pcoa.results<-pcoa(plant.pathogen.soil.dist)
 Then to plot the PCoA, I use the ggplot function. To use ggplot I need to first pull out the site scores for each sample and generate ellipses. 
 ```{r PCoA}
 #Next I import the metadata for the particular habitat of interest. In this case I am working with drill shavings. I will use this metadata to subset the larger OTU file above. 
-its2.soil.met<-read.table("/Volumes/AaronOnufrakMac/researchprojects_2019.2022_ajo/j.nigra_microbiome_2017_ajo_gmw/soilits2statistics_jnigra17_su19_ajo/soilits2metadata_jnigra17_su19_ajo.txt",header=TRUE,sep="\t",fill=TRUE,strip.white=TRUE)
+its2.soil.met<-read.table("Mothur_output/soilits2metadata_jnigra17_su19_ajo.txt",header=TRUE,sep="\t",fill=TRUE,strip.white=TRUE)
 
 #Then we extract PCoA site scores (these will be the x and y coordinates for each sample)
 plant.pathogen.soil.pcoavec<-as.data.frame(plant.pathogen.soil.pcoa.results$vectors)
@@ -392,7 +392,7 @@ arbuscular.mycorrhizae.soil.pcoa.results<-pcoa(arbuscular.mycorrhizae.soil.dist)
 Then to plot the PCoA, I use the ggplot function. To use ggplot I need to first pull out the site scores for each sample and generate ellipses. 
 ```{r PCoA}
 #Next I import the metadata for the particular habitat of interest. In this case I am working with drill shavings. I will use this metadata to subset the larger OTU file above. 
-its2.soil.met<-read.table("/Volumes/AaronOnufrakMac/researchprojects_2019.2022_ajo/j.nigra_microbiome_2017_ajo_gmw/soilits2statistics_jnigra17_su19_ajo/soilits2metadata_jnigra17_su19_ajo.txt",header=TRUE,sep="\t",fill=TRUE,strip.white=TRUE)
+its2.soil.met<-read.table("Mothur_output/soilits2statistics_jnigra17_su19_ajo/soilits2metadata_jnigra17_su19_ajo.txt",header=TRUE,sep="\t",fill=TRUE,strip.white=TRUE)
 
 #Then we extract PCoA site scores (these will be the x and y coordinates for each sample)
 arbuscular.mycorrhizae.soil.pcoavec<-as.data.frame(arbuscular.mycorrhizae.soil.pcoa.results$vectors)
@@ -549,7 +549,7 @@ mycoparasite.soil.pcoa.results<-pcoa(mycoparasite.soil.dist)
 Then to plot the PCoA, I use the ggplot function. To use ggplot I need to first pull out the site scores for each sample and generate ellipses. 
 ```{r PCoA}
 #Next I import the metadata for the particular habitat of interest. In this case I am working with drill shavings. I will use this metadata to subset the larger OTU file above. 
-its2.soil.met<-read.table("/Volumes/AaronOnufrakMac/researchprojects_2019.2022_ajo/j.nigra_microbiome_2017_ajo_gmw/soilits2statistics_jnigra17_su19_ajo/soilits2metadata_jnigra17_su19_ajo.txt",header=TRUE,sep="\t",fill=TRUE,strip.white=TRUE)
+its2.soil.met<-read.table("Mothur_output/soilits2metadata_jnigra17_su19_ajo.txt",header=TRUE,sep="\t",fill=TRUE,strip.white=TRUE)
 
 #Then we extract PCoA site scores (these will be the x and y coordinates for each sample)
 mycoparasite.soil.pcoavec<-as.data.frame(mycoparasite.soil.pcoa.results$vectors)
