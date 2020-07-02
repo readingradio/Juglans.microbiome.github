@@ -20,6 +20,7 @@ library(tidyr)
 library(plyr)
 library(vegan)
 library(ape)
+library(knitr)
 ```
 
 
@@ -32,7 +33,7 @@ Below ITS data from bulk soils collected from 47 *Juglans nigra* trees are impor
 #Load OTU table (shared file in mothur) and taxonomy files. The first column of the Mothur shared file is titled "label" and is unimportant so
 its2.soil.shared.rare<-read.table("Mothur_output/soilits2otutable.rarefied_jnigra17_fa19_gw.shared", header=TRUE, sep="\t", row.names=2)
 
-its2.soil.tax<-read.table("Mothur_output/soilfunguild_jnigra17_2019_ajo/soilits2taxonomy_jnigra17_fa19_gw.cons.taxonomy", header=TRUE, sep="\t")
+its2.soil.tax<-read.table("Mothur_output/soilits2taxonomy_jnigra17_fa19_gw.cons.taxonomy", header=TRUE, sep="\t")
 ```
 
 
@@ -392,7 +393,7 @@ arbuscular.mycorrhizae.soil.pcoa.results<-pcoa(arbuscular.mycorrhizae.soil.dist)
 Then to plot the PCoA, I use the ggplot function. To use ggplot I need to first pull out the site scores for each sample and generate ellipses. 
 ```{r PCoA 2}
 #Next I import the metadata for the particular habitat of interest. In this case I am working with drill shavings. I will use this metadata to subset the larger OTU file above. 
-its2.soil.met<-read.table("Mothur_output/soilits2statistics_jnigra17_su19_ajo/soilits2metadata_jnigra17_su19_ajo.txt",header=TRUE,sep="\t",fill=TRUE,strip.white=TRUE)
+its2.soil.met<-read.table("Mothur_output/soilits2metadata_jnigra17_su19_ajo.txt",header=TRUE,sep="\t",fill=TRUE,strip.white=TRUE)
 
 #Then we extract PCoA site scores (these will be the x and y coordinates for each sample)
 arbuscular.mycorrhizae.soil.pcoavec<-as.data.frame(arbuscular.mycorrhizae.soil.pcoa.results$vectors)
