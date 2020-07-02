@@ -1,0 +1,21 @@
+INFO [2020-05-13 19:05:04] $x
+INFO [2020-05-13 19:05:04] list(in.hubs$name, wa.hubs$name, tn.hubs$name)
+INFO [2020-05-13 19:05:04] 
+INFO [2020-05-13 19:05:04] $category.names
+INFO [2020-05-13 19:05:04] c("IN", "WA", "TN")
+INFO [2020-05-13 19:05:04] 
+INFO [2020-05-13 19:05:04] $filename
+INFO [2020-05-13 19:05:04] [1] "Figures/Shavings.Net.Venn.png"
+INFO [2020-05-13 19:05:04] 
+INFO [2020-05-13 19:05:04] $output
+INFO [2020-05-13 19:05:04] T
+INFO [2020-05-13 19:05:04] 
+INFO [2020-05-13 19:05:04] $cat.pos
+INFO [2020-05-13 19:05:04] c(0, 0, 0)
+INFO [2020-05-13 19:05:04] 
+INFO [2020-05-13 19:05:04] $cat.col
+INFO [2020-05-13 19:05:04] tanagr_palette("chlorochrysa_nitidissima")[3:5]
+INFO [2020-05-13 19:05:04] 
+INFO [2020-05-13 19:05:04] $col
+INFO [2020-05-13 19:05:04] tanagr_palette("chlorochrysa_nitidissima")[3:5]
+INFO [2020-05-13 19:05:04] 

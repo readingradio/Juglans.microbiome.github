@@ -95,7 +95,7 @@ t.funguild.soil.2<-read.delim("FunGuild/soilfunguildoutput.2_jnigra17_fa19.25.11
 
 # Funguild Table Reformatting
 Prior to creating relative abundance plots, the functional guild output needs to be reformatted. First, compound guild strings need to be broken down into individual guilds and OTUs need to be weighted based on the number of guilds to which they were assigned. Then, OTUs are summed by guild and state. 
-```{r Funguild Table Reformatting}
+```{r Funguild Table Reformatting 4}
 # When importing the funguild table, some columns containing citation information may get incorrectly wrapped so that they have their own rows. These are first removed with na.omit. 
 t.funguild.soil.1<-na.omit(t.funguild.soil.1)
 t.funguild.soil.2<-na.omit(t.funguild.soil.2)
@@ -215,7 +215,7 @@ funguild.soil
 
 #### Subset for Plant Pathogens and PCOA
 I then reformat the OTU table for use in PCoA and funguild richness analyses. 
-```{r Funguild Table Reformatting}
+```{r Funguild Table Reformatting 3}
 # First subset the funguild table to include only the fungal parasites
 t.plant.pathogen.soil<-subset(t.otutab.guild.div.sep.soil,t.otutab.guild.div.sep.soil$Guilds=="Plant Pathogen")
 
@@ -236,7 +236,7 @@ plant.pathogen.soil.pcoa.results<-pcoa(plant.pathogen.soil.dist)
 
 ### Plotting of plant.pathogen Principal Coordinate Analysis
 Then to plot the PCoA, I use the ggplot function. To use ggplot I need to first pull out the site scores for each sample and generate ellipses. 
-```{r PCoA}
+```{r PCoA 1}
 #Next I import the metadata for the particular habitat of interest. In this case I am working with drill shavings. I will use this metadata to subset the larger OTU file above. 
 its2.soil.met<-read.table("Mothur_output/soilits2metadata_jnigra17_su19_ajo.txt",header=TRUE,sep="\t",fill=TRUE,strip.white=TRUE)
 
@@ -284,7 +284,7 @@ plant.pathogen.soil.pcoa
 
 ### Plant pathogens PERMANOVA 
 To formally test how well state and clone explain differences in drill shaving fungal community composition, I perform a PERMANOVA using the adonis function from vegan.
-```{r Permanovas}
+```{r Permanovas 1}
 #Below I perform permanovas by state and clone using the adonis function from vegan. 
 library(vegan)
 plant.pathogen.soil.perm.state.inter<-adonis(plant.pathogen.soil.relabund~its2.soil.met$State*its2.soil.met$Clone, method="bray",permutations=10000)
@@ -299,7 +299,7 @@ plant.pathogen.soil.perm.state.sing
 
 ### Plant pathogens Richness
 Observed OTU richness is first calculated for each sample. Then due to the unbalanced nature of our study design, we use a type 3 ANOVA.
-```{r Richness}
+```{r Richness 3}
 #Below I calculate observed species richness using the specnumber function from vegan. I then create a new data frame to include sample metadata. 
 library(vegan)
 plant.pathogen.soil.rich<-specnumber(plant.pathogen.soil)
@@ -369,7 +369,7 @@ plant.pathogen.soil.rich.plot
 
 #### Subset for Arbuscular Mycorrhizae and PCOA
 I then reformat the OTU table for use in PCoA and funguild richness analyses. 
-```{r Funguild Table Reformatting}
+```{r Funguild Table Reformatting 2}
 # First subset the funguild table to include only the fungal parasites
 t.arbuscular.mycorrhizae.soil<-subset(t.otutab.guild.div.sep.soil,t.otutab.guild.div.sep.soil$Guilds=="Arbuscular Mycorrhizal")
 
@@ -390,7 +390,7 @@ arbuscular.mycorrhizae.soil.pcoa.results<-pcoa(arbuscular.mycorrhizae.soil.dist)
 
 ### Plotting of arbuscular.mycorrhizae Principal Coordinate Analysis
 Then to plot the PCoA, I use the ggplot function. To use ggplot I need to first pull out the site scores for each sample and generate ellipses. 
-```{r PCoA}
+```{r PCoA 2}
 #Next I import the metadata for the particular habitat of interest. In this case I am working with drill shavings. I will use this metadata to subset the larger OTU file above. 
 its2.soil.met<-read.table("Mothur_output/soilits2statistics_jnigra17_su19_ajo/soilits2metadata_jnigra17_su19_ajo.txt",header=TRUE,sep="\t",fill=TRUE,strip.white=TRUE)
 
@@ -438,7 +438,7 @@ arbuscular.mycorrhizae.soil.pcoa
 
 ### Plant pathogens PERMANOVA 
 To formally test how well state and clone explain differences in drill shaving fungal community composition, I perform a PERMANOVA using the adonis function from vegan.
-```{r Permanovas}
+```{r Permanovas 2}
 #Below I perform permanovas by state and clone using the adonis function from vegan. 
 library(vegan)
 arbuscular.mycorrhizae.soil.perm.state.inter<-adonis(arbuscular.mycorrhizae.soil.relabund~its2.soil.met$State*its2.soil.met$Clone, method="bray",permutations=10000)
@@ -453,7 +453,7 @@ arbuscular.mycorrhizae.soil.perm.state.sing
 
 ### Arbuscular Richness
 Observed OTU richness is first calculated for each sample. Then due to the unbalanced nature of our study design, we use a type 3 ANOVA.
-```{r Richness}
+```{r Richness 1}
 #Below I calculate observed species richness using the specnumber function from vegan. I then create a new data frame to include sample metadata. 
 library(vegan)
 arbuscular.mycorrhizae.soil.rich<-specnumber(arbuscular.mycorrhizae.soil)
@@ -526,7 +526,7 @@ arbuscular.mycorrhizae.soil.rich.plot
 
 #### Subset for Mycoparasite and PCOA
 I then reformat the OTU table for use in PCoA and funguild richness analyses. 
-```{r Funguild Table Reformatting}
+```{r Funguild Table Reformatting 1}
 # First subset the funguild table to include only the fungal parasites
 t.mycoparasite.soil<-subset(t.otutab.guild.div.sep.soil,t.otutab.guild.div.sep.soil$Guilds=="Fungal Parasite")
 
@@ -547,7 +547,7 @@ mycoparasite.soil.pcoa.results<-pcoa(mycoparasite.soil.dist)
 
 ### Plotting of mycoparasite Principal Coordinate Analysis
 Then to plot the PCoA, I use the ggplot function. To use ggplot I need to first pull out the site scores for each sample and generate ellipses. 
-```{r PCoA}
+```{r PCoA 3}
 #Next I import the metadata for the particular habitat of interest. In this case I am working with drill shavings. I will use this metadata to subset the larger OTU file above. 
 its2.soil.met<-read.table("Mothur_output/soilits2metadata_jnigra17_su19_ajo.txt",header=TRUE,sep="\t",fill=TRUE,strip.white=TRUE)
 
@@ -595,7 +595,7 @@ mycoparasite.soil.pcoa
 
 ### Plant pathogens PERMANOVA 
 To formally test how well state and clone explain differences in drill shaving fungal community composition, I perform a PERMANOVA using the adonis function from vegan.
-```{r Permanovas}
+```{r Permanovas 3}
 #Below I perform permanovas by state and clone using the adonis function from vegan. 
 library(vegan)
 mycoparasite.soil.perm.state.inter<-adonis(mycoparasite.soil.relabund~its2.soil.met$State*its2.soil.met$Clone, method="bray",permutations=10000)
@@ -610,7 +610,7 @@ mycoparasite.soil.perm.state.sing
 
 ### Mycoparasite Richness
 Observed OTU richness is first calculated for each sample. Then due to the unbalanced nature of our study design, we use a type 3 ANOVA.
-```{r Richness}
+```{r Richness 2}
 #Below I calculate observed species richness using the specnumber function from vegan. I then create a new data frame to include sample metadata. 
 library(vegan)
 mycoparasite.soil.rich<-specnumber(mycoparasite.soil)

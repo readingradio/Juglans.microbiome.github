@@ -143,7 +143,7 @@ intersect(wa.hubs$name, in.hubs$name) %>% intersect(tn.hubs$name)
 
 library(VennDiagram)
 
-venn.diagram(x = list(in.hubs$name, wa.hubs$name, tn.hubs$name), category.names=c("IN","WA","TN"), filename="Figures/Soil.Net.Venn.png", output=T)
+venn.diagram(x = list(in.hubs$name, wa.hubs$name, tn.hubs$name), category.names=c("IN","WA","TN"), filename="Figures/Soil.Net.Venn.png", output=T, cat.pos=c(0,0,0), cat.col =tanagr_palette("cyanerpes_cyaneus")[2:4], col=tanagr_palette("cyanerpes_cyaneus")[2:4])
  
 ## figures
 for (p in c( "0.00005", "0.00001","0.000005","0.000001")) {

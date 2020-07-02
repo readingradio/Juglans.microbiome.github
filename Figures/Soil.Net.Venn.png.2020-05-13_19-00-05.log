@@ -1,0 +1,21 @@
+INFO [2020-05-13 19:00:05] $x
+INFO [2020-05-13 19:00:05] list(in.hubs$name, wa.hubs$name, tn.hubs$name)
+INFO [2020-05-13 19:00:05] 
+INFO [2020-05-13 19:00:05] $category.names
+INFO [2020-05-13 19:00:05] c("IN", "WA", "TN")
+INFO [2020-05-13 19:00:05] 
+INFO [2020-05-13 19:00:05] $filename
+INFO [2020-05-13 19:00:05] [1] "Figures/Soil.Net.Venn.png"
+INFO [2020-05-13 19:00:05] 
+INFO [2020-05-13 19:00:05] $output
+INFO [2020-05-13 19:00:05] T
+INFO [2020-05-13 19:00:05] 
+INFO [2020-05-13 19:00:05] $cat.pos
+INFO [2020-05-13 19:00:05] c(0, 0, 0)
+INFO [2020-05-13 19:00:05] 
+INFO [2020-05-13 19:00:05] $cat.col
+INFO [2020-05-13 19:00:05] tanagr_palette("ramphocelus_sanguinolentus")[2:4]
+INFO [2020-05-13 19:00:05] 
+INFO [2020-05-13 19:00:05] $col
+INFO [2020-05-13 19:00:05] tanagr_palette("ramphocelus_sanguinolentus")[2:4]
+INFO [2020-05-13 19:00:05] 

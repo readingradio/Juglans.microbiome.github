@@ -208,8 +208,8 @@ ds.rareotu<-as.data.frame(rrarefy(ds.pureotu, sample=2000))
 
 # Good's Coverage
 ```{r}
-library(QsRutils)
-goods(ds.rareotu)
+#library(QsRutils)
+#goods(ds.rareotu)
 ```
 
 ## Data Subsetting
@@ -432,7 +432,7 @@ ggplotly(ds.clsrel,tooltip=c("class"))
 
 ## Order Relative Abundance Chart
 Below I generate an order relative abundance plot. I first extract the order information from the OTU table that contains the taxonomy information. I then clean the taxa names to remove assignment confidence values and other non-taxonomic associated string portions from the order assignment. I then create an unknown group which consists of uncultured bacteria and bacteria unclassified at the order level. OTU raw abundance is then summed by order and state, orders that represent less than 1% of the total community are grouped into other, and relative abundance is calculated. Stacked bar charts are made using the melt function from ggplot. 
-```{r Order Relative Abundance Chart, message=FALSE, warning=FALSE}
+```{r Relative Abundance Chart 2, message=FALSE, warning=FALSE}
 #The following chunk creates a relative abundance bar chart at the order level.
 
 #What I am doing below is cleaning up the order names. These include assignment confidence levels, _or, and _.
@@ -497,7 +497,7 @@ ggplotly(ds.ordrel,tooltip=c("order"))
 ```
 
 
-```{r Order Relative Abundance Chart, message=FALSE, warning=FALSE}
+```{r Relative Abundance Chart 1, message=FALSE, warning=FALSE}
 #The following chunk creates a relative abundance bar chart at the order level.
 
 #What I am doing below is cleaning up the order names. These include assignment confidence levels, _or, and _.
@@ -582,7 +582,7 @@ t.ds.rareotutabtaxsep<-separate(t.ds.rareotutabtax,into=ds.taxonomylabs,col=taxo
 
 ## Renaming of OTUs
 OTUs are then renamed. Prior to official renaming, taxonomy strings are cleaned so that assignment confidence values and taxon leaders and any _unclassifed tails are removed. 
-```{r Renaming of OTUs}
+```{r Renaming of OTUs 1}
 #Here I am renaming the OTUs using the make.names function. This will make the OTU name something more informative. I am using genus to do this. 
 t.ds.rareotutabtaxsep$genus<-sub("\\(.*)","",x=t.ds.rareotutabtaxsep$genus)
 t.ds.rareotutabtaxsep$genus<-sub("(_unclassified)","",x=t.ds.rareotutabtaxsep$genus)
@@ -853,7 +853,7 @@ dsalphdiv
 
 ## Renaming of OTUs
 OTUs are then renamed. Prior to official renaming, taxonomy strings are cleaned so that assignment confidence values and taxon leaders and any _unclassifed tails are removed. 
-```{r Renaming of OTUs}
+```{r Renaming of OTUs 2}
 #Here I am renaming the OTUs using the make.names function. This will make the OTU name something more informative. I am using genus to do this. 
 t.ds.rareotutabtaxsep$genus<-sub("\\(.*)","",x=t.ds.rareotutabtaxsep$genus)
 t.ds.rareotutabtaxsep$genus<-sub("(_unclassified)","",x=t.ds.rareotutabtaxsep$genus)
@@ -895,7 +895,7 @@ tcd.negative.ds.indicators<-subset(ds.indicators.long,ds.indicators.long[,3]=="N
 
 ds.indicator.mat<-ds.indicators[c(1:10,21:30,41:50,61:70,81:98),2:4]
 rownames(ds.indicator.mat)<-ds.indicators$OTU[c(1:10,21:30,41:50,61:70,81:98)]
-colnames(its2.soil.indicator.mat)<-colnames(its2.soil.indicators)[2:4]
+colnames(ds.indicator.mat)<-colnames(ds.indicators)[2:4]
 
 ds.indicator.row.dat<-data.frame(State=ds.indicators$Group)
 rownames(ds.indicator.row.dat)<-make.names(ds.indicators$OTU)

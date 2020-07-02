@@ -66,8 +66,8 @@ its2.soil.met.rare<-subset(its2.soil.met,its2.soil.met$Group%in%labels(its2.soil
 
 # Good's Coverage
 ```{r}
-library(QsRutils)
-goods(its2.soil.rareotu)
+#library(QsRutils)
+#goods(its2.soil.rareotu)
 ```
 
 # Relative Abundance Charts
@@ -343,7 +343,7 @@ To give OTUs more meaningful names, taxonomy strings can be subset to change the
 
 ## Taxonomy Filtering
 Taxonomy is first filtered to include only those OTUs present in the rarefied OTU table with no singletons. Then the OTU table is transposed so that OTU ID is the row name and sample ID is the column name. Taxonomy strings are then added to the OTU table and strings are split by semi-colon. 
-```{r Taxonomy Filtering and Merging, warning=FALSE}
+```{r Taxonomy Filtering and Merging 1, warning=FALSE}
 #Below I am reformatting the OTU table so that I can begin to filter and merge the taxonomy information. 
 #I first transpose the rarefied OTU table with no singletons.
 t.its2.soil.rareotu.nosingles<-as.data.frame(t(its2.soil.rareotu.nosingles))
@@ -362,7 +362,7 @@ t.its2.soil.rareotutabtaxsep<-separate(t.its2.soil.rareotutabtax,into=its2.soil.
 
 ## Renaming of OTUs
 OTUs are then renamed. Prior to official renaming, taxonomy strings are cleaned so that assignment confidence values and taxon leaders (e.g. p__, c__, etc.) are removed. 
-```{r Renaming of OTUs}
+```{r Renaming of OTUs 1}
 #Here I am renaming the OTUs using the make.names function. This will make the OTU name something more informative. I am using species to do this. 
 t.its2.soil.rareotutabtaxsep$species<-sub("\\(.*)","",x=t.its2.soil.rareotutabtaxsep$species)
 t.its2.soil.rareotutabtaxsep$species<-sub("(_unclassified)","",x=t.its2.soil.rareotutabtaxsep$species)
@@ -631,7 +631,7 @@ To give OTUs more meaningful names, taxonomy strings can be subset to change the
 
 ## Taxonomy Filtering
 Taxonomy is first filtered to include only those OTUs present in the rarefied OTU table with no singletons. Then the OTU table is transposed so that OTU ID is the row name and sample ID is the column name. Taxonomy strings are then added to the OTU table and strings are split by semi-colon. 
-```{r Taxonomy Filtering and Merging, warning=FALSE}
+```{r Taxonomy Filtering and Merging 2, warning=FALSE, cache=T}
 #Below I am reformatting the OTU table so that I can begin to filter and merge the taxonomy information. 
 #I first transpose the rarefied OTU table with no singletons.
 t.its2.soil.rareotu.nosingles<-as.data.frame(t(its2.soil.rareotu.nosingles))
@@ -650,7 +650,7 @@ t.its2.soil.rareotutabtaxsep<-separate(t.its2.soil.rareotutabtax,into=its2.soil.
 
 ## Renaming of OTUs
 OTUs are then renamed. Prior to official renaming, taxonomy strings are cleaned so that assignment confidence values and taxon leaders (e.g. p__, c__, etc.) are removed. 
-```{r Renaming of OTUs}
+```{r Renaming of OTUs 2}
 #Here I am renaming the OTUs using the make.names function. This will make the OTU name something more informative. I am using species to do this. 
 t.its2.soil.rareotutabtaxsep$species<-sub("\\(.*)","",x=t.its2.soil.rareotutabtaxsep$species)
 t.its2.soil.rareotutabtaxsep$species<-sub("(_unclassified)","",x=t.its2.soil.rareotutabtaxsep$species)
@@ -660,7 +660,7 @@ t.its2.soil.rareotutabtaxsep$species<-sub("(o__)","",x=t.its2.soil.rareotutabtax
 t.its2.soil.rareotutabtaxsep$species<-sub("(f__)","",x=t.its2.soil.rareotutabtaxsep$species)
 t.its2.soil.rareotutabtaxsep$species<-sub("(g__)","",x=t.its2.soil.rareotutabtaxsep$species)
 t.its2.soil.rareotutabtaxsep$species<-sub("(s__)","",x=t.its2.soil.rareotutabtaxsep$species)
-t.its2.ds.rareotutabtaxsep$species<-sub("_sp","",x=t.its2.ds.rareotutabtaxsep$species)
+t.its2.soil.rareotutabtaxsep$species<-sub("_sp","",x=t.its2.soil.rareotutabtaxsep$species)
 rownames(t.its2.soil.rareotutabtaxsep)<-make.names(paste(rownames(t.its2.soil.rareotutabtaxsep),t.its2.soil.rareotutabtaxsep$species,sep="_"))
 t.its2.soil.rareotutabtax.rename<-t.its2.soil.rareotutabtaxsep[,8:52]
 its2.soil.rareotutabtax.rename<-as.data.frame(t(t.its2.soil.rareotutabtax.rename))

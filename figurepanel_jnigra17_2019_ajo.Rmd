@@ -1,6 +1,6 @@
 ---
 title: "Microbiome2017_Figure Panelling"
-author: "Aaron Onufrak"
+author: "Aaron Onufrak" 
 date: "12/1/2019"
 output: html_document
 editor_options: 
@@ -10,6 +10,12 @@ editor_options:
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
+
+
+```{r R Packages, message='hide',warning=FALSE, }
+library(ggpubr)
+```
+
 
 ```{r}
 alphdiv<-ggarrange(ds.rich,ds.div,soil.rich,soil.div,its2.ds.rich,its2.ds.div,its2.soil.rich,its2.soil.div,ncol=2,nrow=4, align="hv",common.legend = TRUE, labels=c("A","B","C","D","E","F","G","H"))
